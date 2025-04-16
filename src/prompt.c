@@ -5,9 +5,10 @@ char *get_prompt(void)
 	char *input;
 
 	input = readline("Minishell~> ");
-	if (!input) // Ctrl+D
+  // Ctrl+D
+	if (!input)
 	{
-		write(STDOUT_FILENO, "exit\n", 5);
+		write(STDOUT_FILENO, "Exit Minishell\n", 15);
 		exit(0);
 	}
 	if (*input)

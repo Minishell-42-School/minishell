@@ -26,7 +26,7 @@ $(OBJDIR):
 
 $(NAME): $(addprefix $(OBJDIR)/, $(OBJS))
 	@$(MAKE) -C $(LIBFT_DIR) --no-print-directory
-	@echo "$(GREEN)Libft created!$(RESET)"
+	@echo "$(GREEN)Libft created!$(RESET)\n"
 	@$(CC) $(CFLAGS) -I $(INCDIR) -o $(NAME) $(addprefix $(OBJDIR)/, $(OBJS)) $(LIBFT) $(RLFLAGS)
 	@echo "-----------------------------"
 	@echo "|   $(GREEN_B) MiniShell is Ready! $(RESET)   |"

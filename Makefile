@@ -34,7 +34,7 @@ $(NAME): $(addprefix $(OBJDIR)/, $(OBJS))
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(OBJDIR)
-	@$(CC) $(CFLAGS) $(RLFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	@rm -rf $(OBJDIR)

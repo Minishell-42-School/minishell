@@ -1,7 +1,5 @@
-# Project name
 NAME = libft.a
 
-# .c files
 SRC = \
 	ft_atoi.c ft_bzero.c ft_calloc.c ft_isalnum.c ft_isalpha.c ft_isascii.c \
 	ft_isdigit.c ft_isprint.c ft_memchr.c ft_memcmp.c ft_memcpy.c ft_memmove.c \
@@ -14,39 +12,34 @@ SRC = \
 	ft_printf.c printf_putchar.c printf_putstr.c printf_putnbr.c \
 	printf_putnbr_unsig.c printf_puthex.c printf_putptr.c get_next_line.c
 
-# .h files
 DESP = libft.h
-
-# Object files
 OBJ = $(SRC:.c=.o)
 
-# Compilator
 CC = cc
-
-# Flags
 CFLAGS = -Wall -Wextra -Werror
 
-# Compilation
+# GREEN_B = \033[1;32m
+# RESET = \033[0m
+
 all: $(NAME)
 
-# Comp lib
 $(NAME): $(OBJ)
-	ar rcs $(NAME) $(OBJ)
+	@ar rcs $(NAME) $(OBJ)
+# @echo "------------------------"
+# @echo "|   $(GREEN_B) Libft is Ready! $(RESET)   |"
+# @echo "------------------------"
 
-# Comp all files
 %.o: %.c $(DESP)
-	$(CC) $(CFLAGS) -c $< -o $@
+	@$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean obj files
 clean:
-	rm -f $(OBJ)
+	@rm -f $(OBJ)
+	@echo "Libft - Clean done!"
 
-# Clean obj files and lib
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@echo "Libft - Full clean done!"
 
-# Clean all
 re: fclean all
 
-# Ghost files
 .PHONY: all clean fclean re

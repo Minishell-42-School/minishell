@@ -1,11 +1,11 @@
 #include "../includes/minishell.h"
 
-char *get_prompt(void)
+char	*get_prompt(void)
 {
-	char *input;
+	char	*input;
 
 	input = readline("Minishell~> ");
-  // Ctrl+D
+	// Ctrl+D
 	if (!input)
 	{
 		write(STDOUT_FILENO, "Exit Minishell\n", 15);

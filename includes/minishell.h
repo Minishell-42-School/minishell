@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/16 17:47:01 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/17 11:27:04 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,5 +50,7 @@ char	*get_prompt(void);
 void	create_token(t_token **token, char *t_value, t_token_type t_type);
 // token.c
 void	get_token(t_token **token_list, char *input);
+// verif_quote.c
+char	*verif_quote(char **str, int *i);
 
 #endif

@@ -11,7 +11,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RLFLAGS = -lreadline -lncurses
 
-SRCS = main.c prompt.c token/token.c token/create_token.c \
+SRCS = main.c prompt.c token/token.c token/create_token.c token/verif_quote.c \
 
 # OBJS = $(SRCS:.c=.o)
 OBJS = $(SRCS:%.c=%.o)

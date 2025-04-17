@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/16 18:02:11 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/17 12:53:34 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	main(void)
 		line = get_prompt();
 		if (!line)
 			break ;
-		printf("Recebido: %s\n", line);
+		// printf("Recebido: %s\n", line);
 		get_token(&token_list, line);
 		while (token_list)
 		{

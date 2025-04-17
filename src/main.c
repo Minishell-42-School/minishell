@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/17 12:53:34 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:49:32 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,15 @@ int	main(void)
 			break ;
 		// printf("Recebido: %s\n", line);
 		get_token(&token_list, line);
-		while (token_list)
+
+		t_token	*tmp;
+		tmp = token_list;
+		while (tmp)
 		{
-			printf("Token: value %s | type %d\n", token_list->value, token_list->type);
-			token_list = token_list->next;
+			printf("....Token: type %d | %s%s%s\n", tmp->type, GREEN, tmp->value, RESET);
+			tmp = tmp->next;
 		}
+		clean_all(&token_list);
 		free(line);
 	}
 	return (0);

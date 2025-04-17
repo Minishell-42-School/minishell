@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:02:00 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/17 13:47:18 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/17 17:59:39 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,7 @@ char	*clean_dobleq(char *str)
 		j++;
 	}
 	new_str[j] = '\0';
+	free(str);
 	return (new_str);
 }
 
@@ -99,7 +100,7 @@ int	verif_closeq(char **str, int i)
 }
 
 
-char	*verif_quote(char **str, int *i)
+char	*verif_quote(char **str, int *i, int *error_code)
 {
 	char	*new_str;
 	int		ind;
@@ -107,9 +108,13 @@ char	*verif_quote(char **str, int *i)
 	ind = *i;
 	if (ft_strchr(str[ind], 34)) // doble quote
 	{
-		if (!verif_closeq(str, ind))
-			return (new_str = "ERROR"); // FAZER Tratamento de erro!!!!
 		new_str = str[ind];
+		if (!verif_closeq(str, ind))
+		{
+			*error_code = 1;
+			return (new_str);
+			// error_exit("Doble quote is open!"); // FAZER Tratamento de erro!!!! error_exit
+		}
 		if (ft_strchr(str[ind], 34) == ft_strrchr(str[ind], 34))
 		{
 			ind++;

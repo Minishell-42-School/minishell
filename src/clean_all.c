@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   clean_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:11:02 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/17 16:05:52 by jcosta-b         ###   ########.fr       */
+/*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
+/*   Updated: 2025/04/17 16:55:58 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*get_prompt(void)
+void	clean_all(t_token **token_lst)
 {
-	char	*input;
+	t_token	*tmp;
 
-	input = readline("Minishell~> ");
-	// Ctrl+D
-	if (!input)
+	if (!token_lst || !*token_lst)
+		return ;
+	while (*token_lst)
 	{
-		printf("%s...Exit Minishell...\n%s", YELLOW_B, RESET);
-		// write(STDOUT_FILENO, "Exit Minishell\n", 15);
-		exit(0);
+		tmp = (*token_lst)->next;
+		if ((*token_lst)->value)
+			free((*token_lst)->value);
+		free(*token_lst);
+		*token_lst = tmp;
 	}
-	if (*input)
-		add_history(input);
-	return (input);
 }
+

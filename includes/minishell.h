@@ -25,7 +25,7 @@
 # define RESET  "\033[0m"
 # define RED_B  "\033[1;31m"
 # define GREEN  "\033[0;32m"
-# define YELLOW_B  "\033[1;33m"
+# define YELLOW  "\033[0;33m"
 
 typedef enum e_token_type
 {
@@ -34,14 +34,16 @@ typedef enum e_token_type
 	REDIR_IN, // <
 	REDIR_OUT, // >
 	REDIR_DELIMITER, // <<
-	REDIR_APPEND, // >>
-	ENV_VAR // $
+	REDIR_APPEND // >>
+	// ENV_VAR // $
 }	t_token_type;
 
 typedef struct s_token
 {
-	t_token_type	type;
-	char			*value;
+	t_token_type	  type;
+	char			      *value;
+  int             nbr_env_var;
+  int             *expand_var;
 	struct s_token	*next;
 }	t_token;
 
@@ -51,12 +53,17 @@ typedef struct s_token
 char	*get_prompt(void);
 
 // ->Token
-// create_token.c
-void	create_token(t_token **token, char *t_value, t_token_type t_type);
 // token.c
 void	get_token(t_token **token_list, char *input);
+// t_token_type	get_type(char *str);
+int	is_operator(char c);
+int	is_wspace(char c);
+// create_token.c
+void	create_token(t_token **token, char *t_value, t_token_type t_type, int nbr_env, int *expand);
+// read_token.c
+char	*read_token(char *str, int *i, int *nbr_env, int **expand);
 // verif_quote.c
-char	*verif_quote(char **str, int *i, int *error_code);
+int verif_close_q(char *str);
 
 // error.c
 void	error_exit(char *str);

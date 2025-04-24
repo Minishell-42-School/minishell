@@ -16,12 +16,11 @@ char	*get_prompt(void)
 {
 	char	*input;
 
-	input = readline("Minishell~> ");
+	input = readline(GREEN"Minishell~> "RESET);
 	// Ctrl+D
 	if (!input)
 	{
-		printf("%s...Exit Minishell...\n%s", YELLOW_B, RESET);
-		// write(STDOUT_FILENO, "Exit Minishell\n", 15);
+		printf("%s...Exit Minishell...\n%s", YELLOW, RESET);
 		exit(0);
 	}
 	if (*input)

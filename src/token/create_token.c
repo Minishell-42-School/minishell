@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-static t_token	*init_token(char *t_value, t_token_type t_type)
+static t_token	*init_token(char *t_value, t_token_type t_type, int nbr_env, int *expand)
 {
 	t_token	*new_t;
 
@@ -21,6 +21,8 @@ static t_token	*init_token(char *t_value, t_token_type t_type)
 		return (NULL);
 	new_t->type = t_type;
 	new_t->value = t_value;
+  new_t->nbr_env_var = nbr_env;
+  new_t->expand_var = expand;
 	new_t->next = NULL;
 	return (new_t);
 }
@@ -42,11 +44,11 @@ static void	add_back(t_token **token, t_token *new)
 	temp->next = new;
 }
 
-void	create_token(t_token **token, char *t_value, t_token_type t_type)
+void	create_token(t_token **token, char *t_value, t_token_type t_type, int nbr_env, int *expand)
 {
 	t_token *new_token;
 
-	new_token = init_token(t_value, t_type);
+	new_token = init_token(t_value, t_type, nbr_env, expand);
 	if(!new_token)
 		return ;
 	add_back(token, new_token);

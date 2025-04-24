@@ -23,15 +23,28 @@ int	main(void)
 		line = get_prompt();
 		if (!line)
 			break ;
-		// printf("Recebido: %s\n", line);
+		printf("Recebido: %s\n", line);
 		get_token(&token_list, line);
+
 
 		t_token	*tmp;
 		tmp = token_list;
+    int x = 0;
 		while (tmp)
 		{
-			printf("....Token: type %d | %s%s%s\n", tmp->type, GREEN, tmp->value, RESET);
-			tmp = tmp->next;
+      if (tmp->nbr_env_var > 0)
+      {
+        int i = 0;
+        while (i < tmp->nbr_env_var)
+        {
+          printf("..Token %d: \ntype %d, n_env %d - Exp %d (i. %d)\n%s%s%s\n\n", x, tmp->type, tmp->nbr_env_var, tmp->expand_var[i], i, GREEN, tmp->value, RESET);
+          i++;
+        }
+      }
+      else
+			  printf("..Token %d: \ntype %d, n_env %d | %s%s%s\n\n", x, tmp->type, tmp->nbr_env_var, GREEN, tmp->value, RESET);
+      x++;
+      tmp = tmp->next;
 		}
 		clean_all(&token_list);
 		free(line);

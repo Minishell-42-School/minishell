@@ -23,8 +23,9 @@ void	clean_all(t_token **token_lst)
 		tmp = (*token_lst)->next;
 		if ((*token_lst)->value)
 			free((*token_lst)->value);
+    if ((*token_lst)->expand_var)
+      free((*token_lst)->expand_var);
 		free(*token_lst);
 		*token_lst = tmp;
 	}
 }
-

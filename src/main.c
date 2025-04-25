@@ -41,6 +41,8 @@ int	main(void)
           i++;
         }
       }
+      else if (tmp->value[0] == '\0')
+        printf("..Token %d: \ntype %d | String vazia %s%s%s\n\n", x, tmp->type, GREEN, tmp->value, RESET);
       else
 			  printf("..Token %d: \ntype %d, n_env %d | %s%s%s\n\n", x, tmp->type, tmp->nbr_env_var, GREEN, tmp->value, RESET);
       x++;

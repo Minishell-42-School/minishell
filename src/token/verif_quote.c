@@ -51,5 +51,7 @@ int verif_close_q(char *str)
   }
   if (single_q % 2 == 0 && double_q % 2 == 0)
     return (1);
+  else
+    printf("%sError%s ~> Quote still open!\n", RED_B, RESET);
   return (0);
 }

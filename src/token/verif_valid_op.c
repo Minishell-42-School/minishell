@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   verif_valid_op.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,38 +12,41 @@
 
 #include "../../includes/minishell.h"
 
-int	is_wspace(char c)
+static int verif_error(char *str, int i, char c)
 {
-  return (c == ' ' || c == '\t');
+  if (!str[i] || (is_operator(str[i]) && str[i] != c) ||
+      (str[i] == c && (!str[i + 1] || is_operator(str[i + 1]))) ||
+      (str[i] == '|' && c == '|'))
+  {
+    printf("%sError%s ~> Syntax error near redirection operator!\n",
+            RED_B, RESET);
+    return (1);
+  }
+  return (0);
 }
 
-int	is_operator(char c)
+int verif_valid_op(char *str)
 {
-	return (c == '|' || c == '<' || c == '>');
-}
-
-void	get_token(t_token **token_list, char *input)
-{
-
-	int i;
-  t_token *new_token;
+  int		i;
+	char	quote;
 
   i = 0;
-  if (!verif_close_q(input))
-    return ;
-  if (verif_valid_op(input))
-    return ;
-	while (input[i])
+  quote = '\0';
+	while (str[i])
 	{
-    new_token = init_token();
-    if(!new_token)
-      return ;
-		while (is_wspace(input[i]))
+		if ((str[i] == '\'' || str[i] == '\"') && !quote)
+			quote = str[i];
+		else if (str[i] == quote)
+			quote = '\0';
+		if (is_operator(str[i]) && !quote)
+    {
       i++;
-    if (is_operator(input[i]))
-      new_token->value = read_operator(input, &i, new_token);
-    else
-      new_token->value = read_token(input, &i, new_token);
-    add_back(token_list, new_token);
-  }
+      if (verif_error(str, i, str[i - 1]))
+        return (1);
+      else if (!is_operator(str[i]))
+        i--;
+    }
+		i++;
+	}
+  return (0);
 }

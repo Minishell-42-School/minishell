@@ -35,7 +35,6 @@ typedef enum e_token_type
 	REDIR_OUT, // >
 	REDIR_DELIMITER, // <<
 	REDIR_APPEND // >>
-	// ENV_VAR // $
 }	t_token_type;
 
 typedef struct s_token
@@ -52,23 +51,32 @@ typedef struct s_token
 // prompt.c
 char	*get_prompt(void);
 
+// clean_all.c
+void	clean_all(t_token **token_lst);
+
 // ->Token
 // token.c
 void	get_token(t_token **token_list, char *input);
-// t_token_type	get_type(char *str);
-int	is_operator(char c);
-int	is_wspace(char c);
+int	  is_operator(char c);
+int 	is_wspace(char c);
+
 // create_token.c
-void	create_token(t_token **token, char *t_value, t_token_type t_type, int nbr_env, int *expand);
+t_token	*init_token(void);
+void	  add_back(t_token **token, t_token *new);
+
+// get_env_var.c
+void  verif_env_var(char *str, t_token *token);
+
+// read_operator.c
+char  *read_operator(char *str, int *i, t_token *token);
+
 // read_token.c
-char	*read_token(char *str, int *i, int *nbr_env, int **expand);
+char	*read_token(char *str, int *i, t_token *token);
+
 // verif_quote.c
 int verif_close_q(char *str);
 
-// error.c
-void	error_exit(char *str);
-
-// clean_all.c
-void	clean_all(t_token **token_lst);
+// verif_valid_op.c
+int verif_valid_op(char *str);
 
 #endif

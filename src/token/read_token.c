@@ -65,51 +65,7 @@ static char	*clean_quote(char *str)
 	return (clean_str);
 }
 
-void  verif_env_var(char *str, int *nbr_env, int **expand)
-{
-  int i;
-  char	quote;
-  int   i_exp;
-
-  i = 0;
-  while (str[i])
-  {
-    if (str[i] == '$')
-    (*nbr_env)++;
-    i++;
-  }
-  i = 0;
-  quote = '\0';
-  if (*nbr_env > 0)
-  {
-    *expand = malloc(*nbr_env * sizeof(int));
-    if (!(*expand))
-      return ;
-    i_exp = 0;
-    while (i_exp < *nbr_env)
-    {
-      (*expand)[i_exp] = 1;
-      i_exp++;
-    }
-    i_exp = 0;
-    while (str[i])
-    {
-      if ((str[i] == '\'' || str[i] == '\"') && !quote)
-        quote = str[i];
-      else if (quote == str[i] && quote)
-        quote = '\0';
-      if (str[i] == '$')
-      {
-        if (quote == '\'')
-          (*expand)[i_exp] = 0;
-        i_exp++;
-      }
-      i++;
-    }
-  }
-}
-
-char	*read_token(char *str, int *i, int *nbr_env, int **expand)
+char	*read_token(char *str, int *i, t_token *token)
 {
 	int		start;
 	char	quote;
@@ -129,7 +85,7 @@ char	*read_token(char *str, int *i, int *nbr_env, int **expand)
 		(*i)++;
 	}
 	temp = ft_substr(str, start, (*i - start));
-  verif_env_var(temp, nbr_env, expand);
+  verif_env_var(temp, token);
 	clean_token = clean_quote(temp);
 	free(temp);
 	return (clean_token);

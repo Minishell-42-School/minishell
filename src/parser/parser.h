@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:56:50 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/04/25 18:59:51 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/04/28 18:13:07 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ typedef struct s_token // remove
 {
 	t_token_type	type;
 	char			*value;
+	int				nbr_env_var;
+	int				*expand_var;
 	struct s_token	*next;
 }	t_token;
 
@@ -64,6 +66,8 @@ typedef struct s_command
 	char				**args;
 	int					args_count;
 	t_redirections		*redirs;
+	int					nbr_env_var;
+	int					*expand_var;
 	struct s_command	*next;
 }	t_command;
 
@@ -86,6 +90,9 @@ t_redirections	*parse_redirection(t_parser_state *p_state);
 void			free_token_list(t_token *head);
 void			free_redirections(t_redirections *redir);
 void			free_command_list(t_command *head);
+
+//check_syntax.c
+void			check_syntax(t_parser_state *token);
 
 //libft.c REMOVE!!!!
 char			*ft_strdup(const char *s);

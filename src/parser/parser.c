@@ -1,14 +1,14 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller- <ekeller-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/04/26 11:28:53 by ekeller-         ###   ########.fr       */
+/*   Updated: 2025/04/28 18:12:44 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "parser.h"
 
@@ -18,6 +18,7 @@ t_command	*parse_pipeline(t_parser_state *p_state)
 	t_command	*next_cmd;
 	t_command	*last_cmd;
 
+	check_syntax(p_state);
 	first_cmd = parse_command(p_state);
 	last_cmd = first_cmd;
 	while (p_state->current && p_state->current->type == PIPE)

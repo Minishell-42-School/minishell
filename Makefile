@@ -16,7 +16,6 @@ SRCS = main.c prompt.c clean_all.c signal.c\
 			token/read_operator.c token/read_token.c token/verif_quote.c \
 			token/verif_valid_op.c
 
-# OBJS = $(SRCS:.c=.o)
 OBJS = $(SRCS:%.c=%.o)
 
 GREEN = \033[0;32m

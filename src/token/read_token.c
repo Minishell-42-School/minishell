@@ -6,33 +6,33 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:02:00 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/17 17:59:39 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:00:16 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static int nbr_q(char *str)
+static int	nbr_q(char *str)
 {
-  int   i;
-  int   count;
+	int		i;
+	int		count;
 	char	quote;
 
-  i = 0;
-  count = 0;
-  quote = '\0';
-  while (str[i])
+	i = 0;
+	count = 0;
+	quote = '\0';
+	while (str[i])
 	{
-		if ((str[i] == '\'' || str[i] == '\"') && !quote)
-    {
-			quote = str[i];
-      count++;
-    }
-		else if (str[i] == quote)
-    {
-      quote = '\0';
-      count++;
-    }
+	if ((str[i] == '\'' || str[i] == '\"') && !quote)
+	{
+		quote = str[i];
+		count++;
+	}
+	else if (str[i] == quote)
+	{
+		quote = '\0';
+		count++;
+	}
 		i++;
 	}
   return (count);
@@ -48,8 +48,8 @@ static char	*clean_quote(char *str)
   clean_str = malloc((ft_strlen(str) - nbr_q(str) + 1) * sizeof(char));
 	if (!clean_str)
 		return (NULL);
-  i = 0;
-  j = 0;
+	i = 0;
+	j = 0;
   quote = '\0';
 	while (str[i])
 	{
@@ -77,15 +77,15 @@ char	*read_token(char *str, int *i, t_token *token)
 	while (str[*i])
 	{
 		if ((str[*i] == '\'' || str[*i] == '\"') && !quote)
-      quote = str[*i];
+	  quote = str[*i];
 		else if (quote == str[*i] && quote)
-      quote = '\0';
+	  quote = '\0';
 		else if (!quote && (is_wspace(str[*i]) || is_operator(str[*i])))
 			break;
 		(*i)++;
 	}
 	temp = ft_substr(str, start, (*i - start));
-  verif_env_var(temp, token);
+	verif_env_var(temp, token);
 	clean_token = clean_quote(temp);
 	free(temp);
 	return (clean_token);

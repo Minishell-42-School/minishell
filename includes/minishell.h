@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/17 17:54:09 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:14:39 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,16 @@ typedef enum e_token_type
 	REDIR_OUT, // >
 	REDIR_DELIMITER, // <<
 	REDIR_APPEND // >>
-}	t_token_type;
+} t_token_type;
 
 typedef struct s_token
 {
-	t_token_type	  type;
-	char			      *value;
-  int             nbr_env_var;
-  int             *expand_var;
-	struct s_token	*next;
-}	t_token;
+	t_token_type type;
+	char *value;
+	int nbr_env_var;
+	int *expand_var;
+	struct s_token * next;
+} t_token;
 
 // Functions
 
@@ -54,29 +54,30 @@ char	*get_prompt(void);
 // clean_all.c
 void	clean_all(t_token **token_lst);
 
-// ->Token
+// ----Token----
 // token.c
 void	get_token(t_token **token_list, char *input);
-int	  is_operator(char c);
-int 	is_wspace(char c);
+int		is_operator(char c);
+int		is_wspace(char c);
 
 // create_token.c
 t_token	*init_token(void);
-void	  add_back(t_token **token, t_token *new);
+void	add_back(t_token **token, t_token *new);
 
 // get_env_var.c
-void  verif_env_var(char *str, t_token *token);
+void	verif_env_var(char *str, t_token *token);
 
 // read_operator.c
-char  *read_operator(char *str, int *i, t_token *token);
+char	*read_operator(char *str, int *i, t_token *token);
 
 // read_token.c
 char	*read_token(char *str, int *i, t_token *token);
 
 // verif_quote.c
-int verif_close_q(char *str);
+int		verif_close_q(char *str);
 
 // verif_valid_op.c
-int verif_valid_op(char *str);
+int		verif_valid_op(char *str);
+// ----Token----
 
 #endif

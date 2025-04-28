@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:02:00 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/28 10:57:36 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:00:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static void	nbr_var(char *str, t_token *token)
 
 static void	init_expand(t_token *token)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (token->nbr_env_var > 0)

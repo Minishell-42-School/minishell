@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:42:15 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/28 10:58:05 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:00:19 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static t_token_type	get_type(char *str, int i)
 {
 	t_token_type	type;
 
+	type = WORD;
 	if (str[i] == '|' && !is_operator(str[i + 1]))
 		type = PIPE;
 	else if (str[i] == '<')
@@ -32,8 +33,6 @@ static t_token_type	get_type(char *str, int i)
 		else if (str[i + 1] == '>' && !is_operator(str[i + 2]))
 			type = REDIR_APPEND;
 	}
-	else
-		type = WORD;
 	return (type);
 }
 
@@ -43,8 +42,8 @@ char	*read_operator(char *str, int *i, t_token *token)
 
 	start = *i;
 	token->type = get_type(str, *i);
-	if ((str[*i] == '|' && !is_operator(str[*i + 1])) ||
-			(!is_operator(str[*i + 1]) || !str[*i + 1]))
+	if ((str[*i] == '|' && !is_operator(str[*i + 1])) || \
+		(!is_operator(str[*i + 1]) || !str[*i + 1]))
 	{
 		(*i)++;
 		return (ft_substr(str, start, 1));
@@ -54,7 +53,7 @@ char	*read_operator(char *str, int *i, t_token *token)
 		if (str[*i + 1] == str[*i] && !is_operator(str[*i + 2]))
 		{
 			*i += 2;
-			return (ft_substr(str, start, 2));;
+			return (ft_substr(str, start, 2));
 		}
 		else
 		{

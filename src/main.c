@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/17 17:49:32 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:32:17 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,24 +29,24 @@ int	main(void)
 
 		t_token	*tmp;
 		tmp = token_list;
-    int x = 0;
+		int x = 0;
 		while (tmp)
 		{
-      if (tmp->nbr_env_var > 0)
-      {
-        int i = 0;
-        while (i < tmp->nbr_env_var)
-        {
-          printf("..Token %d: \ntype %d, n_env %d - Exp %d (i. %d)\n%s%s%s\n\n", x, tmp->type, tmp->nbr_env_var, tmp->expand_var[i], i, GREEN, tmp->value, RESET);
-          i++;
-        }
-      }
-      else if (tmp->value[0] == '\0')
-        printf("..Token %d: \ntype %d | String vazia %s%s%s\n\n", x, tmp->type, GREEN, tmp->value, RESET);
-      else
-			  printf("..Token %d: \ntype %d, n_env %d | %s%s%s\n\n", x, tmp->type, tmp->nbr_env_var, GREEN, tmp->value, RESET);
-      x++;
-      tmp = tmp->next;
+			if (tmp->nbr_env_var > 0)
+			{
+				int i = 0;
+				while (i < tmp->nbr_env_var)
+				{
+					printf("..Token %d: \ntype - %d | n_env %d -> Exp %d\n%s%s%s\n\n", x, tmp->type, tmp->nbr_env_var, tmp->expand_var[i], GREEN, tmp->value, RESET);
+					i++;
+				}
+			}
+			else if (tmp->value[0] == '\0')
+				printf("..Token %d: \ntype %d | String vazia %s%s%s\n\n", x, tmp->type, GREEN, tmp->value, RESET);
+			else
+					printf("..Token %d: \ntype - %d | n_env %d | %s%s%s\n\n", x, tmp->type, tmp->nbr_env_var, GREEN, tmp->value, RESET);
+			x++;
+			tmp = tmp->next;
 		}
 		clean_all(&token_list);
 		free(line);

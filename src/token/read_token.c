@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:02:00 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/28 11:00:16 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:35:40 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,34 @@ static int	nbr_q(char *str)
 	quote = '\0';
 	while (str[i])
 	{
-	if ((str[i] == '\'' || str[i] == '\"') && !quote)
-	{
-		quote = str[i];
-		count++;
+		if ((str[i] == '\'' || str[i] == '\"') && !quote)
+		{
+			quote = str[i];
+			count++;
+		}
+		else if (str[i] == quote)
+		{
+			quote = '\0';
+			count++;
+		}
+			i++;
 	}
-	else if (str[i] == quote)
-	{
-		quote = '\0';
-		count++;
-	}
-		i++;
-	}
-  return (count);
+	return (count);
 }
 
 static char	*clean_quote(char *str)
 {
 	int		i;
-  int   j;
+	int		j;
 	char	quote;
 	char	*clean_str;
 
-  clean_str = malloc((ft_strlen(str) - nbr_q(str) + 1) * sizeof(char));
+	clean_str = malloc((ft_strlen(str) - nbr_q(str) + 1) * sizeof(char));
 	if (!clean_str)
 		return (NULL);
 	i = 0;
 	j = 0;
-  quote = '\0';
+	quote = '\0';
 	while (str[i])
 	{
 		if ((str[i] == '\'' || str[i] == '\"') && !quote)
@@ -69,19 +69,19 @@ char	*read_token(char *str, int *i, t_token *token)
 {
 	int		start;
 	char	quote;
-  char *temp;
-  char *clean_token;
+	char	*temp;
+	char	*clean_token;
 
-  start = *i;
+	start = *i;
 	quote = 0;
 	while (str[*i])
 	{
 		if ((str[*i] == '\'' || str[*i] == '\"') && !quote)
-	  quote = str[*i];
+			quote = str[*i];
 		else if (quote == str[*i] && quote)
-	  quote = '\0';
+			quote = '\0';
 		else if (!quote && (is_wspace(str[*i]) || is_operator(str[*i])))
-			break;
+			break ;
 		(*i)++;
 	}
 	temp = ft_substr(str, start, (*i - start));

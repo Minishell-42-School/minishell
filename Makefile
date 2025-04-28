@@ -11,9 +11,13 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RLFLAGS = -lreadline -lncurses
 
-SRCS = main.c prompt.c
+SRCS = main.c prompt.c clean_all.c \
+			token/token.c token/create_token.c  token/get_env_var.c \
+			token/read_operator.c token/read_token.c token/verif_quote.c \
+			token/verif_valid_op.c
 
-OBJS = $(SRCS:.c=.o)
+# OBJS = $(SRCS:.c=.o)
+OBJS = $(SRCS:%.c=%.o)
 
 GREEN = \033[0;32m
 GREEN_B = \033[1;32m
@@ -33,7 +37,8 @@ $(NAME): $(addprefix $(OBJDIR)/, $(OBJS))
 	@echo "-----------------------------"
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
-	@mkdir -p $(OBJDIR)
+	@mkdir -p $(dir $@)
+# $(OBJDIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

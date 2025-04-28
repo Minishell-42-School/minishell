@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/28 12:14:39 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/28 12:27:39 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,21 +30,21 @@
 typedef enum e_token_type
 {
 	WORD,
-	PIPE, // |
-	REDIR_IN, // <
-	REDIR_OUT, // >
-	REDIR_DELIMITER, // <<
-	REDIR_APPEND // >>
-} t_token_type;
+	PIPE,
+	REDIR_IN,
+	REDIR_OUT,
+	REDIR_DELIMITER,
+	REDIR_APPEND
+}	t_token_type;
 
 typedef struct s_token
 {
-	t_token_type type;
-	char *value;
-	int nbr_env_var;
-	int *expand_var;
-	struct s_token * next;
-} t_token;
+	t_token_type	type;
+	char			*value;
+	int				nbr_env_var;
+	int				*expand_var;
+	struct s_token	*next;
+}	t_token;
 
 // Functions
 

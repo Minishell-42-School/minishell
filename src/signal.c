@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_all.c                                        :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/29 11:11:25 by jcosta-b         ###   ########.fr       */
+/*   Created: 2025/04/28 15:16:18 by jcosta-b          #+#    #+#             */
+/*   Updated: 2025/04/28 16:19:52 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-void	clean_all(t_token **token_lst)
-{
-	t_token	*tmp;
+int	g_signal = 0;
 
-	if (!token_lst || !*token_lst)
-		return ;
-	while (*token_lst)
-	{
-		tmp = (*token_lst)->next;
-		if ((*token_lst)->value)
-			free((*token_lst)->value);
-		if ((*token_lst)->expand_var)
-			free((*token_lst)->expand_var);
-		free(*token_lst);
-		*token_lst = tmp;
-	}
+static void	handle_sigin(int sig)
+{
+	(void)sig;
+	g_signal = 100;
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+void	config_signals(void)
+{
+	signal(SIGINT, handle_sigin);
+	signal(SIGQUIT, SIG_IGN);
 }

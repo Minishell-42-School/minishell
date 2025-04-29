@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/28 11:32:17 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:30:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,5 +51,6 @@ int	main(void)
 		clean_all(&token_list);
 		free(line);
 	}
+	// rl_clear_history();
 	return (0);
 }

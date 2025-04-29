@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:02 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/17 16:05:52 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:20:38 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*get_prompt(void)
 {
 	char	*input;
 
+	config_signals();
 	input = readline(GREEN"Minishell~> "RESET);
 	// Ctrl+D
 	if (!input)

@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/04/28 18:12:44 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/04/29 16:15:41 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,22 +48,18 @@ t_command	*check_command_args(t_parser_state *p_state, t_command *cmd)
 	t_token	*token;
 	int		args_count;
 	int		i;
-
+	
 	i = 0;
 	token = p_state->current;
 	args_count = count_args(p_state);
 	cmd->args_count = args_count;
+	cmd = init_env_info(p_state, cmd);
 	if (token && token->type == WORD)
 		cmd->command_name = ft_strdup(token->value);
 	cmd->args = malloc(sizeof(char *) * (args_count + 1));
 	if (!cmd->args)
 		ft_error("Malloc cmd->args failed");
-	while (p_state->current && p_state->current->type == WORD)
-	{
-		cmd->args[i++] = ft_strdup(p_state->current->value);
-		advance_token(p_state);
-	}
-	cmd->args[i] = NULL;
+	cmd = fill_cmd_args_envinfo(p_state, cmd);
 	return (cmd);
 }
 

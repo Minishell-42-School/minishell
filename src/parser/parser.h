@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 14:56:50 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/04/28 18:13:07 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/04/29 16:17:25 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,10 @@ void			free_token_list(t_token *head);
 void			free_redirections(t_redirections *redir);
 void			free_command_list(t_command *head);
 
-//check_syntax.c
+//check_syntax_env.c
 void			check_syntax(t_parser_state *token);
+t_command		*init_env_info(t_parser_state *p_state, t_command *cmd);
+t_command		*fill_cmd_args_envinfo(t_parser_state *p_state, t_command *cmd);
 
 //libft.c REMOVE!!!!
 char			*ft_strdup(const char *s);

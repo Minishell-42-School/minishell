@@ -5,7 +5,7 @@ CC = cc
 CFLAGS = -Wall -Werror -Wextra -g -I.
 
 # source code
-SRCS = 	main_parser.c parser_utils.c parser.c libft.c free_parser.c check_syntax.c
+SRCS = 	main_parser.c parser_utils.c parser.c libft.c free_parser.c check_syntax_env.c
 
 # objects
 OBJECTS = $(SRCS:.c=.o)

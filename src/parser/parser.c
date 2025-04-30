@@ -6,11 +6,11 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/04/29 16:15:41 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/04/30 17:38:35 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../../includes/minishell.h"
 
 t_command	*parse_pipeline(t_parser_state *p_state)
 {
@@ -18,7 +18,8 @@ t_command	*parse_pipeline(t_parser_state *p_state)
 	t_command	*next_cmd;
 	t_command	*last_cmd;
 
-	check_syntax(p_state);
+	if (check_syntax(p_state) == 1)
+		return (NULL);
 	first_cmd = parse_command(p_state);
 	last_cmd = first_cmd;
 	while (p_state->current && p_state->current->type == PIPE)
@@ -48,7 +49,7 @@ t_command	*check_command_args(t_parser_state *p_state, t_command *cmd)
 	t_token	*token;
 	int		args_count;
 	int		i;
-	
+
 	i = 0;
 	token = p_state->current;
 	args_count = count_args(p_state);
@@ -58,7 +59,7 @@ t_command	*check_command_args(t_parser_state *p_state, t_command *cmd)
 		cmd->command_name = ft_strdup(token->value);
 	cmd->args = malloc(sizeof(char *) * (args_count + 1));
 	if (!cmd->args)
-		ft_error("Malloc cmd->args failed");
+		ft_error("Malloc cmd->args failed\n");
 	cmd = fill_cmd_args_envinfo(p_state, cmd);
 	return (cmd);
 }
@@ -71,7 +72,7 @@ t_command	*check_redirections(t_parser_state *p_state, t_command	*cmd)
 
 	curr_token = p_state->current;
 	while (curr_token && (curr_token->type != WORD
-			&& curr_token->type != PIPE && curr_token->type != DOLLAR))
+			&& curr_token->type != PIPE))
 	{
 		redir = parse_redirection(p_state);
 		if (!cmd->redirs)
@@ -96,13 +97,13 @@ t_redirections	*parse_redirection(t_parser_state *p_state)
 	t_redirections	*redir;
 
 	if (!p_state->current)
-		ft_error("Unexpected end of tokens while parsing redirection");
+		ft_error("Unexpected end of tokens while parsing redirection\n");
 	redir = malloc(sizeof(t_redirections));
 	if (!redir)
-		ft_error("Malloc parser redirection failed");
+		ft_error("Malloc parser redirection failed\n");
 	redir = assign_redir_type(p_state, redir);
 	if (p_state->current->type != WORD || !p_state->current)
-		ft_error("Expected filename after redirection operator");
+		ft_error("Expected filename after redirection operator\n");
 	redir->filename = ft_strdup(p_state->current->value);
 	redir->next = NULL;
 	advance_token(p_state);

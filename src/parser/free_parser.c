@@ -6,11 +6,11 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 18:14:13 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/04/29 16:24:15 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/04/30 12:38:18 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../../includes/minishell.h"
 
 void	free_token_list(t_token *head)
 {

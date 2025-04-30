@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   clean_all.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/28 11:23:33 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/30 17:34:51 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	clean_all(t_token **token_lst)
 		if ((*token_lst)->value)
 			free((*token_lst)->value);
 		if ((*token_lst)->expand_var)
-		free((*token_lst)->expand_var);
+			free((*token_lst)->expand_var);
 		free(*token_lst);
 		*token_lst = tmp;
 	}

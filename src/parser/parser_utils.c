@@ -6,11 +6,11 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:09:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/04/25 17:29:21 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/04/30 12:37:51 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "parser.h"
+#include "../../includes/minishell.h"
 
 //returns current token and advances state to the next
 t_token	*advance_token(t_parser_state *p_state)

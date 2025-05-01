@@ -22,6 +22,7 @@ char	*get_prompt(void)
 	if (!input)
 	{
 		printf("%s...Exit Minishell...\n%s", YELLOW, RESET);
+    rl_clear_history();
 		exit(0);
 	}
 	if (*input)

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/28 12:27:39 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/28 16:19:12 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define RED_B  "\033[1;31m"
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
+
+// Signal
+extern int	g_signal;
 
 typedef enum e_token_type
 {
@@ -79,5 +82,8 @@ int		verif_close_q(char *str);
 // verif_valid_op.c
 int		verif_valid_op(char *str);
 // ----Token----
+
+// signal.c
+void	config_signals(void);
 
 #endif

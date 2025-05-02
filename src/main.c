@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/30 17:33:41 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/02 17:16:37 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(void)
 	t_parser_state	p_state;
 	int 			cmd_num;
 	t_redirections  *redir;
+	int				k = 0;
 
 	token_list = NULL;
 	while (1)
@@ -62,6 +63,16 @@ int	main(void)
 					printf("Redir type: %s / file name: %s\n", ">>", redir->filename);            
 				redir = redir->next; 
 			}
+			printf("Number of environment variables: %i\n", cmd->nbr_env_var);
+			if (cmd->nbr_env_var > 0)
+				printf ("Vars that need expansion: ");
+			while (k < cmd->nbr_env_var)
+			{
+				printf("%i, ", cmd->expand_var[k]);
+				k++;
+			}
+			printf("\n");
+			k = 0;
 			cmd = cmd->next;
 			cmd_num++;
 		}

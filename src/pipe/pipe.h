@@ -127,7 +127,9 @@ void	config_signals(void);
 // pipe.c
 void	exec_pipeline(t_command *cmd);
 
+// LIB -> DELETAR
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
+char *get_path(t_command *cmd);
 // ----Pipe----
 #endif

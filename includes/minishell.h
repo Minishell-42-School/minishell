@@ -114,6 +114,6 @@ int		verif_valid_op(char *str);
 // ----Token----
 
 // cmd_ext.c
-void  exec_cmd_ext(t_command *cmd);
+void  exec_external_cmd(t_command *cmd);
 
 #endif

@@ -11,7 +11,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RLFLAGS = -lreadline -lncurses
 
-SRCS = main.c prompt.c clean_all.c cmd_ext.c\
+SRCS = main.c prompt.c clean_all.c external_cmd.c \
 			token/token.c token/create_token.c token/get_env_var.c token/read_token.c\
 			token/read_operator.c token/verif_quote.c token/verif_valid_op.c
 

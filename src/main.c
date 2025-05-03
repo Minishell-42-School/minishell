@@ -25,7 +25,7 @@ int	main(void)
 			break ;
 		printf("Recebido: %s\n", line);
 		get_token(&token_list, line);
-    // exec_cmd_ext(cmd);
+    // exec_external_cmd(cmd);
 
 		clean_all(&token_list);
 		free(line);

@@ -13,7 +13,7 @@ char *get_path(t_command *cmd)
   return (path);
 }
 
-void  exec_cmd_ext(t_command *cmd)
+void  exec_external_cmd(t_command *cmd)
 {
   char *path;
   pid_t pid;

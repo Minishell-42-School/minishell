@@ -21,6 +21,8 @@
 # include <readline/history.h> // add_history
 							// rl -> clear, new_line, replace, redisplay
 # include <signal.h> // signal, sigaction, sigemptyset, sigaddset
+# include <sys/types.h> // pid_t
+# include <sys/wait.h> // wait
 
 # define RESET  "\033[0m"
 # define RED_B  "\033[1;31m"
@@ -46,6 +48,37 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct parser_state
+{
+	struct s_token	*current;
+}	t_parser_state;
+
+typedef enum e_redirtype
+{
+	R_IN,
+	R_OUT,
+	R_DELIMITER,
+	R_APPEND
+}	t_redir_type;
+
+typedef struct redirection
+{
+	t_redir_type		type;
+	char				*filename;
+	struct redirection	*next;
+}	t_redirections;
+
+typedef struct s_command
+{
+	char				*command_name;
+	char				**args;
+	int					args_count;
+	t_redirections		*redirs;
+	int					nbr_env_var;
+	int					*expand_var;
+	struct s_command	*next;
+}	t_command;
+
 // Functions
 
 // prompt.c
@@ -62,7 +95,7 @@ int		is_wspace(char c);
 
 // create_token.c
 t_token	*init_token(void);
-void	add_back(t_token **token, t_token *new);
+void	add_back(t_token **token, t_token *new_t);
 
 // get_env_var.c
 void	verif_env_var(char *str, t_token *token);
@@ -79,5 +112,8 @@ int		verif_close_q(char *str);
 // verif_valid_op.c
 int		verif_valid_op(char *str);
 // ----Token----
+
+// cmd_ext.c
+void  exec_cmd_ext(t_command *cmd);
 
 #endif

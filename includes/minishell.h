@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/28 16:19:12 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/04/29 18:00:54 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 # include "../libft/libft.h"
 # include <stdio.h> // printf, readline
-# include <unistd.h> // write
-# include <stdlib.h> // malloc, free
+# include <unistd.h> // write, pipe, fork, dup2, execvp
+# include <stdlib.h> // malloc, free, exit
 # include <readline/readline.h> // readline
 # include <readline/history.h> // add_history
 							// rl -> clear, new_line, replace, redisplay

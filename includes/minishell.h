@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/28 12:27:39 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/05 10:56:09 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,6 +114,6 @@ int		verif_valid_op(char *str);
 // ----Token----
 
 // cmd_ext.c
-void  exec_external_cmd(t_command *cmd);
+void	exec_external_cmd(t_command *cmd);
 
 #endif

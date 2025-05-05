@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/29 18:04:56 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:43:03 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,63 +15,91 @@
 
 void	exec_pipeline(t_command *cmd)
 {
-	int	fd[2];
-	pid_t	pid1;
-	pid_t	pid2;
+	int		fd[2];
+	int		prev_fd;
+	pid_t	pid;
 	char	*path;
-	// char	*path2;
 
-	// path = get_path(cmd);
-	// path2 = ft_strjoin("/bin/", cmd->next->command_name);
+	prev_fd = -1;
 	if (cmd->next && pipe(fd) == -1)
 	{
 		printf("Error at pipe\n");
 		return ;
 	}
-	pid1 = fork();
-	if (pid1 == -1)
+	pid = fork();
+	if (pid == -1)
 	{
 		printf("Error at fork\n");
 		return ;
 	}
 
-	if (pid1 == 0)
+	if (pid == 0)
 	{
 		// Child 1
-    path = get_path(cmd);
-		printf("Exec 1 - %s, %s\n", cmd->command_name, cmd->args[1]);
+		path = get_path(cmd);
+		// printf("Exec 1 - %s, %s\n", cmd->command_name, cmd->args[1]);
 		close(fd[0]);
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 		execve(path, cmd->args, NULL);
+		free(path);
 	}
 	else
 	{
 		// Main
-		pid2 = fork();
-		if (pid2 == -1)
+		pid = fork();
+		if (pid == -1)
 		{
 			printf("Error at fork\n");
 			return ;
 		}
-		if (pid2 == 0)
+		if (pid == 0)
 		{
 			// Child 2
-      path = get_path(cmd->next);
+			path = get_path(cmd->next);
 			close(fd[1]);
 			dup2(fd[0], STDIN_FILENO);
 			close(fd[0]);
-			printf("Exec 2- %s, %s\n", cmd->next->command_name, cmd->next->args[1]);
+			// printf("Exec 2- %s, %s\n", cmd->next->command_name, cmd->next->args[1]);
 			execve(path, cmd->next->args, NULL);
+			free(path);
 		}
 		else
 		{
-			printf("Proc pai\n");
 			close(fd[0]);
 			close(fd[1]);
 			wait(NULL);
 			wait(NULL);
-			free(path);
+			// free(path);
 		}
 	}
 }
+
+
+// prev_fd = -1;
+// for (cada comando atual cmd em uma lista encadeada) {
+//     if (não é o último comando)
+//         pipe(fd);
+    
+//     pid = fork();
+//     if (pid == 0) {
+//         if (prev_fd != -1) {
+//             dup2(prev_fd, STDIN_FILENO);
+//             close(prev_fd);
+//         }
+//         if (não é o último comando) {
+//             close(fd[0]); // fecha o lado de leitura
+//             dup2(fd[1], STDOUT_FILENO);
+//             close(fd[1]);
+//         }
+//         execve(...);
+//     } else {
+//         if (prev_fd != -1)
+//             close(prev_fd);
+//         if (não é o último comando) {
+//             close(fd[1]); // fecha o lado de escrita
+//             prev_fd = fd[0]; // guarda o read end para o próximo comando
+//         }
+//     }
+// }
+// wait por todos os processos filhos

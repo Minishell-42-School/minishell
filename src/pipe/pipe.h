@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/29 18:05:06 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/05 11:11:29 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,10 @@ int		verif_valid_op(char *str);
 // signal.c
 void	config_signals(void);
 
+// ----Execution----
+// get_path.c
+char	*get_path(t_command *cmd);
+
 // ----Pipe----
 // pipe.c
 void	exec_pipeline(t_command *cmd);
@@ -130,6 +134,9 @@ void	exec_pipeline(t_command *cmd);
 // LIB -> DELETAR
 size_t	ft_strlen(const char *s);
 char	*ft_strjoin(char const *s1, char const *s2);
-char *get_path(t_command *cmd);
+char	*ft_strchr(const char *s, int c);
+char	**ft_split(char const *s, char c);
 // ----Pipe----
+
+// ----Execution----
 #endif

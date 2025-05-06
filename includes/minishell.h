@@ -113,7 +113,12 @@ int		verif_close_q(char *str);
 int		verif_valid_op(char *str);
 // ----Token----
 
-// cmd_ext.c
+// ----Execution----
+// get_path.c
+char	*get_path(t_command *cmd);
+
+// external_cmd.c
 void	exec_external_cmd(t_command *cmd);
+// ----Execution----
 
 #endif

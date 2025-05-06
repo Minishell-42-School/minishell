@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   external_cmd.c                                     :+:      :+:    :+:   */
+/*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -56,7 +56,7 @@ static char	*get_env_path(t_command *cmd, char  ***dir)
 	return (NULL);
 }
 
-static char	*get_path(t_command *cmd)
+char	*get_path(t_command *cmd)
 {
 	char	*env_path;
 	char	*path;
@@ -78,25 +78,4 @@ static char	*get_path(t_command *cmd)
 	if (access(path, X_OK) != 0)
 		perror("Command not found or not executable");
 	return (path);
-}
-
-void	exec_external_cmd(t_command *cmd)
-{
-	char	*path;
-	pid_t	pid;
-
-	path = get_path(cmd);
-	pid = fork();
-	if (pid == 0)
-	{
-		execve(path, cmd->args, NULL);
-		perror("Error execve");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid > 0)
-		waitpid(pid, NULL, 0);
-	else
-		perror("Error fork");
-	if (!ft_strchr(cmd->command_name, '/'))
-		free(path);
 }

@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/28 16:30:55 by jcosta-b         ###   ########.fr       */
+/*   Created: 2025/04/28 15:16:18 by jcosta-b          #+#    #+#             */
+/*   Updated: 2025/04/28 16:19:52 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(void)
+int	g_signal = 0;
+
+static void	handle_sigin(int sig)
 {
-	char	*line;
-	t_token	*token_list;
+	(void)sig;
+	g_signal = 100;
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
 
-	token_list = NULL;
-	while (1)
-	{
-		line = get_prompt();
-		if (!line)
-			break ;
-		printf("Recebido: %s\n", line);
-		get_token(&token_list, line);
-    // exec_cmd_ext(cmd);
-
-		clean_all(&token_list);
-		free(line);
-	}
-	return (0);
+void	config_signals(void)
+{
+	signal(SIGINT, handle_sigin);
+	signal(SIGQUIT, SIG_IGN);
 }

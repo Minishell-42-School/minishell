@@ -58,18 +58,6 @@ char	*ft_strchr(const char *s, int c)
 	return (NULL);
 }
 
-// char *get_path(t_command *cmd)
-// {
-//   char  *path;
-
-//   if (ft_strchr(cmd->command_name, '/'))
-//     path = cmd->command_name;
-//   else
-//     path = ft_strjoin("/bin/", cmd->command_name);
-//   if (access(path, X_OK) != 0)
-//     perror("Command not found or not executable");
-//   return (path);
-// }
 void	*ft_memcpy(void *dest, const void *src, size_t n)
 {
 	size_t	i;
@@ -84,7 +72,6 @@ void	*ft_memcpy(void *dest, const void *src, size_t n)
 	}
 	return (dest);
 }
-
 
 static size_t	ft_elem_array(const char *s, char c)
 {

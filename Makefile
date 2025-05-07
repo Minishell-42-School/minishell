@@ -12,9 +12,9 @@ CFLAGS = -Wall -Wextra -Werror
 RLFLAGS = -lreadline -lncurses
 
 SRCS = main.c prompt.c clean_all.c signal.c\
-			token/token.c token/create_token.c  token/get_env_var.c \
-			token/read_operator.c token/read_token.c token/verif_quote.c \
-			token/verif_valid_op.c
+			token/token.c token/create_token.c  token/get_env_var.c token/read_token.c\
+			token/read_operator.c  token/verif_quote.c token/verif_valid_op.c \
+			execution/get_path.c execution/pipe.c
 
 OBJS = $(SRCS:%.c=%.o)
 

@@ -15,12 +15,14 @@
 
 # include "../libft/libft.h"
 # include <stdio.h> // printf, readline
-# include <unistd.h> // write
-# include <stdlib.h> // malloc, free
+# include <unistd.h> // write, pipe, fork, dup2, execve
+# include <stdlib.h> // malloc, free, exit
 # include <readline/readline.h> // readline
 # include <readline/history.h> // add_history
 							// rl -> clear, new_line, replace, redisplay
 # include <signal.h> // signal, sigaction, sigemptyset, sigaddset
+# include <sys/types.h> // pid_t
+# include <sys/wait.h> // wait
 
 # define RESET  "\033[0m"
 # define RED_B  "\033[1;31m"
@@ -48,6 +50,37 @@ typedef struct s_token
 	int				*expand_var;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct parser_state
+{
+	struct s_token	*current;
+}	t_parser_state;
+
+typedef enum e_redirtype
+{
+	R_IN,
+	R_OUT,
+	R_DELIMITER,
+	R_APPEND
+}	t_redir_type;
+
+typedef struct redirection
+{
+	t_redir_type		type;
+	char				*filename;
+	struct redirection	*next;
+}	t_redirections;
+
+typedef struct s_command
+{
+	char				*command_name;
+	char				**args;
+	int					args_count;
+	t_redirections		*redirs;
+	int					nbr_env_var;
+	int					*expand_var;
+	struct s_command	*next;
+}	t_command;
 
 // Functions
 
@@ -85,5 +118,13 @@ int		verif_valid_op(char *str);
 
 // signal.c
 void	config_signals(void);
+
+// ----Execution----
+// get_path.c
+char	*get_path(t_command *cmd);
+
+// pipe.c
+void	exec_pipeline(t_command *cmd);
+// ----Execution----
 
 #endif

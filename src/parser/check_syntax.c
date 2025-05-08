@@ -1,17 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   check_syntax_env.c                                 :+:      :+:    :+:   */
+/*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:07:16 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/04/30 17:37:49 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/08 11:59:18 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
+// check if first command starts with pipe amd if there
+//are two pipes in a sequence.
 int	check_syntax(t_parser_state *token)
 {
 	t_parser_state	temp;
@@ -36,51 +38,8 @@ int	check_syntax(t_parser_state *token)
 	return (0);
 }
 
-t_command	*init_env_info(t_parser_state *p_state, t_command *cmd)
+void	ft_error(char *msg)
 {
-	t_token	*temp;
-	int		total_env_vars;
-
-	temp = p_state->current;
-	total_env_vars = 0;
-	while (temp && temp->type == WORD)
-	{
-		total_env_vars += temp->nbr_env_var;
-		temp = temp->next;
-	}
-	cmd->nbr_env_var = total_env_vars;
-	if (total_env_vars > 0)
-	{
-		cmd->expand_var = malloc(total_env_vars * sizeof(int));
-		if (!cmd->expand_var)
-			ft_error("malloc cmd->expand_var failed\n");
-	}
-	else
-		cmd->expand_var = NULL;
-	return (cmd);
-}
-
-t_command	*fill_cmd_args_envinfo(t_parser_state *p_state, t_command *cmd)
-{
-	int	i;
-	int	j;
-	int	k;
-
-	i = 0;
-	k = 0;
-	while (p_state->current && p_state->current->type == WORD)
-	{
-		cmd->args[i] = ft_strdup(p_state->current->value);
-		if (p_state->current->nbr_env_var > 0 && \
-				p_state->current->expand_var != NULL)
-		{
-			j = 0;
-			while (j < p_state->current->nbr_env_var)
-				cmd->expand_var[k++] = p_state->current->expand_var[j++];
-		}
-		i++;
-		advance_token(p_state);
-	}
-	cmd->args[i] = NULL;
-	return (cmd);
+	printf("%s", msg);
+	exit(EXIT_FAILURE);
 }

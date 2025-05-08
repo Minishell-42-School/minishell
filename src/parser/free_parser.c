@@ -6,24 +6,24 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 18:14:13 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/04/30 12:38:18 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/08 11:51:53 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	free_token_list(t_token *head)
-{
-	t_token	*temp;
+// void	free_token_list(t_token *head)
+// {
+// 	t_token	*temp;
 
-	while (head)
-	{
-		temp = head->next;
-		free(head->value);
-		free(head);
-		head = temp;
-	}
-}
+// 	while (head)
+// 	{
+// 		temp = head->next;
+// 		free(head->value);
+// 		free(head);
+// 		head = temp;
+// 	}
+// }
 
 void	free_redirections(t_redirections *redir)
 {
@@ -48,8 +48,6 @@ void	free_command_list(t_command *head)
 		temp = head->next;
 		if (head->command_name)
 			free(head->command_name);
-		if (head->expand_var)
-			free(head->expand_var);
 		if (head->args)
 		{
 			i = 0;

@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 11:26:18 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/08 11:57:13 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,6 @@ typedef struct s_command
 	char				**args;
 	int					args_count;
 	t_redirections		*redirs;
-	int					nbr_env_var;
-	int					*expand_var;
 	struct s_command	*next;
 }	t_command;
 
@@ -118,10 +116,10 @@ int				verif_valid_op(char *str);
 //parser_utils.c
 t_token			*advance_token(t_parser_state *p_state);
 t_command		*init_command_struct(void);
-void			ft_error(char *msg);
 int				count_args(t_parser_state *p_state);
 t_redirections	*assign_redir_type(t_parser_state *p_state,
 					t_redirections *redir);
+t_command		*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
 
 //parser.c
 t_command		*parse_pipeline(t_parser_state *p_state);
@@ -137,10 +135,9 @@ void			free_command_list(t_command *head);
 
 //check_syntax_env.c
 int				check_syntax(t_parser_state *token);
-t_command		*init_env_info(t_parser_state *p_state, t_command *cmd);
-t_command		*fill_cmd_args_envinfo(t_parser_state *p_state, t_command *cmd);
+void			ft_error(char *msg);
 // ----Parser----
 // signal.c
-void	config_signals(void);
+void			config_signals(void);
 
 #endif

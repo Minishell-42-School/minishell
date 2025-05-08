@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:09:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/04/30 12:37:51 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/08 11:54:35 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,10 +41,19 @@ t_command	*init_command_struct(void)
 	return (cmd);
 }
 
-void	ft_error(char *msg)
+t_command	*fill_cmd_args(t_parser_state *p_state, t_command *cmd)
 {
-	printf("%s", msg);
-	exit(EXIT_FAILURE);
+	int	i;
+
+	i = 0;
+	while (p_state->current && p_state->current->type == WORD)
+	{
+		cmd->args[i] = ft_strdup(p_state->current->value);
+		i++;
+		advance_token(p_state);
+	}
+	cmd->args[i] = NULL;
+	return (cmd);
 }
 
 int	count_args(t_parser_state *p_state)

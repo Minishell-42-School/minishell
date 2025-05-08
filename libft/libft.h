@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:21:50 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/30 17:40:11 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/08 14:17:20 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 // List Structur
 typedef struct s_list
 {
-	void			*content;
-	struct s_list	*next;
+  void			*content;
+  struct s_list	*next;
 }					t_list;
 
 # ifndef BUFFER_SIZE

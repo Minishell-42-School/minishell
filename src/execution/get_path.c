@@ -6,11 +6,11 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 14:07:27 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:17:46 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 static void	free_dir(char ***dir)
 {

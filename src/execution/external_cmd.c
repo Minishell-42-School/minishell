@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/05 10:55:19 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:13:26 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
 void	exec_external_cmd(t_command *cmd)
 {

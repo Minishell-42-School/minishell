@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 14:13:26 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:33:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	exec_external_cmd(t_command *cmd)
 	pid_t	pid;
 
 	path = get_path(cmd);
+	if (!path)
+		return ;
 	pid = fork();
 	if (pid == 0)
 	{

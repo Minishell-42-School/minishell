@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 14:10:35 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/08 16:08:47 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 
 # include "../libft/libft.h"
 # include <stdio.h> // printf, readline
-# include <unistd.h> // write, pipe, fork, dup2, execvp
+# include <unistd.h> // write, pipe, fork, dup2, execve
 # include <stdlib.h> // malloc, free, exit
-# include <readline/readline.h> // readline
-# include <readline/history.h> // add_history
-							// rl -> clear, new_line, replace, redisplay
 # include <signal.h> // signal, sigaction, sigemptyset, sigaddset
 # include <sys/types.h> // pid_t
 # include <sys/wait.h> // wait
+# include <readline/readline.h> // readline
+# include <readline/history.h> // add_history
+							// rl -> clear, new_line, replace, redisplay
 
 # define RESET  "\033[0m"
 # define RED_B  "\033[1;31m"
@@ -143,11 +143,17 @@ void			ft_error(char *msg);
 // ----Parser----
 
 // ----Execution----
+// execution.c
+void			exec_cmd(t_command *cmd);
+
 // get_path.c
 char			*get_path(t_command *cmd);
 
 // external_cmd.c
 void			exec_external_cmd(t_command *cmd);
+
+// pipe.c
+void			exec_pipeline(t_command *cmd);
 // ----Execution----
 
 #endif

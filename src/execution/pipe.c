@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 10:51:57 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/08 15:44:35 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,7 @@ void	exec_pipeline(t_command *cmd)
 			cmd = cmd->next;
 		}
 	}
-	while (wait(NULL) > 0);
+	while (wait(NULL) > 0)
+	{
+	}
 }

@@ -51,6 +51,5 @@ int	main(void)
 		clean_all(&token_list);
 		free(line);
 	}
-	// rl_clear_history();
 	return (0);
 }

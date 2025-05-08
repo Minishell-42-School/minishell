@@ -11,11 +11,14 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RLFLAGS = -lreadline -lncurses
 
+# NORMINETTE = norminette
+# FLAGS = -R CheckForbiddenSourceHeader
+
 SRCS = main.c prompt.c clean_all.c signal.c\
-			token/token.c token/create_token.c token/get_env_var.c token/read_token.c \
-			token/read_operator.c token/verif_quote.c token/verif_valid_op.c \
-			parser/parser_utils.c parser/parser.c parser/free_parser.c parser/check_syntax.c \
-			execution/get_path.c execution/external_cmd.c
+	token/token.c token/create_token.c token/get_env_var.c token/read_token.c \
+	token/read_operator.c token/verif_quote.c token/verif_valid_op.c \
+	parser/parser_utils.c parser/parser.c parser/free_parser.c parser/check_syntax.c \
+	execution/get_path.c execution/external_cmd.c
 
 OBJS = $(SRCS:%.c=%.o)
 
@@ -24,6 +27,9 @@ GREEN_B = \033[1;32m
 RESET = \033[0m
 
 all: $(OBJDIR) $(NAME)
+
+# norminette:
+# 	$(NORMINETTE) $(FLAGS) $(SRCS)
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)
@@ -38,7 +44,6 @@ $(NAME): $(addprefix $(OBJDIR)/, $(OBJS))
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.c
 	@mkdir -p $(dir $@)
-# $(OBJDIR)
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 clean:

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_path.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/05 10:55:19 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:07:27 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static void	free_dir(char ***dir)
 	*dir = NULL;
 }
 
-static char	*get_env_path(t_command *cmd, char  ***dir)
+static char	*get_env_path(t_command *cmd, char ***dir)
 {
 	char	*path;
 	char	*temp;

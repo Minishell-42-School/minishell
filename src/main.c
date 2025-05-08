@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 13:41:17 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:04:06 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,7 @@ int	main(void)
 	char			*line;
 	t_token			*token_list;
 	t_command		*cmd_pipeline;
-	t_command   	*cmd;
 	t_parser_state	p_state;
-	int 			cmd_num;
-	t_redirections  *redir;
 
 	token_list = NULL;
 	while (1)
@@ -30,8 +27,16 @@ int	main(void)
 			break ;
 		printf("Recebido: %s\n", line);
 		get_token(&token_list, line);
-		// exec_external_cmd(cmd);
-
+		p_state.current = token_list;
+		cmd_pipeline = parse_pipeline(&p_state);
+		if (!cmd_pipeline)
+		{
+			clean_all(&token_list);
+			free(line);
+			continue ;
+		}
+		exec_external_cmd(cmd_pipeline);
+		
 		clean_all(&token_list);
 		free(line);
 		free_command_list(cmd_pipeline);

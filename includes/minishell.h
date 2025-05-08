@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 13:38:13 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/08 14:10:35 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,8 @@ int				is_operator(char c);
 int				is_wspace(char c);
 
 // create_token.c
-t_token	*init_token(void);
-void	add_back(t_token **token, t_token *new_t);
+t_token			*init_token(void);
+void			add_back(t_token **token, t_token *new_t);
 
 // get_env_var.c
 void			verif_env_var(char *str, t_token *token);
@@ -134,7 +134,6 @@ t_command		*check_redirections(t_parser_state *p_state, t_command	*cmd);
 t_redirections	*parse_redirection(t_parser_state *p_state);
 
 //parser_free.c
-void			free_token_list(t_token *head);
 void			free_redirections(t_redirections *redir);
 void			free_command_list(t_command *head);
 
@@ -145,10 +144,10 @@ void			ft_error(char *msg);
 
 // ----Execution----
 // get_path.c
-char	*get_path(t_command *cmd);
+char			*get_path(t_command *cmd);
 
 // external_cmd.c
-void	exec_external_cmd(t_command *cmd);
+void			exec_external_cmd(t_command *cmd);
 // ----Execution----
 
 #endif

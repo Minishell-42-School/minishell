@@ -1,31 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:11:02 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/28 16:20:38 by jcosta-b         ###   ########.fr       */
+/*   Created: 2025/04/28 15:16:18 by jcosta-b          #+#    #+#             */
+/*   Updated: 2025/04/28 16:19:52 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*get_prompt(void)
-{
-	char	*input;
+int	g_signal = 0;
 
-	config_signals();
-	input = readline(GREEN"Minishell~> "RESET);
-	// Ctrl+D
-	if (!input)
-	{
-		printf("%s...Exit Minishell...\n%s", YELLOW, RESET);
-    rl_clear_history();
-		exit(0);
-	}
-	if (*input)
-		add_history(input);
-	return (input);
+static void	handle_sigin(int sig)
+{
+	(void)sig;
+	g_signal = 100;
+	printf("\n");
+	rl_replace_line("", 0);
+	rl_on_new_line();
+	rl_redisplay();
+}
+
+void	config_signals(void)
+{
+	signal(SIGINT, handle_sigin);
+	signal(SIGQUIT, SIG_IGN);
 }

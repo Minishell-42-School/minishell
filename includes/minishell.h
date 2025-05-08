@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/30 17:43:47 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/08 11:26:18 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define RED_B  "\033[1;31m"
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
+
+// Signal
+extern int	g_signal;
 
 typedef enum e_token_type
 {
@@ -137,5 +140,7 @@ int				check_syntax(t_parser_state *token);
 t_command		*init_env_info(t_parser_state *p_state, t_command *cmd);
 t_command		*fill_cmd_args_envinfo(t_parser_state *p_state, t_command *cmd);
 // ----Parser----
+// signal.c
+void	config_signals(void);
 
 #endif

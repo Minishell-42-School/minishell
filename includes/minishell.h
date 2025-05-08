@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/29 18:00:54 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/08 12:15:06 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,41 +49,95 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct parser_state
+{
+	struct s_token	*current;
+}	t_parser_state;
+
+typedef enum e_redirtype
+{
+	R_IN,
+	R_OUT,
+	R_DELIMITER,
+	R_APPEND
+}	t_redir_type;
+
+typedef struct redirection
+{
+	t_redir_type		type;
+	char				*filename;
+	struct redirection	*next;
+}	t_redirections;
+
+typedef struct s_command
+{
+	char				*command_name;
+	char				**args;
+	int					args_count;
+	t_redirections		*redirs;
+	struct s_command	*next;
+}	t_command;
+
 // Functions
 
 // prompt.c
-char	*get_prompt(void);
+char			*get_prompt(void);
 
 // clean_all.c
-void	clean_all(t_token **token_lst);
+void			clean_all(t_token **token_lst);
 
 // ----Token----
 // token.c
-void	get_token(t_token **token_list, char *input);
-int		is_operator(char c);
-int		is_wspace(char c);
+void			get_token(t_token **token_list, char *input);
+int				is_operator(char c);
+int				is_wspace(char c);
 
 // create_token.c
-t_token	*init_token(void);
-void	add_back(t_token **token, t_token *new);
+t_token			*init_token(void);
+void			add_back(t_token **token, t_token *new);
 
 // get_env_var.c
-void	verif_env_var(char *str, t_token *token);
+void			verif_env_var(char *str, t_token *token);
 
 // read_operator.c
-char	*read_operator(char *str, int *i, t_token *token);
+char			*read_operator(char *str, int *i, t_token *token);
 
 // read_token.c
-char	*read_token(char *str, int *i, t_token *token);
+char			*read_token(char *str, int *i, t_token *token);
 
 // verif_quote.c
-int		verif_close_q(char *str);
+int				verif_close_q(char *str);
 
 // verif_valid_op.c
-int		verif_valid_op(char *str);
+int				verif_valid_op(char *str);
 // ----Token----
 
+// ----Parser----
+//parser_utils.c
+t_token			*advance_token(t_parser_state *p_state);
+t_command		*init_command_struct(void);
+int				count_args(t_parser_state *p_state);
+t_redirections	*assign_redir_type(t_parser_state *p_state,
+					t_redirections *redir);
+t_command		*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
+
+//parser.c
+t_command		*parse_pipeline(t_parser_state *p_state);
+t_command		*parse_command(t_parser_state *p_state);
+t_command		*check_command_args(t_parser_state *p_state, t_command *cmd);
+t_command		*check_redirections(t_parser_state *p_state, t_command	*cmd);
+t_redirections	*parse_redirection(t_parser_state *p_state);
+
+//parser_free.c
+void			free_token_list(t_token *head);
+void			free_redirections(t_redirections *redir);
+void			free_command_list(t_command *head);
+
+//check_syntax_env.c
+int				check_syntax(t_parser_state *token);
+void			ft_error(char *msg);
+// ----Parser----
 // signal.c
-void	config_signals(void);
+void			config_signals(void);
 
 #endif

@@ -1,5 +1,6 @@
 #include "../includes/minishell.h"
 
+// REVER SOH MONTEI COMO "MODELO"
 void exec_cmd(t_command *cmd)
 {
 	if (is_builtin(cmd))

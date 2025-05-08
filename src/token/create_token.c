@@ -27,19 +27,19 @@ t_token	*init_token(void)
 	return (new_t);
 }
 
-void	add_back(t_token **token, t_token *new)
+void	add_back(t_token **token, t_token *new_t)
 {
 	t_token	*temp;
 
-	if (!token || !new)
+	if (!token || !new_t)
 		return ;
 	if (!*token)
 	{
-		*token = new;
+		*token = new_t;
 		return ;
 	}
 	temp = *token;
 	while (temp->next)
 		temp = temp->next;
-	temp->next = new;
+	temp->next = new_t;
 }

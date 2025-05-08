@@ -1,31 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   clean_all.c                                        :+:      :+:    :+:   */
+/*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 14:21:04 by jcosta-b         ###   ########.fr       */
+/*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
+/*   Updated: 2025/05/08 14:13:26 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	clean_all(t_token **token_lst)
+void	exec_external_cmd(t_command *cmd)
 {
-	t_token	*tmp;
+	char	*path;
+	pid_t	pid;
 
-	if (!token_lst || !*token_lst)
-		return ;
-	while (*token_lst)
+	path = get_path(cmd);
+	pid = fork();
+	if (pid == 0)
 	{
-		tmp = (*token_lst)->next;
-		if ((*token_lst)->value)
-			free((*token_lst)->value);
-		if ((*token_lst)->expand_var)
-			free((*token_lst)->expand_var);
-		free(*token_lst);
-		*token_lst = tmp;
+		execve(path, cmd->args, NULL);
+		perror("Error execve");
+		exit(EXIT_FAILURE);
 	}
+	else if (pid > 0)
+		waitpid(pid, NULL, 0);
+	else
+		perror("Error fork");
+	if (!ft_strchr(cmd->command_name, '/'))
+		free(path);
 }

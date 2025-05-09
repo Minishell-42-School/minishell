@@ -53,10 +53,10 @@ clean:
 	@echo "$(GREEN)Clean done!$(RESET)"
 
 fclean: clean
-	@rm -f $(NAME) $(NAME_BONUS)
+	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
 	@echo "$(GREEN)Full clean done!$(RESET)"
 
 re: fclean all
 
-.PHONY: all clean fclean bonus re
+.PHONY: all clean fclean re

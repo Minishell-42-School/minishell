@@ -27,10 +27,13 @@ int	main(void)
 		if (!line)
 			break ;
 		get_token(&token_list, line);
-		p_state.current = token_list;
-		cmd_pipeline = parse_pipeline(&p_state);
-    if (cmd_pipeline)
-      exec_cmd(cmd_pipeline);
+    if (token_list)
+    {
+      p_state.current = token_list;
+      cmd_pipeline = parse_pipeline(&p_state);
+      if (cmd_pipeline)
+        exec_cmd(cmd_pipeline);
+    }
 		free_all(&token_list, &cmd_pipeline);
 		free(line);
 	}

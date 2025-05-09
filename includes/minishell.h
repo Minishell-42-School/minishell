@@ -86,7 +86,8 @@ typedef struct s_command
 char			*get_prompt(void);
 
 // clean_all.c
-void			clean_all(t_token **token_lst);
+// void			clean_all(t_token **token_lst);
+void	clean_all(t_token **token_lst, t_command **cmd);
 
 // signal.c
 void			config_signals(void);
@@ -133,9 +134,9 @@ t_command		*check_command_args(t_parser_state *p_state, t_command *cmd);
 t_command		*check_redirections(t_parser_state *p_state, t_command	*cmd);
 t_redirections	*parse_redirection(t_parser_state *p_state);
 
-//parser_free.c
-void			free_redirections(t_redirections *redir);
-void			free_command_list(t_command *head);
+// //parser_free.c
+// void			free_redirections(t_redirections *redir);
+// void			free_command_list(t_command *head);
 
 //check_syntax_env.c
 int				check_syntax(t_parser_state *token);

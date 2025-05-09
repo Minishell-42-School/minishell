@@ -1,0 +1,116 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/07 15:43:19 by ekeller-@st       #+#    #+#             */
+/*   Updated: 2025/05/09 19:01:21 by ekeller-@st      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "../../includes/minishell.h"
+
+// typedef struct s_var	
+// {
+// 	char			*key;
+// 	char			*value;
+// 	int				exported;
+// 	struct	s_var	*next;
+// }	t_var;
+
+
+int	init_vars_from_envp(t_var **vars, char **envp)
+{
+	int		i;
+	char	*key;
+	char	*value;
+	
+	i = 0;
+	while(envp[i])
+	{
+		if (split_env(envp[i], &key, &value) == 0)
+		{
+			if (vars_set(vars, key, value, 1) < 0)
+			{
+				free(key);
+				free(value);
+				return (-1);
+			}
+		}
+		i++;
+	}
+	return (0);
+}
+
+int	vars_set(t_var **vars, char *key, char *value, int exported)
+{
+	t_var	*v;
+	
+	v = malloc(sizeof(*v));
+	if (!v)
+		return (-1);
+	v->key = strdup(key);
+	v->value = strdup(value);
+	v->exported = exported;
+	v->next = *vars;
+	*vars = v;
+	return (0);
+}
+
+int	split_env(const char *env, char **key, char **value)
+{
+	char		*equal;
+	size_t		len;
+
+	equal = ft_strchr(env, '=');
+	if (!equal)
+		return (-1);
+	*value = ft_strdup(equal + 1);
+	if (!*value)
+		return (-1);
+	len = (size_t)(equal - env);
+	*key = malloc(len + 1);
+	ft_memcpy(*key, env, len);
+	if (!*key)
+	{
+		free(*value);
+		return (-1);
+	}
+	(*key)[len] = '\0';
+	return(0);
+}
+
+
+
+//would it be indifferent:
+//t_var *vars;
+//init_vars_from_envp(&vars, envp);
+//or
+//t_var **vars;
+//init_vars_from_envp(vars, envp);?
+int	main(int argc, char **av, char **envp)
+{
+	int	i;
+	t_var *vars;
+	
+	if (argc)
+		;
+	if (av)
+		;
+	
+	i = 0;	
+	vars = NULL;
+	init_vars_from_envp(&vars, envp);
+	while (vars && i < 10)
+	{
+		printf("ENV: %i\n", i);
+		printf("Key: %s\n", vars->key);
+		printf("Value: %s\n", vars->value);
+		printf("Exported?: %i\n", vars->exported);
+		i++;
+		vars = vars->next;
+		printf("\n");
+	}		
+}

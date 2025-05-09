@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 12:15:06 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/09 18:52:38 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,14 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
+typedef struct s_var	
+{
+	char				*key;
+	char				*value;
+	int					exported;
+	struct	s_var		*next;
+}	t_var;
+
 // Functions
 
 // prompt.c
@@ -139,5 +147,10 @@ void			ft_error(char *msg);
 // ----Parser----
 // signal.c
 void			config_signals(void);
+
+//expansion.c
+int				init_vars_from_envp(t_var **vars, char **envp);
+int				split_env(const char *env, char **key, char **value);
+int				vars_set(t_var **vars, char *key, char *value, int exported);
 
 #endif

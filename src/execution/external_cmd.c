@@ -1,31 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signal.c                                           :+:      :+:    :+:   */
+/*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/28 15:16:18 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 15:43:06 by jcosta-b         ###   ########.fr       */
+/*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
+/*   Updated: 2025/05/08 16:33:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	g_signal = 0;
-
-static void	handle_sigin(int sig)
+void	exec_external_cmd(t_command *cmd)
 {
-	(void)sig;
-	g_signal = 100;
-	printf("\n");
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
-}
+	char	*path;
+	pid_t	pid;
 
-void	config_signals(void)
-{
-	signal(SIGINT, handle_sigin);
-	signal(SIGQUIT, SIG_IGN);
+	path = get_path(cmd);
+	if (!path)
+		return ;
+	pid = fork();
+	if (pid == 0)
+	{
+		execve(path, cmd->args, NULL);
+		perror("Error execve");
+		exit(EXIT_FAILURE);
+	}
+	else if (pid > 0)
+		waitpid(pid, NULL, 0);
+	else
+		perror("Error fork");
+	if (!ft_strchr(cmd->command_name, '/'))
+		free(path);
 }

@@ -85,9 +85,9 @@ typedef struct s_command
 // prompt.c
 char			*get_prompt(void);
 
-// clean_all.c
+// free_all.c
 // void			clean_all(t_token **token_lst);
-void	clean_all(t_token **token_lst, t_command **cmd);
+void	free_all(t_token **token_lst, t_command **cmd);
 
 // signal.c
 void			config_signals(void);

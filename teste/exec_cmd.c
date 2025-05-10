@@ -43,7 +43,7 @@ char *extract_output_line(const char *buffer, const char *command)
         }
         else
         {
-            if (strstr(line, "Minishell~>") || strstr(line, "Exit Minishell"))
+            if (strstr(line, "Minishell~>") || (strstr(line, "Exit Minishell") && line[0] == 'M'))
             {
                 line = strtok(NULL, "\n");
                 continue ;

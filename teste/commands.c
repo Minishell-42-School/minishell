@@ -6,7 +6,7 @@ void  exec_simple_cmd(void)
   static int test_nbr = 1;
   exec_cmd("/bin/ls", NULL, &test_nbr);
   exec_cmd("/bin/echo Hello", NULL, &test_nbr);
-  exec_cmd("", "\0\n", &test_nbr);
+  exec_cmd("", "", &test_nbr);
   exec_cmd("       ", "Command not found or not executable", &test_nbr);
   // exec_cmd("				", NULL, &test_nbr); // Minishell deve retornar null e completar a palavra como o tab
   // exec_cmd(" 				   ", NULL, &test_nbr);

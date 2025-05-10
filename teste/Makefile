@@ -1,7 +1,8 @@
-NAME := test_runner
+NAME := minishell_tester
 
 # Dirs
 TEST_DIR := .
+OBJ_DIR := test_obj
 PROJECT_ROOT := ..
 INCLUDES := -I$(PROJECT_ROOT)/includes -I$(PROJECT_ROOT)/libft
 
@@ -14,25 +15,37 @@ CC := cc
 CFLAGS := -Wall -Wextra -Werror
 
 # Test files
-TEST_SRCS := test_main.c
+TEST_SRCS := main_tester.c check_exec_and_valg.c exec_cmd.c commands.c
+
 TEST_OBJS := $(TEST_SRCS:%.c=%.o)
 
+GREEN = \033[0;32m
+GREEN_B = \033[1;32m
+YELLOW = \033[0;33m
+RESET = \033[0m
+
 # Main rules
-all: $(NAME)
+all: $(OBJ_DIR) $(NAME)
 
-$(NAME): $(TEST_OBJS)
+$(OBJ_DIR):
+	@mkdir -p $(OBJ_DIR)
+
+$(NAME): $(addprefix $(OBJ_DIR)/, $(TEST_OBJS))
 	@$(MAKE) -C $(PROJECT_ROOT) --no-print-directory
-	$(CC) $(CFLAGS) $(INCLUDES) $^ -o $@ $(LIBFT) $(READLINE)
+	@$(CC) $(CFLAGS) $(INCLUDES) $^ -o $@ $(LIBFT) $(READLINE)
+	@echo "\n--- $(YELLOW)MiniShell Tester is Ready$(RESET) ---\n"
 
-%.o: %.c
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+$(OBJ_DIR)/%.o: ./%.c
+	@$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
 
 clean:
-	rm -f $(TEST_OBJS)
+	@rm -rf $(OBJ_DIR)
+	@$(MAKE) -C $(PROJECT_ROOT) clean --no-print-directory
 
 fclean: clean
-	rm -f $(NAME)
+	@rm -f $(NAME)
+	@$(MAKE) -C $(PROJECT_ROOT) fclean --no-print-directory
 
-re: clean all
+re: fclean all
 
 .PHONY: all fclean clean re

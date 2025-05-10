@@ -88,6 +88,7 @@ char			*get_prompt(void);
 // free_all.c
 // void			clean_all(t_token **token_lst);
 void	free_all(t_token **token_lst, t_command **cmd);
+void	free_token_lst(t_token **token_lst);
 
 // signal.c
 void			config_signals(void);
@@ -116,6 +117,9 @@ int				verif_close_q(char *str);
 
 // verif_valid_op.c
 int				verif_valid_op(char *str);
+
+// verif_value.c
+void  verif_value(t_token **token_list);
 // ----Token----
 
 // ----Parser----

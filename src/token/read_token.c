@@ -45,8 +45,10 @@ static char	*clean_quote(char *str)
 	char	quote;
 	char	*clean_str;
 
+  if (ft_strlen(str) - nbr_q(str) == 0)
+    return (NULL);
 	clean_str = malloc((ft_strlen(str) - nbr_q(str) + 1) * sizeof(char));
-	if (!clean_str)
+	if (!clean_str || (ft_strlen(str) - nbr_q(str) == 0))
 		return (NULL);
 	i = 0;
 	j = 0;

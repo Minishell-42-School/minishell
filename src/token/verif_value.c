@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   token.c                                            :+:      :+:    :+:   */
+/*   verif_value.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,36 +12,38 @@
 
 #include "../../includes/minishell.h"
 
-int	is_wspace(char c)
+static void  del_last_token(t_token **token_list)
 {
-	return (c == ' ' || c == '\t');
+	t_token	*temp;
+  t_token	*del_token;
+
+  if (!(*token_list)->next)
+  {
+    printf("Command not found or not executable =D\n");
+    free_token_lst(token_list);
+  }
+  else
+  {
+    temp = *token_list;
+    while (temp->next->next)
+      temp = temp->next;
+    del_token = temp->next;
+    temp->next = NULL;
+    if (del_token->expand_var)
+      free(del_token->expand_var);
+    free(del_token);
+  }
 }
 
-int	is_operator(char c)
+void  verif_value(t_token **token_list)
 {
-	return (c == '|' || c == '<' || c == '>');
-}
+	t_token	*temp;
 
-void	get_token(t_token **token_list, char *input)
-{
-	int		i;
-	t_token	*new_token;
-
-	i = 0;
-	if (!verif_close_q(input) || verif_valid_op(input))
+	if (!token_list)
 		return ;
-	while (input[i])
-	{
-		new_token = init_token();
-		if (!new_token)
-			return ;
-		while (is_wspace(input[i]))
-			i++;
-		if (is_operator(input[i]))
-			new_token->value = read_operator(input, &i, new_token);
-		else
-			new_token->value = read_token(input, &i, new_token);
-    add_back(token_list, new_token);
-	}
-  verif_value(token_list);
+	temp = *token_list;
+	while (temp->next)
+		temp = temp->next;
+  if (!temp->value)
+    del_last_token(token_list);
 }

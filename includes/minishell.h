@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/09 18:52:38 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/11 16:01:01 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,9 +148,13 @@ void			ft_error(char *msg);
 // signal.c
 void			config_signals(void);
 
-//expansion.c
+//set_env_vars.c
 int				init_vars_from_envp(t_var **vars, char **envp);
 int				split_env(const char *env, char **key, char **value);
 int				vars_set(t_var **vars, char *key, char *value, int exported);
+t_var			*var_find(t_var *vars, const char *key);
+
+//expansion.c
+char			*var_get(t_var *vars, const char *key);
 
 #endif

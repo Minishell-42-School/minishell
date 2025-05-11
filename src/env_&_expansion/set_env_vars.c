@@ -1,25 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion.c                                        :+:      :+:    :+:   */
+/*   set_env_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:43:19 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/09 19:01:21 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/11 16:20:27 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-// typedef struct s_var	
-// {
-// 	char			*key;
-// 	char			*value;
-// 	int				exported;
-// 	struct	s_var	*next;
-// }	t_var;
-
 
 int	init_vars_from_envp(t_var **vars, char **envp)
 {
@@ -48,6 +39,14 @@ int	vars_set(t_var **vars, char *key, char *value, int exported)
 {
 	t_var	*v;
 	
+	v = var_find(*vars, key);
+	if (v)
+	{
+		free(v->value);
+		v->value = strdup(value);
+		v->exported = v->exported || exported;
+		return (0);
+	}
 	v = malloc(sizeof(*v));
 	if (!v)
 		return (-1);
@@ -57,6 +56,17 @@ int	vars_set(t_var **vars, char *key, char *value, int exported)
 	v->next = *vars;
 	*vars = v;
 	return (0);
+}
+
+t_var	*var_find(t_var *vars, const char *key)
+{
+	while (vars)
+	{
+		if (ft_strcmp(key, vars->key) == 0)
+			return (vars);
+		vars = vars->next;
+	}
+	return (NULL);
 }
 
 int	split_env(const char *env, char **key, char **value)

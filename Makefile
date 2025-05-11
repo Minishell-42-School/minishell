@@ -11,7 +11,7 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RLFLAGS = -lreadline -lncurses
 
-SRCS = expansion/expansion.c
+SRCS = env_expansion/set_env_vars.c
 
 # main.c prompt.c clean_all.c signal.c\
 			# token/token.c token/create_token.c  token/get_env_var.c \

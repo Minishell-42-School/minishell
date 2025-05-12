@@ -19,7 +19,7 @@ static void  del_last_token(t_token **token_list)
 
   if (!(*token_list)->next)
   {
-    printf("Command not found or not executable =D\n");
+    printf("Command not found or not executable\n");
     free_token_lst(token_list);
   }
   else

@@ -28,7 +28,7 @@ void	get_token(t_token **token_list, char *input)
 	t_token	*new_token;
 
 	i = 0;
-	if (!verif_close_q(input) || verif_valid_op(input))
+	if (!verif_close_q(input) || verif_valid_op(input) || *input == '\0')
 		return ;
 	while (input[i])
 	{

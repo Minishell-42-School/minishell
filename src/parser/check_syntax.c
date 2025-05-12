@@ -25,7 +25,7 @@ int	check_syntax(t_parser_state *token)
 	{
 		printf("minishell: syntax error near unexpected token `|'\n");
 		return (1);
-	}	
+	}
 	while (temp.current && temp.current->type != PIPE)
 		temp.current = temp.current->next;
 	if (!temp.current)

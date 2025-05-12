@@ -14,11 +14,12 @@ RLFLAGS = -lreadline -lncurses
 # NORMINETTE = norminette
 # FLAGS = -R CheckForbiddenSourceHeader
 
-SRCS = main.c prompt.c clean_all.c signal.c \
+SRCS = main.c prompt.c free_all.c signal.c \
 	token/token.c token/create_token.c token/get_env_var.c token/read_token.c \
-	token/read_operator.c token/verif_quote.c token/verif_valid_op.c \
-	parser/parser_utils.c parser/parser.c parser/free_parser.c parser/check_syntax.c \
-	execution/execution.c execution/get_path.c execution/external_cmd.c execution/pipe.c
+	token/read_operator.c token/verif_quote.c token/verif_valid_op.c token/verif_value.c \
+	parser/parser_utils.c parser/parser.c  parser/check_syntax.c \
+	execution/execution.c execution/get_path.c execution/external_cmd.c execution/pipe.c \
+	#parser/free_parser.c
 
 OBJS = $(SRCS:%.c=%.o)
 
@@ -52,10 +53,10 @@ clean:
 	@echo "$(GREEN)Clean done!$(RESET)"
 
 fclean: clean
-	@rm -f $(NAME) $(NAME_BONUS)
+	@rm -f $(NAME)
 	@$(MAKE) -C $(LIBFT_DIR) fclean --no-print-directory
 	@echo "$(GREEN)Full clean done!$(RESET)"
 
 re: fclean all
 
-.PHONY: all clean fclean bonus re
+.PHONY: all clean fclean re

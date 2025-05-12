@@ -12,12 +12,9 @@
 
 #include "../includes/minishell.h"
 
-int	g_signal = 0;
-
 static void	handle_sigin(int sig)
 {
 	(void)sig;
-	g_signal = 100;
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();

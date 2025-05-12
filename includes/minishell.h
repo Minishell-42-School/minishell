@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 16:08:47 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:41:14 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,6 @@
 # define RED_B  "\033[1;31m"
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
-
-// Signal
-extern int	g_signal;
 
 typedef enum e_token_type
 {
@@ -85,8 +82,10 @@ typedef struct s_command
 // prompt.c
 char			*get_prompt(void);
 
-// clean_all.c
-void			clean_all(t_token **token_lst);
+// free_all.c
+// void			clean_all(t_token **token_lst);
+void			free_all(t_token **token_lst, t_command **cmd);
+void			free_token_lst(t_token **token_lst);
 
 // signal.c
 void			config_signals(void);
@@ -115,6 +114,9 @@ int				verif_close_q(char *str);
 
 // verif_valid_op.c
 int				verif_valid_op(char *str);
+
+// verif_value.c
+void			verif_value(t_token **token_list);
 // ----Token----
 
 // ----Parser----
@@ -133,9 +135,9 @@ t_command		*check_command_args(t_parser_state *p_state, t_command *cmd);
 t_command		*check_redirections(t_parser_state *p_state, t_command	*cmd);
 t_redirections	*parse_redirection(t_parser_state *p_state);
 
-//parser_free.c
-void			free_redirections(t_redirections *redir);
-void			free_command_list(t_command *head);
+// //parser_free.c
+// void			free_redirections(t_redirections *redir);
+// void			free_command_list(t_command *head);
 
 //check_syntax_env.c
 int				check_syntax(t_parser_state *token);

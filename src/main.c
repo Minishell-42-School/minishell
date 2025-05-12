@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 16:23:03 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/12 12:05:43 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,24 +20,22 @@ int	main(void)
 	t_parser_state	p_state;
 
 	token_list = NULL;
+	cmd_pipeline = NULL;
 	while (1)
 	{
 		line = get_prompt();
 		if (!line)
 			break ;
 		get_token(&token_list, line);
-		p_state.current = token_list;
-		cmd_pipeline = parse_pipeline(&p_state);
-		if (!cmd_pipeline)
+		if (token_list)
 		{
-			clean_all(&token_list);
-			free(line);
-			continue ;
+			p_state.current = token_list;
+			cmd_pipeline = parse_pipeline(&p_state);
+			if (cmd_pipeline)
+				exec_cmd(cmd_pipeline);
 		}
-		exec_cmd(cmd_pipeline);
-		clean_all(&token_list);
+		free_all(&token_list, &cmd_pipeline);
 		free(line);
-		free_command_list(cmd_pipeline);
 	}
 	return (0);
 }

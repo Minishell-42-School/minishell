@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 16:08:47 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:41:14 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ char			*get_prompt(void);
 
 // free_all.c
 // void			clean_all(t_token **token_lst);
-void	free_all(t_token **token_lst, t_command **cmd);
-void	free_token_lst(t_token **token_lst);
+void			free_all(t_token **token_lst, t_command **cmd);
+void			free_token_lst(t_token **token_lst);
 
 // signal.c
 void			config_signals(void);
@@ -116,7 +116,7 @@ int				verif_close_q(char *str);
 int				verif_valid_op(char *str);
 
 // verif_value.c
-void  verif_value(t_token **token_list);
+void			verif_value(t_token **token_list);
 // ----Token----
 
 // ----Parser----

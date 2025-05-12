@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:42:15 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 15:43:39 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:38:03 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	get_token(t_token **token_list, char *input)
 			new_token->value = read_operator(input, &i, new_token);
 		else
 			new_token->value = read_token(input, &i, new_token);
-    add_back(token_list, new_token);
+		add_back(token_list, new_token);
 	}
-  verif_value(token_list);
+	verif_value(token_list);
 }

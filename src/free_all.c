@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 15:43:21 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:42:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	free_token_lst(t_token **token_lst)
 		free(*token_lst);
 		*token_lst = tmp;
 	}
-  *token_lst = NULL;
+	*token_lst = NULL;
 }
 
 static void	free_redirections(t_redirections *redir)
@@ -71,10 +71,10 @@ static void	free_command_list(t_command *head)
 void	free_all(t_token **token_lst, t_command **cmd)
 {
 	if (*token_lst)
-    free_token_lst(token_lst);
-  if (*cmd)
-  {
-    free_command_list(*cmd);
-    *cmd = NULL;
-  }
+		free_token_lst(token_lst);
+	if (*cmd)
+	{
+		free_command_list(*cmd);
+		*cmd = NULL;
+	}
 }

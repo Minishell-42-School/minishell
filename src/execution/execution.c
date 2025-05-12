@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:32:49 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 16:35:14 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/12 17:56:14 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	exec_cmd(t_command *cmd)
 	// else if (has_pipe(cmd))
 	// 	exec_pipeline(cmd);
 	// else
+	if (cmd->redirs)
+		exec_redir(cmd);
 	if (cmd->next)
 		exec_pipeline(cmd);
 	else

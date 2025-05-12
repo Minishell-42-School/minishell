@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/12 11:41:14 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/12 15:25:54 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,8 @@
 
 # include "../libft/libft.h"
 # include <stdio.h> // printf, readline
-# include <unistd.h> // write, pipe, fork, dup2, execve
+# include <unistd.h> // write, pipe, fork, dup2, execve, close
+# include <fcntl.h> // open
 # include <stdlib.h> // malloc, free, exit
 # include <signal.h> // signal, sigaction, sigemptyset, sigaddset
 # include <sys/types.h> // pid_t
@@ -156,6 +157,10 @@ void			exec_external_cmd(t_command *cmd);
 
 // pipe.c
 void			exec_pipeline(t_command *cmd);
+
+// --Redirections--
+// redir.c
+void	exec_redir(t_command *cmd);
 // ----Execution----
 
 #endif

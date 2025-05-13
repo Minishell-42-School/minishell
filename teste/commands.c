@@ -37,6 +37,8 @@ void	exec_echo(void)
 	exec_cmd("echo Tring with q'u'o't'e's'", NULL, &test_nbr);
 	// Need return the frase without \n at the end
 	// exec_cmd("echo -n Hello crazy World", NULL, &test_nbr);
+	// exec_cmd("echo \"-n\" \"Hello crazy World\"", NULL, &test_nbr);
+	// exec_cmd("echo \"-n Hello crazy World\"", NULL, &test_nbr);
 	// exec_cmd("echo -n Tring with q'u'o't'e's'", NULL, &test_nbr);
 }
 
@@ -133,11 +135,20 @@ void	exec_env_var(void)
 //   static int test_nbr = 1;
 // }
 
-// // -- Redirections --
-// void  exec_redir(void)
-// {
-//   static int test_nbr = 1;
-// }
+// -- Redirections --
+void	exec_redir(void)
+{
+	static int	test_nbr = 1;
+	// Redir of Out
+	exec_cmd("echo Hello > file1", NULL, &test_nbr);
+	exec_cmd("echo Helooo Again >> file1", NULL, &test_nbr);
+	exec_cmd("echo Replace > file1", NULL, &test_nbr);
+
+	// Redir of In
+	exec_cmd("cat < Makefile", NULL, &test_nbr);
+	exec_cmd("tr a-z A-Z < file1", NULL, &test_nbr);
+	exec_cmd("echo Hello <> wc -l", NULL, &test_nbr);
+}
 
 // -- Pipe --
 void	exec_pipe(void)

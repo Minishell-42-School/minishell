@@ -65,9 +65,9 @@ int	main(void)
 	// exec_env_path();
 	// printf("\n\n");
 
-	// printf("--- Test with Redirection ---\n");
-	// exec_redir();
-	// printf("\n\n");
+	printf("--- Test with Redirection ---\n");
+	exec_redir();
+	printf("\n\n");
 
 	printf("--- Test with Pipe ---\n");
 	// exec_pipe();

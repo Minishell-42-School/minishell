@@ -6,110 +6,97 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/14 12:56:25 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/14 17:31:59 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-int	count_redirs(t_redirections *redir_lst)
-{
-	int	times;
-
-	times = 1;
-	if (redir_lst->type == R_OUT || redir_lst->type == R_APPEND)
-	{
-		while (redir_lst->next && (redir_lst->next->type == R_OUT || \
-				redir_lst->next->type == R_APPEND))
-		{
-			times++;
-			redir_lst = redir_lst->next;
-		}
-	}
-	else if (redir_lst->type == R_IN)
-	{
-		while (redir_lst->next && redir_lst->type == R_IN)
-		{
-			times++;
-			redir_lst = redir_lst->next;
-		}
-	}
-	else
-		times = 0;
-	return (times);
-}
-
-static void	child_proc(t_command *cmd)
+void	handle_out(t_redirections *redir)
 {
 	int	fd;
-	char	*path;
-	int	times;
 
-	times = count_redirs(cmd->redirs);
-	printf("times = %d\n", times);
-	if (times == 0) // <<
-		fd = -1;
-	else if (times > 1)
-	{
-		while (times > 1)
-		{
-			if (cmd->redirs->type == R_OUT) // >
-				fd = open(cmd->redirs->filename, O_CREAT, 0644);
-			else if (cmd->redirs->type == R_APPEND) // >>
-				fd = open(cmd->redirs->filename, O_CREAT, 0644);
-			else // if (cmd->redirs->type == R_IN) // <
-				fd = open(cmd->redirs->filename, O_CREAT);
-			close(fd);
-			cmd->redirs = cmd->redirs->next;
-			times--;
-		}
-	}
-	if (times == 1) // Only one redir
-	{
-		if (cmd->redirs->type == R_OUT) // >
-			fd = open(cmd->redirs->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-		else if (cmd->redirs->type == R_APPEND) // >>
-			fd = open(cmd->redirs->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
-		else // if (cmd->redirs->type == R_IN) // <
-			fd = open(cmd->redirs->filename, O_RDONLY);
-	}
-
-	
-	// if (cmd->redirs->type == R_OUT) // >
-	// 	fd = open(cmd->redirs->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	// else if (cmd->redirs->type == R_APPEND) // >>
-	// 	fd = open(cmd->redirs->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	// else if (cmd->redirs->type == R_IN) // <
-	// 	fd = open(cmd->redirs->filename, O_RDONLY);
-	// else
-	// 	fd = -1;
-
+	if (redir->type == R_OUT) // >
+		fd = open(redir->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	else // if (redir->type == R_APPEND) // >>
+		fd = open(redir->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (fd == -1)
 	{
 		perror("Error for open the file");
 		return ;
 	}
-	
-	if (cmd->redirs->type == R_OUT || cmd->redirs->type == R_APPEND)
+	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
-		if (dup2(fd, STDOUT_FILENO) == -1)
-		{
-			printf("Error - dup");
-			close(fd);
-			return ;
-		}
-	}
-	else
-	{
-		if (dup2(fd, STDIN_FILENO) == -1)
-		{
-			printf("Error - dup");
-			close(fd);
-			return ;
-		}
+		printf("Error - dup");
+		close(fd);
+		return ;
 	}
 	close(fd);
+}
 
+void	handle_in(t_redirections *redir)
+{
+	int	fd;
+
+	fd = open(redir->filename, O_RDONLY); // <
+	if (fd == -1)
+	{
+		perror("Error for open the file");
+		return ;
+	}
+	if (dup2(fd, STDIN_FILENO) == -1)
+	{
+		printf("Error - dup");
+		close(fd);
+		return ;
+	}
+	close(fd);
+}
+
+void	handle_creat(t_redirections *redir)
+{
+	int	fd;
+
+	fd = open(redir->filename, O_CREAT, 0644);
+	if (fd == -1)
+	{
+		perror("Error for open the file");
+		return ;
+	}
+	close(fd);
+}
+
+void	definy_fd(t_command *cmd)
+{
+	t_redirections	*redir;
+
+	redir = cmd->redirs;
+	while (redir)
+	{
+		while (redir->next && (redir->type == R_OUT || redir->type == R_APPEND) && \
+			(redir->next->type == R_OUT || redir->next->type == R_APPEND))
+		{
+			handle_creat(redir);
+			redir = redir->next;
+		}
+		while (redir->next && (redir->type == R_IN && redir->next->type == R_IN))
+		{
+			handle_creat(redir);
+			redir = redir->next;
+		}
+		if (redir->type == R_OUT || redir->type == R_APPEND)
+			handle_out(redir);
+		else
+			handle_in(redir);
+		redir = redir->next;
+	}
+}
+
+static void	child_proc(t_command *cmd)
+{
+	char	*path;
+
+	definy_fd(cmd);
 	path = get_path(cmd);
 	if (!path)
 	{

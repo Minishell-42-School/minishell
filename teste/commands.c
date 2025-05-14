@@ -155,6 +155,7 @@ void	exec_redir(void)
 	// Multiplos redirs
 	// Same type
 	exec_cmd("echo teste > a.txt > b.txt", NULL, &test_nbr);
+	exec_cmd("cat < a.txt < b.txt", NULL, &test_nbr);
 	exec_cmd("cat < Makefile > output.txt", NULL, &test_nbr);
 	exec_cmd("cat < Makefile >> output.txt", NULL, &test_nbr);
 	// input came from heredoc and go out at output.txt
@@ -163,7 +164,6 @@ void	exec_redir(void)
 	exec_cmd("grep foo < entry.txt > result.txt", NULL, &test_nbr);
 	// The next test needs to get a error
 	exec_cmd("cat < in.txt << FIM > out.txt", NULL, &test_nbr);
-	exec_cmd("cat < Makefile", NULL, &test_nbr);
 }
 
 // -- Pipe --

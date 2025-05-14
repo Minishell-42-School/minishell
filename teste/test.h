@@ -36,7 +36,7 @@ void  exec_env_var(void);
 // void  exec_pwd(void);
 // void  exec_rel_path(void);
 // void  exec_env_path(void);
-// void  exec_redir(void);
+void  exec_redir(void);
 void  exec_pipe(void);
 
 #endif

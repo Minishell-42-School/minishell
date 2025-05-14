@@ -70,7 +70,7 @@ int	main(void)
 	// printf("\n\n");
 
 	printf("--- Test with Pipe ---\n");
-	exec_pipe();
+	// exec_pipe();
 	printf("\n\n");
 
 	return (0);

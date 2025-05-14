@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/12 15:25:54 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:13:39 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,11 @@ void			exec_pipeline(t_command *cmd);
 // --Redirections--
 // redir.c
 void	exec_redir(t_command *cmd);
+
+// handle_fd.c
+void	handle_out(t_redirections *redir);
+void	handle_in(t_redirections *redir);
+void	handle_creat(t_redirections *redir);
 // ----Execution----
 
 #endif

@@ -6,64 +6,37 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/14 17:31:59 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/14 18:15:28 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	handle_out(t_redirections *redir)
+void	handle_heredoc(t_redirections *redir)
 {
+	printf("=D\n");
+
 	int	fd;
 
-	if (redir->type == R_OUT) // >
-		fd = open(redir->filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	else // if (redir->type == R_APPEND) // >>
-		fd = open(redir->filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
-	if (fd == -1)
-	{
-		perror("Error for open the file");
-		return ;
-	}
-	if (dup2(fd, STDOUT_FILENO) == -1)
-	{
-		printf("Error - dup");
-		close(fd);
-		return ;
-	}
+	fd = open(redir->filename, O_RDONLY);
 	close(fd);
-}
 
-void	handle_in(t_redirections *redir)
-{
-	int	fd;
-
-	fd = open(redir->filename, O_RDONLY); // <
-	if (fd == -1)
-	{
-		perror("Error for open the file");
-		return ;
-	}
-	if (dup2(fd, STDIN_FILENO) == -1)
-	{
-		printf("Error - dup");
-		close(fd);
-		return ;
-	}
-	close(fd);
-}
-
-void	handle_creat(t_redirections *redir)
-{
-	int	fd;
-
-	fd = open(redir->filename, O_CREAT, 0644);
-	if (fd == -1)
-	{
-		perror("Error for open the file");
-		return ;
-	}
-	close(fd);
+	// int	heredoc_fd[2];
+	// int	orig_fd;
+	
+	// if (pipe(heredoc_fd) == -1)
+	// 	return ((void)printf("Error pipe\n"));
+	// if (control_fd != -1)
+	// {
+	// 	dup2(control_fd, STDIN_FILENO);
+	// 	close(control_fd);
+	// }
+	// if (cmd->next)
+	// {
+	// 	close(fd[0]);
+	// 	dup2(fd[1], STDOUT_FILENO);
+	// 	close(fd[1]);
+	// }
 }
 
 void	definy_fd(t_command *cmd)
@@ -73,21 +46,20 @@ void	definy_fd(t_command *cmd)
 	redir = cmd->redirs;
 	while (redir)
 	{
-		while (redir->next && (redir->type == R_OUT || redir->type == R_APPEND) && \
-			(redir->next->type == R_OUT || redir->next->type == R_APPEND))
-		{
-			handle_creat(redir);
-			redir = redir->next;
-		}
-		while (redir->next && (redir->type == R_IN && redir->next->type == R_IN))
+		while (redir->next && ((redir->type == R_IN && \
+			redir->next->type == R_IN) || \
+			((redir->type == R_OUT || redir->type == R_APPEND) && \
+			(redir->next->type == R_OUT || redir->next->type == R_APPEND))))
 		{
 			handle_creat(redir);
 			redir = redir->next;
 		}
 		if (redir->type == R_OUT || redir->type == R_APPEND)
 			handle_out(redir);
-		else
+		else if (redir->type == R_IN)
 			handle_in(redir);
+		else
+			handle_heredoc(redir);
 		redir = redir->next;
 	}
 }
@@ -103,7 +75,7 @@ static void	child_proc(t_command *cmd)
 		perror("get_path");
 		exit(EXIT_FAILURE);
 	}
-	execve(path, cmd->args, NULL); 
+	execve(path, cmd->args, NULL);
 	perror("execve");
 	exit(EXIT_FAILURE);
 }
@@ -111,7 +83,6 @@ static void	child_proc(t_command *cmd)
 void	exec_redir(t_command *cmd)
 {
 	pid_t	pid;
-	// int		status;
 
 	pid = fork();
 	if (pid == -1)

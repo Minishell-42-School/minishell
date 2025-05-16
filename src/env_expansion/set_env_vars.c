@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:43:19 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/11 16:20:27 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/16 12:44:32 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	init_vars_from_envp(t_var **vars, char **envp)
 	int		i;
 	char	*key;
 	char	*value;
-	
+
 	i = 0;
-	while(envp[i])
+	while (envp[i])
 	{
 		if (split_env(envp[i], &key, &value) == 0)
 		{
@@ -30,6 +30,8 @@ int	init_vars_from_envp(t_var **vars, char **envp)
 				return (-1);
 			}
 		}
+		free(key);
+		free(value);
 		i++;
 	}
 	return (0);
@@ -38,13 +40,13 @@ int	init_vars_from_envp(t_var **vars, char **envp)
 int	vars_set(t_var **vars, char *key, char *value, int exported)
 {
 	t_var	*v;
-	
+
 	v = var_find(*vars, key);
 	if (v)
 	{
 		free(v->value);
 		v->value = strdup(value);
-		v->exported = v->exported || exported;
+		v->exported |= exported;
 		return (0);
 	}
 	v = malloc(sizeof(*v));
@@ -89,38 +91,5 @@ int	split_env(const char *env, char **key, char **value)
 		return (-1);
 	}
 	(*key)[len] = '\0';
-	return(0);
-}
-
-
-
-//would it be indifferent:
-//t_var *vars;
-//init_vars_from_envp(&vars, envp);
-//or
-//t_var **vars;
-//init_vars_from_envp(vars, envp);?
-int	main(int argc, char **av, char **envp)
-{
-	int	i;
-	t_var *vars;
-	
-	if (argc)
-		;
-	if (av)
-		;
-	
-	i = 0;	
-	vars = NULL;
-	init_vars_from_envp(&vars, envp);
-	while (vars && i < 10)
-	{
-		printf("ENV: %i\n", i);
-		printf("Key: %s\n", vars->key);
-		printf("Value: %s\n", vars->value);
-		printf("Exported?: %i\n", vars->exported);
-		i++;
-		vars = vars->next;
-		printf("\n");
-	}		
+	return (0);
 }

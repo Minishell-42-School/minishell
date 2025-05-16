@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 12:14:27 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/16 14:51:18 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,54 @@ void	clean_all(t_token **token_lst)
 			free((*token_lst)->expand_var);
 		free(*token_lst);
 		*token_lst = tmp;
+	}
+}
+
+void	free_vars(t_var *vars)
+{
+	while (vars)
+	{
+		if (vars->value)
+			free(vars->value);
+		if (vars->key)
+			free(vars->key);
+		vars = vars->next;
+	}
+}
+
+void	free_redirections(t_redirections *redir)
+{
+	t_redirections	*temp;
+
+	while (redir)
+	{
+		temp = redir->next;
+		free(redir->filename);
+		free(redir);
+		redir = temp;
+	}
+}
+
+void	free_command_list(t_command *head)
+{
+	t_command	*temp;
+	int			i;
+
+	while (head)
+	{
+		temp = head->next;
+		if (head->command_name)
+			free(head->command_name);
+		if (head->args)
+		{
+			i = 0;
+			while (head->args[i])
+				free(head->args[i++]);
+			free(head->args);
+		}
+		if (head->redirs)
+			free_redirections(head->redirs);
+		free(head);
+		head = temp;
 	}
 }

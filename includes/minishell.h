@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/11 16:01:01 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/16 14:49:27 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,20 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-typedef struct s_var	
+typedef struct s_var
 {
 	char				*key;
 	char				*value;
 	int					exported;
-	struct	s_var		*next;
+	struct s_var		*next;
 }	t_var;
+
+typedef struct s_exp_aux
+{
+	int					i;
+	int					j;
+	int					k;
+}	t_exp_aux;
 
 // Functions
 
@@ -93,6 +100,9 @@ char			*get_prompt(void);
 
 // clean_all.c
 void			clean_all(t_token **token_lst);
+void			free_vars(t_var *vars);
+void			free_redirections(t_redirections *redir);
+void			free_command_list(t_command *head);
 
 // ----Token----
 // token.c
@@ -136,11 +146,6 @@ t_command		*check_command_args(t_parser_state *p_state, t_command *cmd);
 t_command		*check_redirections(t_parser_state *p_state, t_command	*cmd);
 t_redirections	*parse_redirection(t_parser_state *p_state);
 
-//parser_free.c
-void			free_token_list(t_token *head);
-void			free_redirections(t_redirections *redir);
-void			free_command_list(t_command *head);
-
 //check_syntax_env.c
 int				check_syntax(t_parser_state *token);
 void			ft_error(char *msg);
@@ -155,6 +160,14 @@ int				vars_set(t_var **vars, char *key, char *value, int exported);
 t_var			*var_find(t_var *vars, const char *key);
 
 //expansion.c
+void			expand_all_tokens(t_token *head, t_var *vars);
+int				expand_one_token(t_token *tok, t_var *vars);
+
+//expansion_utils.c
 char			*var_get(t_var *vars, const char *key);
+size_t			calc_new_len(t_token *tok, t_var *vars);
+void			process_env_flags(t_token *tok, t_exp_aux *aux,
+					size_t *len, t_var *vars);
+int				var_name_len(char *tok_val);
 
 #endif

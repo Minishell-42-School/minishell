@@ -6,13 +6,13 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 11:37:47 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/15 16:36:18 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-int	main(void)
+int	main(int argc, char **av, char **envp)
 {
 	char			*line;
 	t_token			*token_list;
@@ -21,7 +21,15 @@ int	main(void)
 	t_parser_state	p_state;
 	int 			cmd_num;
 	t_redirections  *redir;
-
+	t_var			*vars;
+	
+	vars = NULL;
+	if (init_vars_from_envp(&vars, envp) < 0)
+		return (1);
+	if (argc)
+		;
+	if (av)
+		;
 	token_list = NULL;
 	while (1)
 	{
@@ -30,6 +38,7 @@ int	main(void)
 			break ;
 		printf("Recebido: %s\n", line);
 		get_token(&token_list, line);
+		expand_all_tokens(token_list, vars);
 
 		p_state.current = token_list;
 		cmd_pipeline = parse_pipeline(&p_state);
@@ -70,5 +79,6 @@ int	main(void)
 		free(line);
 		free_command_list(cmd_pipeline);
 	}
+	free_vars(vars);
 	return (0);
 }

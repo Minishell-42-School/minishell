@@ -14,6 +14,10 @@ RLFLAGS = -lreadline -lncurses
 # NORMINETTE = norminette
 # FLAGS = -R CheckForbiddenSourceHeader
 
+VALGRIND = valgrind
+SUPP = --suppressions=readline.supp --leak-check=full
+IGNRL = --leak-check=full --show-leak-kinds=definite
+
 SRCS = main.c prompt.c free_all.c signal.c \
 	token/token.c token/create_token.c token/get_env_var.c token/read_token.c \
 	token/read_operator.c token/verif_quote.c token/verif_valid_op.c token/verif_value.c \
@@ -32,6 +36,11 @@ all: $(OBJDIR) $(NAME)
 
 # norminette:
 # 	$(NORMINETTE) $(FLAGS) $(SRCS)
+val:
+	$(VALGRIND) ./minishell
+
+val_sup:
+	$(VALGRIND) $(IGNRL) ./minishell
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)

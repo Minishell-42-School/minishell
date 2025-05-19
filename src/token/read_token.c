@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:02:00 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/04/28 11:35:40 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/12 11:43:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,10 @@ static char	*clean_quote(char *str)
 	char	quote;
 	char	*clean_str;
 
+	if (ft_strlen(str) - nbr_q(str) == 0)
+		return (NULL);
 	clean_str = malloc((ft_strlen(str) - nbr_q(str) + 1) * sizeof(char));
-	if (!clean_str)
+	if (!clean_str || (ft_strlen(str) - nbr_q(str) == 0))
 		return (NULL);
 	i = 0;
 	j = 0;

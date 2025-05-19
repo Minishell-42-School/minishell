@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:21:50 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/15 17:04:52 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/19 12:20:11 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 // List Structur
 typedef struct s_list
 {
-	void			*content;
-	struct s_list	*next;
+  void			*content;
+  struct s_list	*next;
 }					t_list;
 
 # ifndef BUFFER_SIZE

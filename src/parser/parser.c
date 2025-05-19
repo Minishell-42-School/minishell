@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/08 11:55:55 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/08 15:45:34 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,14 +43,12 @@ t_command	*parse_command(t_parser_state *p_state)
 	return (cmd);
 }
 
-//cmd->args[0] is the name of the command. 
+//cmd->args[0] is the name of the command.
 t_command	*check_command_args(t_parser_state *p_state, t_command *cmd)
 {
 	t_token	*token;
 	int		args_count;
-	int		i;
 
-	i = 0;
 	token = p_state->current;
 	args_count = count_args(p_state);
 	cmd->args_count = args_count;
@@ -88,7 +86,7 @@ t_command	*check_redirections(t_parser_state *p_state, t_command	*cmd)
 	return (cmd);
 }
 
-//assigns the redirection type to t_redirections which is a 
+//assigns the redirection type to t_redirections which is a
 //component of t_command advances to the next token which must
 //be a word and assign the word as redirection file
 t_redirections	*parse_redirection(t_parser_state *p_state)

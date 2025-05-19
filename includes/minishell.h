@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/19 11:32:08 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/19 11:40:44 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,20 @@
 
 # include "../libft/libft.h"
 # include <stdio.h> // printf, readline
-# include <unistd.h> // write, pipe, fork, dup2, execvp
+# include <unistd.h> // write, pipe, fork, dup2, execve
 # include <stdlib.h> // malloc, free, exit
+# include <signal.h> // signal, sigaction, sigemptyset, sigaddset
+# include <sys/types.h> // pid_t
+# include <sys/wait.h> // wait
 # include <readline/readline.h> // readline
 # include <readline/history.h> // add_history
+# include <stddef.h> //size_t: verificar. deu pau no size_t.
 							// rl -> clear, new_line, replace, redisplay
-# include <signal.h> // signal, sigaction, sigemptyset, sigaddset
 
 # define RESET  "\033[0m"
 # define RED_B  "\033[1;31m"
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
-
-// Signal
-extern int	g_signal;
 
 typedef enum e_token_type
 {
@@ -114,7 +114,7 @@ int				is_wspace(char c);
 
 // create_token.c
 t_token			*init_token(void);
-void			add_back(t_token **token, t_token *new);
+void			add_back(t_token **token, t_token *new_t);
 
 // get_env_var.c
 void			verif_env_var(char *str, t_token *token);
@@ -130,6 +130,9 @@ int				verif_close_q(char *str);
 
 // verif_valid_op.c
 int				verif_valid_op(char *str);
+
+// verif_value.c
+void			verif_value(t_token **token_list);
 // ----Token----
 
 // ----Parser----
@@ -137,8 +140,8 @@ int				verif_valid_op(char *str);
 t_token			*advance_token(t_parser_state *p_state);
 t_command		*init_command_struct(void);
 int				count_args(t_parser_state *p_state);
-t_redirections	*assign_redir_type(t_parser_state *p_state,
-					t_redirections *redir);
+t_redirections	*assign_redir_type(t_parser_state *p_state, \
+				t_redirections *redir);
 t_command		*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
 
 //parser.c
@@ -169,5 +172,18 @@ size_t			calc_new_len(t_token *tok, t_var *vars);
 void			process_env_flags(t_token *tok, t_exp_aux *aux,
 					size_t *len, t_var *vars);
 int				var_name_len(char *tok_val);
+// ----Execution----
+// execution.c
+void			exec_cmd(t_command *cmd);
+
+// get_path.c
+char			*get_path(t_command *cmd);
+
+// external_cmd.c
+void			exec_external_cmd(t_command *cmd);
+
+// pipe.c
+void			exec_pipeline(t_command *cmd);
+// ----Execution----
 
 #endif

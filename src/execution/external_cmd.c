@@ -1,45 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   create_token.c                                     :+:      :+:    :+:   */
+/*   external_cmd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 16:33:59 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 15:43:25 by jcosta-b         ###   ########.fr       */
+/*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
+/*   Updated: 2025/05/08 16:33:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_token	*init_token(void)
+void	exec_external_cmd(t_command *cmd)
 {
-	t_token	*new_t;
+	char	*path;
+	pid_t	pid;
 
-	new_t = malloc(sizeof(t_token));
-	if (!new_t)
-		return (NULL);
-	new_t->type = WORD;
-	new_t->value = NULL;
-	new_t->nbr_env_var = 0;
-	new_t->expand_var = NULL;
-	new_t->next = NULL;
-	return (new_t);
-}
-
-void	add_back(t_token **token, t_token *new_t)
-{
-	t_token	*temp;
-
-	if (!token || !new_t)
+	path = get_path(cmd);
+	if (!path)
 		return ;
-	if (!*token)
+	pid = fork();
+	if (pid == 0)
 	{
-		*token = new_t;
-		return ;
+		execve(path, cmd->args, NULL);
+		perror("Error execve");
+		exit(EXIT_FAILURE);
 	}
-	temp = *token;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new_t;
+	else if (pid > 0)
+		waitpid(pid, NULL, 0);
+	else
+		perror("Error fork");
+	if (!ft_strchr(cmd->command_name, '/'))
+		free(path);
 }

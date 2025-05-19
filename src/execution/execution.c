@@ -1,27 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/19 12:19:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/19 12:19:54 by ekeller-@st      ###   ########.fr       */
+/*   Created: 2025/05/08 15:32:49 by jcosta-b          #+#    #+#             */
+/*   Updated: 2025/05/19 11:42:43 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../../includes/minishell.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+// REVER SOH MONTEI COMO "MODELO"
+void	exec_cmd(t_command *cmd)
 {
-	int	i;
-
-	i = 0;
-	while (s1[i] && s2[i])
-	{
-		if (s1[i] != s2[i])
-			return ((unsigned char)s1[i] - (unsigned char)s2[i]);
-		i++;
-	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	// if (is_builtin(cmd))
+	// 	exec_builtin(cmd);
+	// else if (has_pipe(cmd))
+	// 	exec_pipeline(cmd);
+	// else
+	if (cmd->next)
+		exec_pipeline(cmd);
+	else
+		exec_external_cmd(cmd);
 }

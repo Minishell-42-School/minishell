@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_syntax.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:07:16 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/08 11:59:18 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/08 15:43:54 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	check_syntax(t_parser_state *token)
 	{
 		printf("minishell: syntax error near unexpected token `|'\n");
 		return (1);
-	}	
+	}
 	while (temp.current && temp.current->type != PIPE)
 		temp.current = temp.current->next;
 	if (!temp.current)

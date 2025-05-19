@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/15 16:36:18 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/19 11:20:15 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	main(int argc, char **av, char **envp)
 		cmd_pipeline = parse_pipeline(&p_state);
 		if (!cmd_pipeline)
 		{
-			clean_all(&token_list);
+			free_token_lst(&token_list);
 			free(line);
 			continue;
 		}
@@ -75,7 +75,7 @@ int	main(int argc, char **av, char **envp)
 			cmd = cmd->next;
 			cmd_num++;
 		}
-		clean_all(&token_list);
+		free_token_lst(&token_list);
 		free(line);
 		free_command_list(cmd_pipeline);
 	}

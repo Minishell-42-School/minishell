@@ -11,15 +11,14 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror
 RLFLAGS = -lreadline -lncurses
 
-SRCS = env_expansion/set_env_vars.c env_expansion/expansion.c \
-			env_expansion/expansion_utils.c \
-			main.c prompt.c clean_all.c signal.c \
+SRCS = 	main.c prompt.c free_all.c signal.c \
 			token/token.c token/create_token.c  token/get_env_var.c \
 			token/read_operator.c token/read_token.c token/verif_quote.c \
 			token/verif_valid_op.c \
 			parser/parser_utils.c parser/parser.c \
 			parser/check_syntax.c \
-			
+			env_expansion/set_env_vars.c env_expansion/expansion.c \
+			env_expansion/expansion_utils.c \
 
 
 OBJS = $(SRCS:%.c=%.o)

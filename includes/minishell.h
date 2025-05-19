@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/16 14:49:27 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/19 11:10:40 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,12 @@ typedef struct s_exp_aux
 // prompt.c
 char			*get_prompt(void);
 
-// clean_all.c
-void			clean_all(t_token **token_lst);
-void			free_vars(t_var *vars);
+// free_all.c
+void			free_token_lst(t_token **token_lst);
 void			free_redirections(t_redirections *redir);
 void			free_command_list(t_command *head);
+void			free_all(t_token **token_lst, t_command **cmd);
+void			free_vars(t_var *vars);
 
 // ----Token----
 // token.c

@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/19 11:40:44 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/19 15:03:05 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <sys/wait.h> // wait
 # include <readline/readline.h> // readline
 # include <readline/history.h> // add_history
-# include <stddef.h> //size_t: verificar. deu pau no size_t.
 							// rl -> clear, new_line, replace, redisplay
 
 # define RESET  "\033[0m"

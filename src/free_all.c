@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/19 11:06:16 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/19 11:31:03 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	free_token_lst(t_token **token_lst)
 	*token_lst = NULL;
 }
 
-void	free_redirections(t_redirections *redir)
+static void	free_redirections(t_redirections *redir)
 {
 	t_redirections	*temp;
 
@@ -44,7 +44,7 @@ void	free_redirections(t_redirections *redir)
 	}
 }
 
-void	free_command_list(t_command *head)
+static void	free_command_list(t_command *head)
 {
 	t_command	*temp;
 	int			i;

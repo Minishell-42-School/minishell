@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/19 11:10:40 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/19 11:32:08 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,10 +100,11 @@ char			*get_prompt(void);
 
 // free_all.c
 void			free_token_lst(t_token **token_lst);
-void			free_redirections(t_redirections *redir);
-void			free_command_list(t_command *head);
 void			free_all(t_token **token_lst, t_command **cmd);
 void			free_vars(t_var *vars);
+
+// signal.c
+void			config_signals(void);
 
 // ----Token----
 // token.c
@@ -151,8 +152,6 @@ t_redirections	*parse_redirection(t_parser_state *p_state);
 int				check_syntax(t_parser_state *token);
 void			ft_error(char *msg);
 // ----Parser----
-// signal.c
-void			config_signals(void);
 
 //set_env_vars.c
 int				init_vars_from_envp(t_var **vars, char **envp);

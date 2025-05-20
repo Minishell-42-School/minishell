@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/19 15:03:05 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/20 16:49:52 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,9 @@ typedef struct s_exp_aux
 	int					i;
 	int					j;
 	int					k;
-}	t_exp_aux;
+	int 				count;
+	size_t				len;
+}	t_aux;
 
 // Functions
 
@@ -99,8 +101,11 @@ char			*get_prompt(void);
 
 // free_all.c
 void			free_token_lst(t_token **token_lst);
-void			free_all(t_token **token_lst, t_command **cmd);
+void			free_all(t_token **token_lst, t_command **cmd, char **new_envp);
 void			free_vars(t_var *vars);
+
+//free_envp.c
+void	free_new_envp(char **new_envp);
 
 // signal.c
 void			config_signals(void);
@@ -168,9 +173,16 @@ int				expand_one_token(t_token *tok, t_var *vars);
 //expansion_utils.c
 char			*var_get(t_var *vars, const char *key);
 size_t			calc_new_len(t_token *tok, t_var *vars);
-void			process_env_flags(t_token *tok, t_exp_aux *aux,
+void			process_env_flags(t_token *tok, t_aux *aux,
 					size_t *len, t_var *vars);
 int				var_name_len(char *tok_val);
+
+//envp_array.c
+char			**var_to_envp(t_var *vars);
+
+//local_vars.c
+int				try_set_local_var(t_command *cmd_pipeline, t_var **vars);
+
 // ----Execution----
 // execution.c
 void			exec_cmd(t_command *cmd);

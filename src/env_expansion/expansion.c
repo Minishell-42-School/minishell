@@ -6,15 +6,15 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:47:50 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/15 18:31:46 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/20 11:59:30 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static char	*build_expanded(t_token *tok, t_var *vars, size_t new_len);
-static void	process_build(t_token *tok, t_exp_aux *aux, t_var *vars, char *new);
-static void	process_literal(t_token *tok, t_exp_aux *aux, char *new);
+static void	process_build(t_token *tok, t_aux *aux, t_var *vars, char *new);
+static void	process_literal(t_token *tok, t_aux *aux, char *new);
 
 void	expand_all_tokens(t_token *head, t_var *vars)
 {
@@ -46,7 +46,7 @@ int	expand_one_token(t_token *tok, t_var *vars)
 static char	*build_expanded(t_token *tok, t_var *vars, size_t new_len)
 {
 	char		*new_value;
-	t_exp_aux	aux;
+	t_aux	aux;
 
 	aux.i = 0;
 	aux.j = 0;
@@ -67,7 +67,7 @@ static char	*build_expanded(t_token *tok, t_var *vars, size_t new_len)
 	return (new_value);
 }
 
-static void	process_build(t_token *tok, t_exp_aux *aux, t_var *vars, char *new)
+static void	process_build(t_token *tok, t_aux *aux, t_var *vars, char *new)
 {
 	char	*exp_value;
 	int		exp_len;
@@ -86,7 +86,7 @@ static void	process_build(t_token *tok, t_exp_aux *aux, t_var *vars, char *new)
 	aux->k++;
 }
 
-static void	process_literal(t_token *tok, t_exp_aux *aux, char *new)
+static void	process_literal(t_token *tok, t_aux *aux, char *new)
 {
 	if (tok->expand_var && tok->value[aux->i] == '$'
 		&& aux->k < tok->nbr_env_var)

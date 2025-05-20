@@ -20,7 +20,8 @@ SRCS = main.c prompt.c free_all.c signal.c \
 	parser/parser_utils.c parser/parser.c  parser/check_syntax.c \
 	execution/execution.c execution/get_path.c execution/external_cmd.c execution/pipe.c \
 	env_expansion/set_env_vars.c env_expansion/expansion.c \
-	env_expansion/expansion_utils.c \
+	env_expansion/expansion_utils.c env_expansion/envp_array.c \
+	env_expansion/local_vars.c free_envp.c
 
 OBJS = $(SRCS:%.c=%.o)
 

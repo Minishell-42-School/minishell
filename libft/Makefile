@@ -11,7 +11,7 @@ SRC = \
 	ft_lstdelone.c ft_lstclear.c ft_lstiter.c ft_lstmap.c \
 	ft_printf.c printf_putchar.c printf_putstr.c printf_putnbr.c \
 	printf_putnbr_unsig.c printf_puthex.c printf_putptr.c get_next_line.c \
-	ft_strcmp.c ft_strndup.c
+	ft_strcmp.c ft_strndup.c ft_strcpy.c
 
 DESP = libft.h
 OBJ = $(SRC:.c=.o)

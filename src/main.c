@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:04:27 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/20 17:17:48 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/21 13:55:06 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ int	main(int argc, char **av, char **envp)
 			if (try_set_local_var(cmd_pipeline, &vars) == 1)
 			{
 				free_all(&token_list, &cmd_pipeline, new_envp);
+				new_envp = NULL;
 				free(line);
 				continue;
 			}
@@ -53,6 +54,7 @@ int	main(int argc, char **av, char **envp)
 				exec_cmd(cmd_pipeline);
 		}
 		free_all(&token_list, &cmd_pipeline, new_envp);
+		new_envp = NULL;
 		free(line);
 	}
 	free_vars(vars);

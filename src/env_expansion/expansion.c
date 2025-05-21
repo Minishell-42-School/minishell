@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:47:50 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/20 11:59:30 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/21 14:12:51 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	expand_one_token(t_token *tok, t_var *vars)
 
 static char	*build_expanded(t_token *tok, t_var *vars, size_t new_len)
 {
-	char		*new_value;
+	char	*new_value;
 	t_aux	aux;
 
 	aux.i = 0;

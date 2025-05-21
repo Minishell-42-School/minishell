@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/20 16:49:52 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/21 14:04:54 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ typedef struct s_exp_aux
 	int					i;
 	int					j;
 	int					k;
-	int 				count;
+	int					count;
 	size_t				len;
 }	t_aux;
 
@@ -105,7 +105,7 @@ void			free_all(t_token **token_lst, t_command **cmd, char **new_envp);
 void			free_vars(t_var *vars);
 
 //free_envp.c
-void	free_new_envp(char **new_envp);
+void			free_new_envp(char **new_envp);
 
 // signal.c
 void			config_signals(void);

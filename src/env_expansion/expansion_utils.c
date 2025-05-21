@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 18:23:56 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/20 11:58:54 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/21 14:12:36 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ char	*var_get(t_var *vars, const char *key)
 size_t	calc_new_len(t_token *tok, t_var *vars)
 {
 	t_aux	aux;
-	size_t		len;
+	size_t	len;
 
 	aux.i = 0;
 	aux.k = 0;

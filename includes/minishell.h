@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/21 14:04:54 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/21 17:55:50 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -196,5 +196,13 @@ void			exec_external_cmd(t_command *cmd);
 // pipe.c
 void			exec_pipeline(t_command *cmd);
 // ----Execution----
+
+// ----Built_ins----
+
+//export_builtin.c
+void			export_builtin(t_command *cmd, t_var *vars);
+void			unset_builtin(t_command *cmd, t_var *vars);
+
+// ----Built_ins----
 
 #endif

@@ -13,17 +13,39 @@
 #include "../../includes/minishell.h"
 
 // REVER SOH MONTEI COMO "MODELO"
+// void	exec_cmd(t_command *cmd)
+// {
+// 	// if (is_builtin(cmd))
+// 	// 	exec_builtin(cmd);
+// 	// else if (has_pipe(cmd))
+// 	// 	exec_pipeline(cmd);
+// 	// else
+// 	if (cmd->redirs)
+// 		exec_redir(cmd);
+// 	// if (cmd->next)
+// 	// 	exec_pipeline(cmd);
+// 	else
+// 		exec_external_cmd(cmd);
+// }
+
 void	exec_cmd(t_command *cmd)
 {
-	// if (is_builtin(cmd))
+	if (!cmd)
+		return ;
+	if (cmd->next)
+	{
+		exec_pipeline(cmd);
+		return ;
+	}
+	// if (is_builtin(cmd) && !cmd->redirs)
+	// {
 	// 	exec_builtin(cmd);
-	// else if (has_pipe(cmd))
-	// 	exec_pipeline(cmd);
-	// else
+	// 	return ;
+	// }
 	if (cmd->redirs)
+	{
 		exec_redir(cmd);
-	// if (cmd->next)
-	// 	exec_pipeline(cmd);
-	else
-		exec_external_cmd(cmd);
+		return ;
+	}
+	exec_external_cmd(cmd);
 }

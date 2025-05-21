@@ -27,6 +27,8 @@ static void	child_proc(t_command *cmd, int control_fd, int fd[2])
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
+  if (cmd->redirs)
+		definy_fd(cmd);
 	path = get_path(cmd);
 	execve(path, cmd->args, NULL);
 	perror("execve");

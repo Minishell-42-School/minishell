@@ -12,10 +12,18 @@
 
 #include "../includes/minishell.h"
 
+int g_exit_signal;
+
 char	*get_prompt(void)
 {
 	char	*input;
 
+  // if (g_exit_signal == 130)
+	// {
+    // printf("Prompt.. %d\n", g_exit_signal);
+	// 	g_exit_signal = 0;
+	// 	return (NULL);
+	// }
 	config_signals();
 	input = readline(GREEN"Minishell~> "RESET);
 	if (!input)

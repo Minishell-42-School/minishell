@@ -30,6 +30,8 @@
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
 
+// extern int	g_exit_signal;
+
 typedef enum e_token_type
 {
 	WORD,
@@ -159,13 +161,15 @@ void			exec_external_cmd(t_command *cmd);
 void			exec_pipeline(t_command *cmd);
 
 // --Redirections--
-// redir.c
+// exec_redir.c
 void	exec_redir(t_command *cmd);
+void	definy_fd(t_command *cmd);
 
-// handle_fd.c
+// redir_utils.c
 void	handle_out(t_redirections *redir);
 void	handle_in(t_redirections *redir);
 void	handle_creat(t_redirections *redir);
+void	handle_heredoc(t_redirections *redir);
 // ----Execution----
 
 #endif

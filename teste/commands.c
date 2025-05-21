@@ -176,4 +176,10 @@ void	exec_pipe(void)
 	exec_cmd("echo strawberry | tr 'a-z' 'A-Z'", NULL, &test_nbr);
 	exec_cmd("ls | grep .c | wc -l", NULL, &test_nbr);
 	exec_cmd("cat /etc/passwd | head -n 3 | wc -l", NULL, &test_nbr);
+
+  // pipe and redirs
+  exec_cmd("ls | grep .c > files_c.txt", NULL, &test_nbr);
+  exec_cmd("cat < arquivos_c.txt | sort", NULL, &test_nbr);
+  exec_cmd("cat < arquivos_c.txt | grep main | sort > saida.txt", NULL, &test_nbr);
+  exec_cmd("cat << EOF | grep ola > result.txt", NULL, &test_nbr);
 }

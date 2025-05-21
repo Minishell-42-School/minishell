@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/16 12:47:17 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/21 13:44:23 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,17 +41,17 @@ static void	child_proc(t_command *cmd)
 {
 	char	*path;
 
-  signal(SIGINT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	definy_fd(cmd);
-  path = get_path(cmd);
-  if (!path)
-  {
-    perror("get_path");
-    exit(EXIT_FAILURE);
-  }
-  execve(path, cmd->args, NULL);
-  perror("execve");
-  exit(EXIT_FAILURE);
+	path = get_path(cmd);
+	if (!path)
+	{
+		perror("get_path");
+		exit(EXIT_FAILURE);
+	}
+	execve(path, cmd->args, NULL);
+	perror("execve");
+	exit(EXIT_FAILURE);
 }
 
 void	exec_redir(t_command *cmd)

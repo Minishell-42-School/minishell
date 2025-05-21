@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/14 18:13:39 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/21 16:55:20 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
 
-// extern int	g_exit_signal;
+# define SIG_HEREDOC "Warning: Use the delimiter by end-of-file, \
+or press Ctrl + C to close"
 
 typedef enum e_token_type
 {
@@ -158,18 +159,19 @@ char			*get_path(t_command *cmd);
 void			exec_external_cmd(t_command *cmd);
 
 // pipe.c
-void			exec_pipeline(t_command *cmd);
+void			exec_pipe(t_command *cmd);
 
 // --Redirections--
 // exec_redir.c
-void	exec_redir(t_command *cmd);
-void	definy_fd(t_command *cmd);
+void			exec_redir(t_command *cmd);
+void			definy_fd(t_command *cmd);
 
 // redir_utils.c
-void	handle_out(t_redirections *redir);
-void	handle_in(t_redirections *redir);
-void	handle_creat(t_redirections *redir);
-void	handle_heredoc(t_redirections *redir);
+void			handle_out(t_redirections *redir);
+void			handle_in(t_redirections *redir);
+void			handle_creat(t_redirections *redir);
+void			handle_heredoc(t_redirections *redir);
+void			loop_heredoc(t_redirections *redir, int fd);
 // ----Execution----
 
 #endif

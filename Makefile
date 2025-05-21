@@ -23,7 +23,8 @@ SRCS = main.c prompt.c free_all.c signal.c \
 	token/read_operator.c token/verif_quote.c token/verif_valid_op.c token/verif_value.c \
 	parser/parser_utils.c parser/parser.c  parser/check_syntax.c \
 	execution/execution.c execution/get_path.c execution/external_cmd.c execution/pipe.c \
-	execution/redirections/exec_redir.c execution/redirections/redir_utils.c\
+	execution/redirections/exec_redir.c execution/redirections/redir_utils.c \
+	 execution/redirections/heredoc.c \
 	# parser/free_parser.c
 
 OBJS = $(SRCS:%.c=%.o)

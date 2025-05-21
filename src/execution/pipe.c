@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/21 17:11:46 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/21 18:11:16 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,9 @@ static void child_proc(t_command *cmd, int control_fd, int fd[2])
 	char	*path;
 	int		hdoc_control = 0;
 
+	signal(SIGINT, SIG_DFL);
 	if (cmd->redirs)
 		verif_heredoc(cmd->redirs, &hdoc_control);
-	if (hdoc_control)
-		signal(SIGINT, SIG_DFL);
 	if (!hdoc_control && control_fd != -1)
 	{
 		dup2(control_fd, STDIN_FILENO);

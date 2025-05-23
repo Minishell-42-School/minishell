@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:04:27 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/21 13:55:06 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/23 10:31:23 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int	main(int argc, char **av, char **envp)
 	t_parser_state	p_state;
 	t_var			*vars;
 	char			**new_envp;
+	//t_var			*export_test;
 
 	token_list = NULL;
 	cmd_pipeline = NULL;
@@ -47,11 +48,14 @@ int	main(int argc, char **av, char **envp)
 				free(line);
 				continue;
 			}
+			// export_builtin(cmd_pipeline, &vars);
+			// export_test = var_find(vars, "v1");
+			// printf("%s=%s\n%i\n", export_test->key, export_test->value, export_test->exported);
 			//use new_envp somewhere in execv() during execution.
 			//need to check creation in case of "export";
 			new_envp = var_to_envp(vars); 
 			if (cmd_pipeline)
-				exec_cmd(cmd_pipeline);
+			 	exec_cmd(cmd_pipeline);
 		}
 		free_all(&token_list, &cmd_pipeline, new_envp);
 		new_envp = NULL;

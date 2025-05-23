@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/21 17:55:50 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/23 12:29:01 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -160,6 +160,7 @@ int				check_syntax(t_parser_state *token);
 void			ft_error(char *msg);
 // ----Parser----
 
+// ----Environment_&_Expansion----
 //set_env_vars.c
 int				init_vars_from_envp(t_var **vars, char **envp);
 int				split_env(const char *env, char **key, char **value);
@@ -182,6 +183,9 @@ char			**var_to_envp(t_var *vars);
 
 //local_vars.c
 int				try_set_local_var(t_command *cmd_pipeline, t_var **vars);
+int				is_valid_identifier(char *key);
+
+// ----Environment_&_Exapansion----
 
 // ----Execution----
 // execution.c
@@ -200,8 +204,10 @@ void			exec_pipeline(t_command *cmd);
 // ----Built_ins----
 
 //export_builtin.c
-void			export_builtin(t_command *cmd, t_var *vars);
-void			unset_builtin(t_command *cmd, t_var *vars);
+int				export_builtin(t_command *cmd, t_var **vars);
+
+//export_builtin.c
+int	unset_builtin(t_command *cmd, t_var **vars);
 
 // ----Built_ins----
 

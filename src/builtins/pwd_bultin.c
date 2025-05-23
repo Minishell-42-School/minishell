@@ -1,29 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   execution.c                                        :+:      :+:    :+:   */
+/*   pwd_bultin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/08 15:32:49 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/22 15:14:15 by ekeller-@st      ###   ########.fr       */
+/*   Created: 2025/05/23 12:32:20 by ekeller-@st       #+#    #+#             */
+/*   Updated: 2025/05/23 15:29:26 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// REVER SOH MONTEI COMO "MODELO"
-// lembrar the atualizar envp depois de export e unset.
-// talvez dentro de is_builtin.
-void	exec_cmd(t_command *cmd)
+int	pwd_builtin(void)
 {
-	// if (is_builtin(cmd))
-	// 	exec_builtin(cmd);
-	// else if (has_pipe(cmd))
-	// 	exec_pipeline(cmd);
-	// else
-	if (cmd->next)
-		exec_pipeline(cmd);
-	else
-		exec_external_cmd(cmd);
+	char	*cwd;
+
+	cwd = getcwd(NULL, 0);
+	if (!cwd)
+	{
+		perror("pwd");
+		return (1);
+	}
+	printf("%s\n", cwd);
+	free(cwd);
+	return (0);
 }

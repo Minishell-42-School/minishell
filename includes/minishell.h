@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/23 12:29:01 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/26 18:39:14 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,16 @@ typedef struct s_exp_aux
 	int					count;
 	size_t				len;
 }	t_aux;
+
+typedef struct	s_shell
+{
+	t_token			*token_list;
+	t_command		*cmd;
+	t_var			*vars;
+	char			**new_envp;
+	char			*line;
+	t_parser_state	p_state;
+}	t_shell;
 
 // Functions
 
@@ -189,7 +199,7 @@ int				is_valid_identifier(char *key);
 
 // ----Execution----
 // execution.c
-void			exec_cmd(t_command *cmd);
+void			exec_cmd(t_shell *shell);
 
 // get_path.c
 char			*get_path(t_command *cmd);
@@ -207,7 +217,7 @@ void			exec_pipeline(t_command *cmd);
 int				export_builtin(t_command *cmd, t_var **vars);
 
 //export_builtin.c
-int	unset_builtin(t_command *cmd, t_var **vars);
+int				unset_builtin(t_command *cmd, t_var **vars);
 
 // ----Built_ins----
 

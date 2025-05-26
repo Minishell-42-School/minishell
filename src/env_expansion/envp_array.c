@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:07:47 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/21 14:59:00 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/26 18:09:36 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static int	build_envp(t_var *v, t_aux *aux, char **envp);
 
-char	**var_to_envp(t_var *vars)
+void	var_to_envp(t_var *vars)
 {
 	t_aux	aux;
 	t_var	*v;
@@ -31,15 +31,15 @@ char	**var_to_envp(t_var *vars)
 	}
 	envp = malloc((aux.count + 1) * sizeof(char *));
 	if (!envp)
-		return (NULL);
+		return (-1);
 	v = vars;
 	if (build_envp(v, &aux, envp) < 0)
 	{
 		free(envp);
-		return (NULL);
+		return (-1);
 	}
 	envp[aux.i] = NULL;
-	return (envp);
+	return (0);
 }
 
 static int	build_envp(t_var *v, t_aux *aux, char **envp)

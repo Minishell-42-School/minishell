@@ -12,25 +12,25 @@
 
 #include "../../includes/minishell.h"
 
-void	exec_external_cmd(t_command *cmd)
-{
-	char	*path;
-	pid_t	pid;
+// void	exec_external_cmd(t_command *cmd)
+// {
+// 	char	*path;
+// 	pid_t	pid;
 
-	path = get_path(cmd);
-	if (!path)
-		return ;
-	pid = fork();
-	if (pid == 0)
-	{
-		execve(path, cmd->args, NULL);
-		perror("Error execve");
-		exit(EXIT_FAILURE);
-	}
-	else if (pid > 0)
-		waitpid(pid, NULL, 0);
-	else
-		perror("Error fork");
-	if (!ft_strchr(cmd->command_name, '/'))
-		free(path);
-}
+// 	path = get_path(cmd);
+// 	if (!path)
+// 		return ;
+// 	pid = fork();
+// 	if (pid == 0)
+// 	{
+// 		execve(path, cmd->args, NULL);
+// 		perror("Error execve");
+// 		exit(EXIT_FAILURE);
+// 	}
+// 	else if (pid > 0)
+// 		waitpid(pid, NULL, 0);
+// 	else
+// 		perror("Error fork");
+// 	if (!ft_strchr(cmd->command_name, '/'))
+// 		free(path);
+// }

@@ -23,10 +23,11 @@ int	main(void)
 	cmd_pipeline = NULL;
 	while (1)
 	{
-		line = get_prompt();
+    line = get_prompt();
 		if (!line)
 			break ;
 		get_token(&token_list, line);
+    free(line);
 		if (token_list)
 		{
 			p_state.current = token_list;
@@ -35,7 +36,8 @@ int	main(void)
 				exec_cmd(cmd_pipeline);
 		}
 		free_all(&token_list, &cmd_pipeline);
-		free(line);
+
+    printf(".... %d\n", g_exit_status);
 	}
 	return (0);
 }

@@ -30,8 +30,9 @@
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
 
-# define SIG_HEREDOC "Warning: Use the delimiter by end-of-file, \
-or press Ctrl + C to close"
+# define SIG_HEREDOC "Warning: here-document delimited by end-of-file"
+
+extern volatile sig_atomic_t g_exit_status;
 
 typedef enum e_token_type
 {
@@ -93,6 +94,10 @@ void			free_token_lst(t_token **token_lst);
 
 // signal.c
 void			config_signals(void);
+void	    heredoc_signals(void);
+void	    ign_signals(void);
+
+void	exec_signals(void);
 
 // ----Token----
 // token.c
@@ -160,11 +165,14 @@ void			exec_external_cmd(t_command *cmd);
 
 // pipe.c
 void			exec_pipe(t_command *cmd);
+void	verif_heredoc(t_redirections *redir, int *hdoc_control);
 
 // --Redirections--
 // exec_redir.c
 void			exec_redir(t_command *cmd);
 void			definy_fd(t_command *cmd);
+
+void	here_doc_input(char *eof, int *save_std_fd);
 
 // redir_utils.c
 void			handle_out(t_redirections *redir);

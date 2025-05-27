@@ -181,11 +181,20 @@ void	exec_pipe(t_command *cmd)
 			child_proc(cmd, control_fd, fd);
 		else
 		{
+      // parent_proc(&control_fd, fd, cmd->next != NULL);
 			parent_proc(cmd, &control_fd, fd);
 			cmd = cmd->next;
 		}
 	}
-	while (wait(NULL) > 0)
-	{
-	}
+	// while (wait(NULL) > 0)
+	// {
+	// }
+  int status;
+  while (wait(&status) > 0)
+  {
+      if (WIFSIGNALED(status))
+        g_exit_status = WEXITSTATUS(status);
+      //     g_exit_status = 128 + WTERMSIG(status);
+      // else
+  }
 }

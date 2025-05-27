@@ -12,13 +12,15 @@
 
 #include "../includes/minishell.h"
 
+volatile sig_atomic_t g_exit_status = 0;
+
 char	*get_prompt(void)
 {
 	char	*input;
 
 	config_signals();
-	input = readline(GREEN"Minishell~> "RESET);
-	if (!input)
+  input = readline(GREEN"Minishell~> "RESET);
+  if (!input)
 	{
 		printf("%s...Exit Minishell...\n%s", YELLOW, RESET);
 		rl_clear_history();

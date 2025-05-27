@@ -30,8 +30,6 @@
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
 
-# define SIG_HEREDOC "Warning: here-document delimited by end-of-file"
-
 extern volatile sig_atomic_t g_exit_status;
 
 typedef enum e_token_type
@@ -82,22 +80,20 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-// Functions
+// --- Functions ---
 
 // prompt.c
 char			*get_prompt(void);
 
 // free_all.c
-// void			clean_all(t_token **token_lst);
 void			free_all(t_token **token_lst, t_command **cmd);
 void			free_token_lst(t_token **token_lst);
+void			free_command_list(t_command *head);
 
 // signal.c
 void			config_signals(void);
-void	    heredoc_signals(void);
-void	    ign_signals(void);
-
-void	exec_signals(void);
+void			heredoc_signals(void);
+void			ign_signals(void);
 
 // ----Token----
 // token.c
@@ -107,7 +103,7 @@ int				is_wspace(char c);
 
 // create_token.c
 t_token			*init_token(void);
-void			add_back(t_token **token, t_token *new_t);
+void				add_back(t_token **token, t_token *new_t);
 
 // get_env_var.c
 void			verif_env_var(char *str, t_token *token);
@@ -130,25 +126,21 @@ void			verif_value(t_token **token_list);
 
 // ----Parser----
 //parser_utils.c
-t_token			*advance_token(t_parser_state *p_state);
-t_command		*init_command_struct(void);
-int				count_args(t_parser_state *p_state);
+int							count_args(t_parser_state *p_state);
+t_token					*advance_token(t_parser_state *p_state);
+t_command				*init_command_struct(void);
+t_command				*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
 t_redirections	*assign_redir_type(t_parser_state *p_state, \
 				t_redirections *redir);
-t_command		*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
 
 //parser.c
-t_command		*parse_pipeline(t_parser_state *p_state);
-t_command		*parse_command(t_parser_state *p_state);
-t_command		*check_command_args(t_parser_state *p_state, t_command *cmd);
-t_command		*check_redirections(t_parser_state *p_state, t_command	*cmd);
+t_command				*parse_pipeline(t_parser_state *p_state);
+t_command				*parse_command(t_parser_state *p_state);
+t_command				*check_command_args(t_parser_state *p_state, t_command *cmd);
+t_command				*check_redirections(t_parser_state *p_state, t_command	*cmd);
 t_redirections	*parse_redirection(t_parser_state *p_state);
 
-// //parser_free.c
-// void			free_redirections(t_redirections *redir);
-// void			free_command_list(t_command *head);
-
-//check_syntax_env.c
+//check_syntax.c
 int				check_syntax(t_parser_state *token);
 void			ft_error(char *msg);
 // ----Parser----
@@ -157,29 +149,26 @@ void			ft_error(char *msg);
 // execution.c
 void			exec_cmd(t_command *cmd);
 
+// exec_simple_cmd.c
+void			exec_simple_cmd(t_command *cmd);
+
 // get_path.c
 char			*get_path(t_command *cmd);
 
-// external_cmd.c
-void			exec_external_cmd(t_command *cmd);
-
 // pipe.c
 void			exec_pipe(t_command *cmd);
-void	verif_heredoc(t_redirections *redir, int *hdoc_control);
+void			verif_heredoc(t_redirections *redir, int *hdoc_control);
 
-// --Redirections--
+// - Redirections -
 // exec_redir.c
-void			exec_redir(t_command *cmd);
 void			definy_fd(t_command *cmd);
-
-void	here_doc_input(char *eof, int *save_std_fd);
-
-// redir_utils.c
 void			handle_out(t_redirections *redir);
 void			handle_in(t_redirections *redir);
 void			handle_creat(t_redirections *redir);
+
+// heredoc.c
 void			handle_heredoc(t_redirections *redir);
-void			loop_heredoc(t_redirections *redir, int fd);
+
 // ----Execution----
 
 #endif

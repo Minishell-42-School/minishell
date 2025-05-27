@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:06:36 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/23 12:27:35 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/27 15:30:00 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ static int	export_print(t_var *vars)
 		}
 		tmp = tmp->next;
 	}
-	return (0);
+	return (1);
 }
 
 static void	var_mark_exported(t_var **vars, char *arg)
@@ -70,11 +70,12 @@ static int	check_var_assignment(t_command *cmd, t_var **vars, int *i)
 	return (0);
 }
 
-int	export_builtin(t_command *cmd, t_var **vars)
+static int	export_builtin(t_command *cmd, t_var **vars)
 {
 	int		i;
 
 	i = 1;
+	
 	if (cmd->args_count == 1)
 		return (export_print(*vars));
 	while (cmd->args[i])
@@ -84,6 +85,16 @@ int	export_builtin(t_command *cmd, t_var **vars)
 		else
 			var_mark_exported(vars, cmd->args[i]);
 		i++;
+	}
+	return (0);
+}
+
+int	exec_export_builtin(t_shell	*s)
+{
+	if (export_builtin(s->cmd, &s->vars) == 0)
+	{
+		var_to_envp(s);
+		return (0);
 	}
 	return (0);
 }

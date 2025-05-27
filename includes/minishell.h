@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/26 18:39:14 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/27 12:38:14 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,8 @@ char			*get_prompt(void);
 
 // free_all.c
 void			free_token_lst(t_token **token_lst);
-void			free_all(t_token **token_lst, t_command **cmd, char **new_envp);
-void			free_vars(t_var *vars);
+void			free_loop(t_token **token_lst, t_command **cmd, char *line);
+void			free_vars_and_envp(t_var *vars, char **new_envp);
 
 //free_envp.c
 void			free_new_envp(char **new_envp);
@@ -189,11 +189,11 @@ void			process_env_flags(t_token *tok, t_aux *aux,
 int				var_name_len(char *tok_val);
 
 //envp_array.c
-char			**var_to_envp(t_var *vars);
+int				var_to_envp(t_shell *s);
 
 //local_vars.c
-int				try_set_local_var(t_command *cmd_pipeline, t_var **vars);
 int				is_valid_identifier(char *key);
+int				exec_set_local_vars(t_shell *shell);
 
 // ----Environment_&_Exapansion----
 
@@ -214,10 +214,16 @@ void			exec_pipeline(t_command *cmd);
 // ----Built_ins----
 
 //export_builtin.c
-int				export_builtin(t_command *cmd, t_var **vars);
+int				exec_export_builtin(t_shell	*s);
 
 //export_builtin.c
-int				unset_builtin(t_command *cmd, t_var **vars);
+int				exec_unset_builtin(t_shell *s);
+
+//cd_builtin.c
+int				exec_cd_builtin(t_shell *s);
+
+//pwd_builtin.c
+int				pwd_builtin(void);
 
 // ----Built_ins----
 

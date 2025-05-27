@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/20 17:16:28 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/27 12:07:53 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	free_command_list(t_command *head)
 	}
 }
 
-void	free_all(t_token **token_lst, t_command **cmd, char **new_envp)
+void	free_loop(t_token **token_lst, t_command **cmd, char *line)
 {
 	if (*token_lst)
 		free_token_lst(token_lst);
@@ -77,11 +77,11 @@ void	free_all(t_token **token_lst, t_command **cmd, char **new_envp)
 		free_command_list(*cmd);
 		*cmd = NULL;
 	}
-	if (new_envp)
-		free_new_envp(new_envp);
+	if (line)
+		free(line);
 }
 
-void	free_vars(t_var *vars)
+void	free_vars_and_envp(t_var *vars, char **new_envp)
 {
 	while (vars)
 	{
@@ -91,4 +91,6 @@ void	free_vars(t_var *vars)
 			free(vars->key);
 		vars = vars->next;
 	}
+	if (new_envp)
+		free_new_envp(new_envp);
 }

@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:41:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/22 12:49:08 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/27 12:44:16 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	is_all_assignments(t_command *cmd)
 	return (1);
 }
 
-int	try_set_local_var(t_command *cmd, t_var **vars)
+static int	try_set_local_var(t_command *cmd, t_var **vars)
 {
 	char	*key;
 	char	*value;
@@ -54,6 +54,16 @@ int	try_set_local_var(t_command *cmd, t_var **vars)
 		i++;
 	}
 	return (1);
+}
+
+int	exec_set_local_vars(t_shell *shell)
+{
+	if (try_set_local_var(shell->cmd, &shell->vars) == 1)
+	{
+		free_loop(&shell->token_list, &shell->cmd, shell->line);
+		return (1);
+	}
+	return (0);
 }
 
 int	is_valid_identifier(char *key)

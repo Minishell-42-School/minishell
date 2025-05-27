@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:36:44 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/23 12:26:46 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/27 15:31:39 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ static int	unset_var(char *key, t_var **vars)
 	return (0);
 }
 
-int	unset_builtin(t_command *cmd, t_var **vars)
+static int	unset_builtin(t_command *cmd, t_var **vars)
 {
 	int	i;
 
@@ -53,4 +53,14 @@ int	unset_builtin(t_command *cmd, t_var **vars)
 		i++;
 	}
 	return (0);
+}
+
+int	exec_unset_builtin(t_shell *s)
+{
+	if (unset_builtin(s->cmd, &s->vars) == 0)
+	{
+		var_to_envp(s);
+		return (0);
+	}
+	return (-1);
 }

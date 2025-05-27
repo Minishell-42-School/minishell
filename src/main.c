@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:04:27 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/26 18:38:12 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/27 15:56:51 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	init_t_shell(t_shell *shell)
 {
-	shell->cmd_pipeline = NULL;
+	shell->cmd = NULL;
 	shell->token_list = NULL;
 	shell->vars = NULL;
 	shell->new_envp = NULL;
@@ -26,11 +26,11 @@ int	main(int argc, char **av, char **envp)
 {
 	t_shell			shell;
 	
-	init_t_shell(&shell);
 	if (argc || av)
 		;
-	if (init_vars_from_envp(&shell.vars, envp) < 0)
-		return (1);
+	init_t_shell(&shell);
+	init_vars_from_envp(&shell.vars, envp);
+	var_to_envp(&shell); 
 	while (1)
 	{
 		shell.line = get_prompt();
@@ -42,23 +42,13 @@ int	main(int argc, char **av, char **envp)
 		{
 			shell.p_state.current = shell.token_list;
 			shell.cmd = parse_pipeline(&shell.p_state);
-			if (try_set_local_var(shell.cmd, &shell.vars) == 1)
-			{
-				free_all(&shell.token_list, &shell.cmd, shell.new_envp);
-				shell.new_envp = NULL;
-				free(shell.line);
+			if (exec_set_local_vars(&shell) == 1)
 				continue;
-			}
-			//use new_envp somewhere in execv() during execution.
-			//need to check creation in case of "export";
-			shell.new_envp = var_to_envp(shell.vars); 
 			if (shell.cmd)
-			 	exec_cmd(&shell);
+				 	exec_cmd(&shell);
+			free_loop(&shell.token_list, &shell.cmd, shell.line);
 		}
-		free_all(&shell.token_list, &shell.cmd, shell.new_envp);
-		shell.new_envp = NULL;
-		free(shell.line);
 	}
-	free_vars(shell.vars);
+	free_vars_and_envp(shell.vars, shell.new_envp);
 	return (0);
 }

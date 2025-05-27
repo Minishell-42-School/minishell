@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:01:41 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/26 18:11:41 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/27 15:31:29 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,10 +55,9 @@ int	cd_builtin(t_command *cmd, t_var **vars)
 	return (0);
 }
 
-int	exec_cd_builtin(t_command *cmd, t_var **vars, char **envp)
+int	exec_cd_builtin(t_shell *s)
 {
-	cd_builtin(cmd, vars);
-	free_new_envp(envp);
-	var_to_envp(*vars);
+	cd_builtin(s->cmd, &s->vars);
+	var_to_envp(s);
 	return (0);
 }

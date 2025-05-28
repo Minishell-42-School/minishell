@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 15:04:27 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/27 15:56:51 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/28 16:45:50 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ void	init_t_shell(t_shell *shell)
 	shell->vars = NULL;
 	shell->new_envp = NULL;
 }
-
-
 
 int	main(int argc, char **av, char **envp)
 {
@@ -48,6 +46,8 @@ int	main(int argc, char **av, char **envp)
 				 	exec_cmd(&shell);
 			free_loop(&shell.token_list, &shell.cmd, shell.line);
 		}
+		else
+			free(shell.line);
 	}
 	free_vars_and_envp(shell.vars, shell.new_envp);
 	return (0);

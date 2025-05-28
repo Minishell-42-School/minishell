@@ -23,7 +23,8 @@ SRCS = main.c prompt.c free_all.c signal.c \
 	env_expansion/expansion_utils.c env_expansion/envp_array.c \
 	env_expansion/local_vars.c free_envp.c \
 	builtins/export_builtin.c builtins/unset_builtin.c \
-	builtins/pwd_builtin.c builtins/cd_builtin.c
+	builtins/pwd_builtin.c builtins/cd_builtin.c \
+	builtins/echo_builtin.c builtins/env_builtin.c
 
 
 OBJS = $(SRCS:%.c=%.o)

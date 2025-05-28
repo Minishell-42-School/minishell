@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/27 12:38:14 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/28 17:26:23 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ int				var_to_envp(t_shell *s);
 
 //local_vars.c
 int				is_valid_identifier(char *key);
+int				try_set_local_var(t_command *cmd, t_var **vars);
 int				exec_set_local_vars(t_shell *shell);
 
 // ----Environment_&_Exapansion----
@@ -224,6 +225,12 @@ int				exec_cd_builtin(t_shell *s);
 
 //pwd_builtin.c
 int				pwd_builtin(void);
+
+//echo_builtin.c
+int				exec_echo_builtin(t_shell *s);
+
+//env_builtin.c
+int				exec_env_builtin(t_shell *s);
 
 // ----Built_ins----
 

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:32:49 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/29 12:46:27 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:41:35 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ void	exec_cmd(t_command *cmd)
 {
 	g_exit_status = 0;
 	if (!cmd)
+		return ;
+	if (verif_heredoc1(cmd->redirs))
 		return ;
 	if (cmd->next)
 	{

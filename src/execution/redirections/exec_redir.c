@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/29 12:46:03 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/29 14:12:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ void	definy_fd(t_command *cmd)
 			handle_out(redir);
 		else if (redir->type == R_IN)
 			handle_in(redir);
-		else
-			handle_heredoc(redir);
+		// else
+		// 	handle_heredoc(redir);
 		redir = redir->next;
 	}
 }

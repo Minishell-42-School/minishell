@@ -155,9 +155,15 @@ void			exec_simple_cmd(t_command *cmd);
 // get_path.c
 char			*get_path(t_command *cmd);
 
+// - Pipe -
 // pipe.c
 void			exec_pipe(t_command *cmd);
+
+// pipe_utils.c
+void			pipe_signal(t_command *cmd, pid_t pid);
 void			verif_heredoc(t_redirections *redir, int *hdoc_control);
+void			definy_redir_fd(t_command *cmd);
+// --------
 
 // - Redirections -
 // exec_redir.c
@@ -168,6 +174,7 @@ void			handle_creat(t_redirections *redir);
 
 // heredoc.c
 void			handle_heredoc(t_redirections *redir);
+// --------
 
 // ----Execution----
 

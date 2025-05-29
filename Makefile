@@ -22,10 +22,10 @@ SRCS = main.c prompt.c free_all.c signal.c \
 	token/token.c token/create_token.c token/get_env_var.c token/read_token.c \
 	token/read_operator.c token/verif_quote.c token/verif_valid_op.c \
 	token/verif_value.c \
-	parser/parser_utils.c parser/parser.c  parser/check_syntax.c \
+	parser/parser_utils.c parser/parser.c parser/check_syntax.c \
 	execution/execution.c execution/exec_simple_cmd.c execution/get_path.c \
-	execution/pipe.c execution/redirections/exec_redir.c \
-	execution/redirections/heredoc.c
+	execution/pipe/pipe.c execution/pipe/pipe_utils.c \
+	execution/redirections/exec_redir.c execution/redirections/heredoc.c
 
 OBJS = $(SRCS:%.c=%.o)
 

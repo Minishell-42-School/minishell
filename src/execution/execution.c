@@ -14,6 +14,7 @@
 
 void	exec_cmd(t_command *cmd)
 {
+  g_exit_status = 0;
 	if (!cmd)
 		return ;
 	if (cmd->next)

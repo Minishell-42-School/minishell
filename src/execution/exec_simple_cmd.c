@@ -48,7 +48,7 @@ void exec_simple_cmd(t_command *cmd)
 {
     pid_t pid = fork();
 
-    g_exit_status = 0;
+    // g_exit_status = 0;
     if (pid == -1)
     {
         perror("fork");

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/21 16:55:20 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:01:08 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,12 @@
 
 # define SIG_HEREDOC "Warning: Use the delimiter by end-of-file, \
 or press Ctrl + C to close"
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1024
+# endif
+
+extern int	g_exit_signal;
 
 typedef enum e_token_type
 {
@@ -93,6 +99,7 @@ void			free_token_lst(t_token **token_lst);
 
 // signal.c
 void			config_signals(void);
+void			handle_sigint(int sig);
 
 // ----Token----
 // token.c

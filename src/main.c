@@ -6,11 +6,13 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/12 12:05:43 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:09:50 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+int	g_exit_signal;
 
 int	main(void)
 {
@@ -19,6 +21,7 @@ int	main(void)
 	t_command		*cmd_pipeline;
 	t_parser_state	p_state;
 
+	g_exit_signal = 0;
 	token_list = NULL;
 	cmd_pipeline = NULL;
 	while (1)
@@ -26,6 +29,11 @@ int	main(void)
 		line = get_prompt();
 		if (!line)
 			break ;
+		// if (g_exit_signal == 130)
+		// {
+		// 	free(line);
+		// 	continue ;
+		// }
 		get_token(&token_list, line);
 		if (token_list)
 		{

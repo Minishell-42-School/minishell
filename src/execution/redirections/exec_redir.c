@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/21 18:10:43 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/22 18:11:34 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,19 @@ void	definy_fd(t_command *cmd)
 	}
 }
 
+// static void	hdoc_sig(int sig)
+// {
+// 	(void)sig;
+// 	// printf("\n");
+// 	exit(130);
+// }
+
 static void	child_proc(t_command *cmd)
 {
 	char	*path;
 
 	signal(SIGINT, SIG_DFL);
+	// g_exit_signal = 0;
 	definy_fd(cmd);
 	path = get_path(cmd);
 	if (!path)
@@ -57,6 +65,8 @@ static void	child_proc(t_command *cmd)
 void	exec_redir(t_command *cmd)
 {
 	pid_t	pid;
+	// int		orig_signal;
+	int		status;
 
 	pid = fork();
 	if (pid == -1)
@@ -64,5 +74,22 @@ void	exec_redir(t_command *cmd)
 	if (pid == 0)
 		child_proc(cmd);
 	else
-		wait(NULL);
+	{
+		// orig_signal = g_exit_signal;
+		waitpid(pid, &status, 0);
+		// g_exit_signal = orig_signal;
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+		{
+			g_exit_signal = 130;
+			// g_exit_signal = WEXITSTATUS(status);
+			exit(130);
+		}
+		// else if (WIFEXITED(status))
+		// else if (g_exit_signal == 1)
+		// 	g_exit_signal = 0;
+		// {
+			// write(STDERR_FILENO, "\n", 1);
+		// }
+	}
+	// wait(NULL);
 }

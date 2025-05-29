@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 16:54:28 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/28 17:25:38 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/29 17:03:50 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	exec_env_builtin(t_shell *s)
 {
 	t_var	*v;
-	
+
 	v = s->vars;
 	if (s->cmd->args_count == 1)
 	{

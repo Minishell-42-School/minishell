@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:06:36 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/27 15:30:00 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/29 17:04:17 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ static int	export_builtin(t_command *cmd, t_var **vars)
 	int		i;
 
 	i = 1;
-	
 	if (cmd->args_count == 1)
 		return (export_print(*vars));
 	while (cmd->args[i])

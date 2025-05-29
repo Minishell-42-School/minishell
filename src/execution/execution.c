@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:32:49 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/28 17:29:08 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/29 17:11:19 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ static int	is_builtin(t_shell *shell)
 	else if (ft_strcmp(shell->cmd->command_name, "export") == 0)
 		return (exec_export_builtin(shell));
 	else if (ft_strcmp(shell->cmd->command_name, "unset") == 0)
-		return (exec_unset_builtin(shell));	
+		return (exec_unset_builtin(shell));
 	else if (ft_strcmp(shell->cmd->command_name, "env") == 0)
-	 	return (exec_env_builtin(shell));
-	// else if (ft_strcmp(shell->cmd->command_name, "exit") == 0)
-	// 	return (exec_exit_builtin());
+		return (exec_env_builtin(shell));
+	else if (ft_strcmp(shell->cmd->command_name, "exit") == 0)
+		return (exec_exit_builtin(shell));
 	return (1);
 }
 
@@ -49,9 +49,8 @@ void	exec_cmd(t_shell *shell)
 	else if (shell->cmd->next)
 		exec_pipeline(shell->cmd);
 	else
-		{
-			//printf("external command executed\n");
-			exec_external_cmd(shell->cmd);	
-		}
-		
+	{
+		//printf("external command executed\n");
+		exec_external_cmd(shell->cmd);	
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/28 17:26:23 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/29 17:01:33 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ typedef struct s_exp_aux
 	size_t				len;
 }	t_aux;
 
-typedef struct	s_shell
+typedef struct s_shell
 {
 	t_token			*token_list;
 	t_command		*cmd;
@@ -102,6 +102,7 @@ typedef struct	s_shell
 	char			**new_envp;
 	char			*line;
 	t_parser_state	p_state;
+	int				last_status;
 }	t_shell;
 
 // Functions
@@ -111,7 +112,7 @@ char			*get_prompt(void);
 
 // free_all.c
 void			free_token_lst(t_token **token_lst);
-void			free_loop(t_token **token_lst, t_command **cmd, char *line);
+void			free_loop(t_token **token_lst, t_command **cmd);
 void			free_vars_and_envp(t_var *vars, char **new_envp);
 
 //free_envp.c
@@ -231,6 +232,9 @@ int				exec_echo_builtin(t_shell *s);
 
 //env_builtin.c
 int				exec_env_builtin(t_shell *s);
+
+//exit_builtin.c
+int				exec_exit_builtin(t_shell *s);
 
 // ----Built_ins----
 

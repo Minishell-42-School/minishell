@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:01:41 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/27 15:31:29 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/29 17:09:43 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,28 +30,28 @@ static void	update_and_free_pwd(t_var **vars, char *oldpwd, char *pwd)
 
 int	cd_builtin(t_command *cmd, t_var **vars)
 {
-	char	*OLDPWD;
-	char	*PWD;
+	char	*oldpwd;
+	char	*pwd;
 
 	if (cmd->args[2])
 		return (return_error("cd: string not in pwd: ", cmd->args[1]));
-	OLDPWD = getcwd(NULL, 0);
+	oldpwd = getcwd(NULL, 0);
 	if (!cmd->args[1])
 	{
-		PWD = var_get(*vars, "HOME");
-		if (!PWD || chdir(PWD) != 0)
+		pwd = var_get(*vars, "HOME");
+		if (!pwd || chdir(pwd) != 0)
 		{
-			free(OLDPWD);
+			free(oldpwd);
 			return (-1);
 		}
 	}
 	else if (chdir(cmd->args[1]) != 0)
 	{
-		free(OLDPWD);
+		free(oldpwd);
 		return (return_error("cd: no such file or directory: ", cmd->args[1]));
 	}
-	PWD = getcwd(NULL, 0);
-	update_and_free_pwd(vars, OLDPWD, PWD);
+	pwd = getcwd(NULL, 0);
+	update_and_free_pwd(vars, oldpwd, pwd);
 	return (0);
 }
 

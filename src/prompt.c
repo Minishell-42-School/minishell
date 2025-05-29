@@ -6,13 +6,13 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:02 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/22 18:10:11 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/29 12:46:45 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-// int	g_exit_signal;
+volatile sig_atomic_t	g_exit_status = 0;
 
 char	*get_prompt(void)
 {

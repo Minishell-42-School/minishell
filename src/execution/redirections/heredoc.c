@@ -1,10 +1,18 @@
-
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
+/*   Updated: 2025/05/29 12:45:55 by jcosta-b         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-// int	g_exit_signal = 0;
-
-char	*gnl(int fd)
+static void	loop_heredoc(t_redirections *redir, int fd)
 {
 	char	*line = NULL;
 	// int		bufsize = 0;
@@ -34,9 +42,9 @@ void loop_heredoc(t_redirections *redir, int fd)
 		line = gnl(fd);
 		if (!line)
 		{
-			printf("%s\n", SIG_HEREDOC);
-			line = malloc(1 * sizeof(char));
-			line[0] = '\0';
+			printf("Warning: here-document delimited by end-of-file\n");
+			free(line);
+			break ;
 		}
 		if (ft_strncmp(line, redir->filename, ft_strlen(redir->filename)) == 0)
 		{
@@ -86,30 +94,29 @@ void loop_heredoc(t_redirections *redir, int fd)
 
 static void	hdoc_child_proc(t_redirections *redir, int hdo_fd[2])
 {
-	signal(SIGINT, SIG_DFL);
-	// g_exit_signal = 0;
 	close(hdo_fd[0]);
+	heredoc_signals();
 	loop_heredoc(redir, hdo_fd[1]);
 	close(hdo_fd[1]);
-	// exit(0);
+	exit(EXIT_SUCCESS);
 }
 
-// static void	hdoc_parent_proc(t_redirections *redir, int hdo_fd[2])
-// {
-// 	int status;
+static void	hdoc_parent_proc(int hdo_fd[2], pid_t pid)
+{
+	int	status;
 
-// 	close(hdo_fd[1]);
-// 	waitpid(pid, &status, 0);
-// 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-// 	{
-// 		close(hdo_fd[0]);
-// 		write(STDERR_FILENO, "\n", 1);
-// 		exit(130);
-// 	}
-// 	if (dup2(hdo_fd[0], STDIN_FILENO) == -1)
-// 		perror("dup2");
-// 	close(hdo_fd[0]);
-// }
+	close(hdo_fd[1]);
+	ign_signals();
+	waitpid(pid, &status, 0);
+	config_signals();
+	if (WIFSIGNALED(status))
+		g_exit_status = 128 + WTERMSIG(status);
+	else
+		g_exit_status = WEXITSTATUS(status);
+	if (dup2(hdo_fd[0], STDIN_FILENO) == -1)
+		perror("dup2");
+	close(hdo_fd[0]);
+}
 
 void	handle_heredoc(t_redirections *redir)
 {
@@ -130,37 +137,12 @@ void	handle_heredoc(t_redirections *redir)
 	if (pid == -1)
 	{
 		perror("fork");
-		// g_exit_signal = orig_signal;
+		close(heredoc_fd[0]);
+		close(heredoc_fd[1]);
 		return ;
 	}
 	if (pid == 0)
 		hdoc_child_proc(redir, heredoc_fd);
 	else
-	{
-		// int	old_stdin = dup(STDIN_FILENO);
-		close(heredoc_fd[1]);
-		// signal(SIGINT, SIG_IGN);
-		waitpid(pid, &status, 0);
-		// signal(SIGINT, handle_sigint);
-
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		{
-			close(heredoc_fd[0]);
-			g_exit_signal = 130;
-			// WEXITSTATUS(status);
-			return ;
-			// write(STDERR_FILENO, "\n", 1);
-			// exit(130);
-		}
-		// else
-		// {
-		// 	g_exit_signal = orig_signal;
-		// 	if (g_exit_signal == 1)
-		// 		g_exit_signal = 0;
-		// }
-		if (dup2(heredoc_fd[0], STDIN_FILENO) == -1)
-			perror("dup2");
-		// dup2(old_stdin, STDIN_FILENO);
-		close(heredoc_fd[0]);
-	}
+		hdoc_parent_proc(heredoc_fd, pid);
 }

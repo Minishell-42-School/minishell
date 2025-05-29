@@ -44,7 +44,7 @@ static void	free_redirections(t_redirections *redir)
 	}
 }
 
-static void	free_command_list(t_command *head)
+void	free_command_list(t_command *head)
 {
 	t_command	*temp;
 	int			i;

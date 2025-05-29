@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/21 16:55:20 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:39:06 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
 
-extern volatile sig_atomic_t g_exit_status;
+extern volatile sig_atomic_t	g_exit_status;
 
 typedef enum e_token_type
 {
@@ -103,7 +103,7 @@ int				is_wspace(char c);
 
 // create_token.c
 t_token			*init_token(void);
-void				add_back(t_token **token, t_token *new_t);
+void			add_back(t_token **token, t_token *new_t);
 
 // get_env_var.c
 void			verif_env_var(char *str, t_token *token);
@@ -126,18 +126,18 @@ void			verif_value(t_token **token_list);
 
 // ----Parser----
 //parser_utils.c
-int							count_args(t_parser_state *p_state);
-t_token					*advance_token(t_parser_state *p_state);
-t_command				*init_command_struct(void);
-t_command				*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
+int				count_args(t_parser_state *p_state);
+t_token			*advance_token(t_parser_state *p_state);
+t_command		*init_command_struct(void);
+t_command		*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
 t_redirections	*assign_redir_type(t_parser_state *p_state, \
 				t_redirections *redir);
 
 //parser.c
-t_command				*parse_pipeline(t_parser_state *p_state);
-t_command				*parse_command(t_parser_state *p_state);
-t_command				*check_command_args(t_parser_state *p_state, t_command *cmd);
-t_command				*check_redirections(t_parser_state *p_state, t_command	*cmd);
+t_command		*parse_pipeline(t_parser_state *p_state);
+t_command		*parse_command(t_parser_state *p_state);
+t_command		*check_command_args(t_parser_state *p_state, t_command *cmd);
+t_command		*check_redirections(t_parser_state *p_state, t_command	*cmd);
 t_redirections	*parse_redirection(t_parser_state *p_state);
 
 //check_syntax.c

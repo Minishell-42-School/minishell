@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:32:49 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/21 16:16:16 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:03:59 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	exec_cmd(t_command *cmd)
 {
-  g_exit_status = 0;
+	g_exit_status = 0;
 	if (!cmd)
 		return ;
 	if (cmd->next)
@@ -24,9 +24,9 @@ void	exec_cmd(t_command *cmd)
 	}
 	// if (is_builtin(cmd) && !cmd->redirs)
 	// {
-  // 	exec_builtin(cmd);
-  // 	return ;
-  // }
-  // else
-  exec_simple_cmd(cmd);
+	// 	exec_builtin(cmd);
+	// 	return ;
+	// }
+	// else
+	exec_simple_cmd(cmd);
 }

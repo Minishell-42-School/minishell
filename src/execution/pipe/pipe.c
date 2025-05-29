@@ -6,17 +6,17 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/21 18:11:16 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:42:00 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void exec_child_proc(t_command *cmd)
+static void	exec_child_proc(t_command *cmd)
 {
-  char	*path;
+	char	*path;
 
-  path = get_path(cmd);
+	path = get_path(cmd);
 	if (!path)
 	{
 		perror("get_path");
@@ -27,15 +27,16 @@ static void exec_child_proc(t_command *cmd)
 	exit(EXIT_FAILURE);
 }
 
-static void child_proc(t_command *cmd, int control_fd, int fd[2])
+static void	child_proc(t_command *cmd, int control_fd, int fd[2])
 {
-	int		hdoc_control = 0;
+	int	hdoc_control;
 
+	hdoc_control = 0;
 	if (cmd->redirs)
 		verif_heredoc(cmd->redirs, &hdoc_control);
-  if (g_exit_status == 130)
-    exit(130);
-  if (!hdoc_control && control_fd != -1)
+	if (g_exit_status == 130)
+		exit(130);
+	if (!hdoc_control && control_fd != -1)
 	{
 		dup2(control_fd, STDIN_FILENO);
 		close(control_fd);
@@ -46,10 +47,9 @@ static void child_proc(t_command *cmd, int control_fd, int fd[2])
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-
 	if (cmd->redirs)
 		definy_redir_fd(cmd);
-  exec_child_proc(cmd);
+	exec_child_proc(cmd);
 }
 
 static void	parent_proc(t_command *cmd, int *control_fd, int fd[2])
@@ -65,13 +65,13 @@ static void	parent_proc(t_command *cmd, int *control_fd, int fd[2])
 
 void	exec_pipe(t_command *cmd)
 {
-	int		fd[2];
-	int		control_fd;
-	pid_t	pid;
-  t_command *temp;
+	int			fd[2];
+	int			control_fd;
+	pid_t		pid;
+	t_command	*temp;
 
 	control_fd = -1;
-  temp = cmd;
+	temp = cmd;
 	while (cmd)
 	{
 		if (cmd->next && pipe(fd) == -1)
@@ -83,11 +83,11 @@ void	exec_pipe(t_command *cmd)
 			child_proc(cmd, control_fd, fd);
 		else
 		{
-      if (g_exit_status == 130)
-        break ;
+			if (g_exit_status == 130)
+				break ;
 			parent_proc(cmd, &control_fd, fd);
 			cmd = cmd->next;
 		}
 	}
-  pipe_signal(temp, pid);
+	pipe_signal(temp, pid);
 }

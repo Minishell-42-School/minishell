@@ -6,21 +6,21 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:02 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/21 13:28:10 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/05/29 11:39:22 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-volatile sig_atomic_t g_exit_status = 0;
+volatile sig_atomic_t	g_exit_status = 0;
 
 char	*get_prompt(void)
 {
 	char	*input;
 
 	config_signals();
-  input = readline(GREEN"Minishell~> "RESET);
-  if (!input)
+	input = readline(GREEN"Minishell~> "RESET);
+	if (!input)
 	{
 		printf("%s...Exit Minishell...\n%s", YELLOW, RESET);
 		rl_clear_history();

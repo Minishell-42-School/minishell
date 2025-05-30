@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: ekeller- <ekeller-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/29 17:01:33 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/30 16:41:55 by ekeller-         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -220,6 +220,7 @@ int				exec_export_builtin(t_shell	*s);
 
 //export_builtin.c
 int				exec_unset_builtin(t_shell *s);
+int				print_sorted_export(t_var *vars);
 
 //cd_builtin.c
 int				exec_cd_builtin(t_shell *s);

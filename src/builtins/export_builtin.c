@@ -1,36 +1,16 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   export_builtin.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: ekeller- <ekeller-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 15:06:36 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/29 17:04:17 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/30 16:43:38 by ekeller-         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../../includes/minishell.h"
-
-//does not sort
-static int	export_print(t_var *vars)
-{
-	t_var	*tmp;
-
-	tmp = vars;
-	while (tmp)
-	{
-		if (tmp->exported)
-		{
-			if (tmp->value)
-				printf("declare -x %s=\"%s\"\n", tmp->key, tmp->value);
-			else
-				printf("declare -x %s\n", tmp->key);
-		}
-		tmp = tmp->next;
-	}
-	return (1);
-}
 
 static void	var_mark_exported(t_var **vars, char *arg)
 {
@@ -76,7 +56,7 @@ static int	export_builtin(t_command *cmd, t_var **vars)
 
 	i = 1;
 	if (cmd->args_count == 1)
-		return (export_print(*vars));
+		return (print_sorted_export(*vars));
 	while (cmd->args[i])
 	{
 		if (check_var_assignment(cmd, vars, &i) == 1)

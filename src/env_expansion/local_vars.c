@@ -1,14 +1,14 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   local_vars.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: ekeller- <ekeller-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 13:41:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/28 16:12:45 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/30 12:08:50 by ekeller-         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../../includes/minishell.h"
 
@@ -60,7 +60,7 @@ int	exec_set_local_vars(t_shell *shell)
 {
 	if (try_set_local_var(shell->cmd, &shell->vars) == 1)
 	{
-		free_loop(&shell->token_list, &shell->cmd, shell->line);
+		free_loop(&shell->token_list, &shell->cmd);
 		return (1);
 	}
 	return (0);

@@ -1,22 +1,22 @@
-/* ************************************************************************** */
+/******************************************************************************/
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export_utils.c                                     :+:      :+:    :+:   */
+/*   export_sort.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: ekeller- <ekeller-@student.42sp.org.br>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 17:18:27 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/29 17:48:19 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/30 13:12:44 by ekeller-         ###   ########.fr       */
 /*                                                                            */
-/* ************************************************************************** */
+/******************************************************************************/
 
 #include "../../includes/minishell.h"
 
-#include "minishell.h"
-
 static int	count_exported(t_var *vars)
 {
-	int	count = 0;
+	int	count;
+	
+	count = 0;
 	while (vars)
 	{
 		if (vars->exported)
@@ -28,8 +28,10 @@ static int	count_exported(t_var *vars)
 
 static void	sort_var_array(t_var **arr, int size)
 {
-	int		i, j;
+	int		i;
+	int		j;
 	t_var	*tmp;
+	
 	i = 0;
 	while (i < size - 1)
 	{
@@ -57,34 +59,37 @@ static void	fill_exported_array(t_var **arr, t_var *vars)
 			arr[i++] = vars;
 		vars = vars->next;
 	}
+	arr[i] = NULL;
 }
 
 static void	print_var_line(t_var *var)
 {
-	ft_putstr_fd("declare -x ", STDOUT_FILENO);
-	ft_putstr_fd(var->key, STDOUT_FILENO);
+	printf("declare -x ");
+	printf("%s", var->key);
 	if (var->value)
 	{
-		ft_putstr_fd("=\"", STDOUT_FILENO);
-		ft_putstr_fd(var->value, STDOUT_FILENO);
-		ft_putstr_fd("\"", STDOUT_FILENO);
+		printf("=\"");
+		printf("%s", var->value);
+		printf("\"");
 	}
-	ft_putstr_fd("\n", STDOUT_FILENO);
+	printf("\n");
 }
 
-void	print_sorted_export(t_var *vars)
+int	print_sorted_export(t_var *vars)
 {
 	t_var	**arr;
-	int		count, i;
+	int		count;
+	int		i;
 
 	count = count_exported(vars);
 	arr = malloc(sizeof(t_var *) * count);
 	if (!arr)
-		return ;
+		return (-1);
 	fill_exported_array(arr, vars);
 	sort_var_array(arr, count);
 	i = 0;
 	while (i < count)
 		print_var_line(arr[i++]);
 	free(arr);
+	return (0);
 }

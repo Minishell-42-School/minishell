@@ -39,8 +39,8 @@ static void	free_redirections(t_redirections *redir)
 	{
 		temp = redir->next;
 		// if (ft_strncmp(redir->filename, "/tmp/.hdoc_tmp_", 15))
-		if (ft_strncmp(redir->filename, "./hdoc_tmp_", 15))
-			unlink(redir->filename);
+		if (ft_strncmp(redir->filename, "./hdoc_tmp_", 11) == 0)
+      unlink(redir->filename);
 		free(redir->filename);
 		free(redir);
 		redir = temp;

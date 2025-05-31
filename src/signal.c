@@ -42,6 +42,12 @@ static void	handle_sigint(int sig)
 	// g_exit_signal = 130;
 }
 
+void	config_signals()
+{
+	signal(SIGINT, handle_sigint);
+	signal(SIGQUIT, SIG_IGN);
+}
+
 // void	config_signals(void)
 // {
 // 	struct sigaction sa;
@@ -83,9 +89,3 @@ static void	handle_sigint(int sig)
 // 	// 	g_exit_signal = 130;
 // 	// }
 // // }
-
-void	config_signals()
-{
-	signal(SIGINT, handle_sigint);
-	signal(SIGQUIT, SIG_IGN);
-}

@@ -17,8 +17,9 @@ void	exec_cmd(t_command *cmd)
 	g_exit_status = 0;
 	if (!cmd)
 		return ;
-	if (verif_heredoc1(cmd->redirs))
-		return ;
+	verif_heredoc1(cmd);
+  if (g_exit_status == 130)
+    return ;
 	if (cmd->next)
 	{
 		exec_pipe(cmd);

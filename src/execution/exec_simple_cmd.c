@@ -16,7 +16,6 @@ static void	exec_child_proc(t_command *cmd)
 {
 	char	*path;
 
-	// g_exit_status = 0;
 	if (cmd->redirs)
 		definy_fd(cmd);
 	if (g_exit_status == 130)
@@ -49,7 +48,6 @@ void	exec_simple_cmd(t_command *cmd)
 {
 	pid_t	pid;
 
-	// g_exit_status = 0;
 	pid = fork();
 	if (pid == -1)
 	{

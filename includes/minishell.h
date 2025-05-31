@@ -32,11 +32,11 @@
 
 extern volatile sig_atomic_t	g_exit_status;
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1024
-# endif
+// # ifndef BUFFER_SIZE
+// #  define BUFFER_SIZE 1024
+// # endif
 
-extern int	g_exit_signal;
+// extern int	g_exit_signal;
 
 typedef enum e_token_type
 {
@@ -180,7 +180,7 @@ void			handle_creat(t_redirections *redir);
 
 // heredoc.c
 void			handle_heredoc(t_redirections *redir);
-int			verif_heredoc1(t_redirections *redir);
+void	verif_heredoc1(t_command *command);
 // --------
 
 // ----Execution----

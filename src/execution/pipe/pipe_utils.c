@@ -41,19 +41,19 @@ void	definy_redir_fd(t_command *cmd)
 	}
 }
 
-void	verif_heredoc(t_redirections *redir, int *hdoc_control)
-{
-	while (redir)
-	{
-		if (redir->type == R_DELIMITER)
-		{
-			handle_heredoc(redir);
-			*hdoc_control = 1;
-			return ;
-		}
-		redir = redir->next;
-	}
-}
+// void	verif_heredoc(t_redirections *redir, int *hdoc_control)
+// {
+// 	while (redir)
+// 	{
+// 		if (redir->type == R_DELIMITER)
+// 		{
+// 			handle_heredoc(redir);
+// 			*hdoc_control = 1;
+// 			return ;
+// 		}
+// 		redir = redir->next;
+// 	}
+// }
 
 void	close_files(t_command *cmd)
 {
@@ -76,19 +76,19 @@ void	close_files(t_command *cmd)
 	free_command_list(cmd);
 }
 
-void	pipe_signal(t_command *cmd, pid_t pid)
-{
-	int	status;
+// void	pipe_signal(t_command *cmd, pid_t pid)
+// {
+// 	int	status;
 
-	ign_signals();
-	while (waitpid(pid, &status, 0) > 0)
-	{
-		config_signals();
-		if (WIFSIGNALED(status))
-			g_exit_status = 128 + WTERMSIG(status);
-		else
-			g_exit_status = WEXITSTATUS(status);
-		if (g_exit_status == 130)
-			close_files(cmd);
-	}
-}
+// 	ign_signals();
+// 	while (waitpid(pid, &status, 0) > 0)
+// 	{
+// 		config_signals();
+// 		if (WIFSIGNALED(status))
+// 			g_exit_status = 128 + WTERMSIG(status);
+// 		else
+// 			g_exit_status = WEXITSTATUS(status);
+// 		if (g_exit_status == 130)
+// 			close_files(cmd);
+// 	}
+// }

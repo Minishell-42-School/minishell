@@ -166,8 +166,8 @@ char			*get_path(t_command *cmd);
 void			exec_pipe(t_command *cmd);
 
 // pipe_utils.c
-void			pipe_signal(t_command *cmd, pid_t pid);
-void			verif_heredoc(t_redirections *redir, int *hdoc_control);
+// void			pipe_signal(t_command *cmd, pid_t pid);
+// void			verif_heredoc(t_redirections *redir, int *hdoc_control);
 void			definy_redir_fd(t_command *cmd);
 // --------
 

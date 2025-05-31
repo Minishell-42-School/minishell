@@ -95,22 +95,26 @@ void	handle_heredoc(t_redirections *redir)
 		config_signals();
 		close(heredoc_fd);
 
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-		{
-			g_exit_status = 130;
-			unlink(file_name);
-			free(file_name);
-			return ;
-		}
-		else if (WIFEXITED(status))
+    if (WIFSIGNALED(status))
+		  g_exit_status = 128 + WTERMSIG(status);
+		else //if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
+    // if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+    // 		{
 
+        // }
 		if (g_exit_status == 0)
 		{
 			free(redir->filename);
 			redir->filename = file_name;
 			redir->type = R_IN;
 		}
+    else if (g_exit_status == 130)
+    {
+      unlink(file_name);
+			free(file_name);
+			return ;
+    }
 		else
 		{
 			unlink(file_name);

@@ -17,7 +17,7 @@ void	exec_cmd(t_command *cmd)
 	g_exit_status = 0;
 	if (!cmd)
 		return ;
-	verif_heredoc1(cmd);
+	verif_heredoc(cmd);
   if (g_exit_status == 130)
     return ;
 	if (cmd->next)

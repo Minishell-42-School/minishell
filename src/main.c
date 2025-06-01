@@ -29,11 +29,6 @@ int	main(void)
 		line = get_prompt();
 		if (!line)
 			break ;
-		// if (g_exit_signal == 130)
-		// {
-		// 	free(line);
-		// 	continue ;
-		// }
 		get_token(&token_list, line);
 		free(line);
 		if (token_list)

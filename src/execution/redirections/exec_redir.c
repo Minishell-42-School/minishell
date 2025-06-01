@@ -85,38 +85,6 @@ void	definy_fd(t_command *cmd)
 			handle_out(redir);
 		else if (redir->type == R_IN)
 			handle_in(redir);
-		// else
-		// 	handle_heredoc(redir);
 		redir = redir->next;
 	}
 }
-
-// static void	child_proc(t_command *cmd)
-// {
-// 	char	*path;
-
-// 	signal(SIGINT, SIG_DFL);
-// 	definy_fd(cmd);
-// 	path = get_path(cmd);
-// 	if (!path)
-// 	{
-// 		perror("get_path");
-// 		exit(EXIT_FAILURE);
-// 	}
-// 	execve(path, cmd->args, NULL);
-// 	perror("execve");
-// 	exit(EXIT_FAILURE);
-// }
-
-// void	exec_redir(t_command *cmd)
-// {
-// 	pid_t	pid;
-
-// 	pid = fork();
-// 	if (pid == -1)
-// 		return ((void)printf("Error at fork\n"));
-// 	if (pid == 0)
-// 		child_proc(cmd);
-// 	else
-// 		wait(NULL);
-// }

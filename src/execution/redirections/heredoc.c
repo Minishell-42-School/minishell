@@ -12,61 +12,34 @@
 
 #include "../../../includes/minishell.h"
 
-char	*tmpfile_name(int *heredoc_fd)
+static void  heredoc_child_proc(t_redirections *redir, int heredoc_fd)
 {
-	int		fd;
-	int		i;
-	char	*new_file;
-
-	i = 0;
-	while (i < 10000)
-	{
-		// new_file = ft_strjoin("/tmp/.hdoc_tmp_", ft_itoa(i));
-		new_file = ft_strjoin("./hdoc_tmp_", ft_itoa(i));
-		fd = open(new_file, O_CREAT | O_EXCL | O_WRONLY, 0600);
-		if (fd != -1)
-		{
-			*heredoc_fd = fd;
-			return (new_file);
-		}
-		else
-			free(new_file);
-		i++;
-	}
-	perror("heredoc temp file");
-	return (NULL);
+  heredoc_signals();
+  if (!loop_heredoc(redir, heredoc_fd))
+    exit(EXIT_FAILURE);
+  close(heredoc_fd);
+  exit(EXIT_SUCCESS);
 }
 
-static int loop_heredoc(t_redirections *redir, int heredoc_fd)
+static void  heredoc_parent_proc(pid_t pid, int heredoc_fd)
 {
-	char	*line;
+  int status;
 
-	while (1)
-	{
-		line = readline("Heredoc ~> ");
-		if (!line)
-		{
-			printf("Warning: here-document delimited by end-of-file\n");
-			break ;
-		}
-		if (ft_strncmp(line, redir->filename, ft_strlen(redir->filename)) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(heredoc_fd, line, ft_strlen(line));
-    write(heredoc_fd, "\n", 1);
-		free(line);
-	}
-  return (1);
+  ign_signals();
+  waitpid(pid, &status, 0);
+  config_signals();
+  close(heredoc_fd);
+  if (WIFSIGNALED(status))
+    g_exit_status = 128 + WTERMSIG(status);
+  else
+    g_exit_status = WEXITSTATUS(status);
 }
 
-void	handle_heredoc(t_redirections *redir)
+static void	handle_heredoc(t_redirections *redir)
 {
 	pid_t	pid;
 	char	*file_name;
 	int		heredoc_fd;
-	int		status;
 
 	file_name = tmpfile_name(&heredoc_fd);
 	if (!file_name)
@@ -74,56 +47,24 @@ void	handle_heredoc(t_redirections *redir)
 	pid = fork();
 	if (pid == -1)
 	{
-		perror("fork");
-		close(heredoc_fd);
-		unlink(file_name);
-		free(file_name);
+		fork_error(heredoc_fd, &file_name);
 		return ;
 	}
 	if (pid == 0)
-	{
-		heredoc_signals();
-		if (!loop_heredoc(redir, heredoc_fd))
-			exit(EXIT_FAILURE);
-		close(heredoc_fd);
-		exit(EXIT_SUCCESS);
-	}
+    heredoc_child_proc(redir, heredoc_fd);
 	else
 	{
-		ign_signals();
-		waitpid(pid, &status, 0);
-		config_signals();
-		close(heredoc_fd);
-
-    if (WIFSIGNALED(status))
-		  g_exit_status = 128 + WTERMSIG(status);
-		else //if (WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);
-    // if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-    // 		{
-
-        // }
+    heredoc_parent_proc(pid, heredoc_fd);
 		if (g_exit_status == 0)
-		{
-			free(redir->filename);
-			redir->filename = file_name;
-			redir->type = R_IN;
-		}
-    else if (g_exit_status == 130)
-    {
-      unlink(file_name);
-			free(file_name);
-			return ;
-    }
-		else
-		{
-			unlink(file_name);
-			free(file_name);
-		}
+      definy_redir(file_name, redir);
+    else
+      clean_filename(&file_name);
+    if (g_exit_status == 130)
+      return ;
 	}
 }
 
-void	verif_heredoc1(t_command *command)
+void	verif_heredoc(t_command *command)
 {
   t_redirections *redir;
   t_command      *cmd;

@@ -32,12 +32,6 @@
 
 extern volatile sig_atomic_t	g_exit_status;
 
-// # ifndef BUFFER_SIZE
-// #  define BUFFER_SIZE 1024
-// # endif
-
-// extern int	g_exit_signal;
-
 typedef enum e_token_type
 {
 	WORD,
@@ -161,15 +155,8 @@ void			exec_simple_cmd(t_command *cmd);
 // get_path.c
 char			*get_path(t_command *cmd);
 
-// - Pipe -
 // pipe.c
 void			exec_pipe(t_command *cmd);
-
-// pipe_utils.c
-// void			pipe_signal(t_command *cmd, pid_t pid);
-// void			verif_heredoc(t_redirections *redir, int *hdoc_control);
-void			definy_redir_fd(t_command *cmd);
-// --------
 
 // - Redirections -
 // exec_redir.c
@@ -179,8 +166,14 @@ void			handle_in(t_redirections *redir);
 void			handle_creat(t_redirections *redir);
 
 // heredoc.c
-void			handle_heredoc(t_redirections *redir);
-void	verif_heredoc1(t_command *command);
+void			verif_heredoc(t_command *command);
+
+// heredoc_utils.c
+char			*tmpfile_name(int *heredoc_fd);
+int				loop_heredoc(t_redirections *redir, int heredoc_fd);
+void			definy_redir(char *file_name, t_redirections *redir);
+void			clean_filename(char **file_name);
+void			fork_error(int heredoc_fd, char **file_name);
 // --------
 
 // ----Execution----

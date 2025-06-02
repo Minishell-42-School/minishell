@@ -1,21 +1,22 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller- <ekeller-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/30 16:41:55 by ekeller-         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:20:23 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
 # include "../libft/libft.h"
 # include <stdio.h> // printf, readline
-# include <unistd.h> // write, pipe, fork, dup2, execve
+# include <unistd.h> // write, pipe, fork, dup2, execve, close
+# include <fcntl.h> // open
 # include <stdlib.h> // malloc, free, exit
 # include <signal.h> // signal, sigaction, sigemptyset, sigaddset
 # include <sys/types.h> // pid_t
@@ -28,6 +29,8 @@
 # define RED_B  "\033[1;31m"
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
+
+// extern volatile sig_atomic_t	g_exit_status;
 
 typedef enum e_token_type
 {
@@ -106,20 +109,21 @@ typedef struct s_shell
 }	t_shell;
 
 // Functions
-
 // prompt.c
 char			*get_prompt(void);
 
 // free_all.c
 void			free_token_lst(t_token **token_lst);
 void			free_loop(t_token **token_lst, t_command **cmd);
-void			free_vars_and_envp(t_var *vars, char **new_envp);
 
 //free_envp.c
+void			free_vars_and_envp(t_var *vars, char **new_envp);
 void			free_new_envp(char **new_envp);
 
 // signal.c
 void			config_signals(void);
+void			heredoc_signals(void);
+void			ign_signals(void);
 
 // ----Token----
 // token.c
@@ -152,12 +156,12 @@ void			verif_value(t_token **token_list);
 
 // ----Parser----
 //parser_utils.c
+int				count_args(t_parser_state *p_state);
 t_token			*advance_token(t_parser_state *p_state);
 t_command		*init_command_struct(void);
-int				count_args(t_parser_state *p_state);
+t_command		*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
 t_redirections	*assign_redir_type(t_parser_state *p_state, \
 				t_redirections *redir);
-t_command		*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
 
 //parser.c
 t_command		*parse_pipeline(t_parser_state *p_state);
@@ -166,7 +170,7 @@ t_command		*check_command_args(t_parser_state *p_state, t_command *cmd);
 t_command		*check_redirections(t_parser_state *p_state, t_command	*cmd);
 t_redirections	*parse_redirection(t_parser_state *p_state);
 
-//check_syntax_env.c
+//check_syntax.c
 int				check_syntax(t_parser_state *token);
 void			ft_error(char *msg);
 // ----Parser----
@@ -179,15 +183,15 @@ int				vars_set(t_var **vars, char *key, char *value, int exported);
 t_var			*var_find(t_var *vars, const char *key);
 
 //expansion.c
-void			expand_all_tokens(t_token *head, t_var *vars);
 int				expand_one_token(t_token *tok, t_var *vars);
+void			expand_all_tokens(t_token *head, t_var *vars);
 
 //expansion_utils.c
+int				var_name_len(char *tok_val);
 char			*var_get(t_var *vars, const char *key);
 size_t			calc_new_len(t_token *tok, t_var *vars);
 void			process_env_flags(t_token *tok, t_aux *aux,
 					size_t *len, t_var *vars);
-int				var_name_len(char *tok_val);
 
 //envp_array.c
 int				var_to_envp(t_shell *s);
@@ -196,25 +200,44 @@ int				var_to_envp(t_shell *s);
 int				is_valid_identifier(char *key);
 int				try_set_local_var(t_command *cmd, t_var **vars);
 int				exec_set_local_vars(t_shell *shell);
-
 // ----Environment_&_Exapansion----
 
 // ----Execution----
+void			exec_builtin(t_shell *shell);
+int				is_builtin(t_command *cmd);
+
 // execution.c
 void			exec_cmd(t_shell *shell);
+
+// exec_simple_cmd.c
+void			exec_simple_cmd(t_shell *shell);
 
 // get_path.c
 char			*get_path(t_command *cmd);
 
-// external_cmd.c
-void			exec_external_cmd(t_command *cmd);
-
 // pipe.c
-void			exec_pipeline(t_command *cmd);
+void			exec_pipe(t_shell *shell);
+
+// - Redirections -
+// exec_redir.c
+void			definy_fd(t_command *cmd);
+void			handle_out(t_redirections *redir);
+void			handle_in(t_redirections *redir);
+void			handle_creat(t_redirections *redir);
+
+// heredoc.c
+void			verif_heredoc(t_shell *shell);
+
+// heredoc_utils.c
+char			*tmpfile_name(int *heredoc_fd);
+int				loop_heredoc(t_redirections *redir, int heredoc_fd);
+void			definy_redir(char *file_name, t_redirections *redir);
+void			clean_filename(char **file_name);
+void			fork_error(int heredoc_fd, char **file_name);
+// --------
 // ----Execution----
 
 // ----Built_ins----
-
 //export_builtin.c
 int				exec_export_builtin(t_shell	*s);
 

@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/29 17:12:14 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/02 16:53:21 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ static void	free_redirections(t_redirections *redir)
 	}
 }
 
-static void	free_command_list(t_command *head)
+void	free_command_list(t_command *head)
 {
 	t_command	*temp;
 	int			i;

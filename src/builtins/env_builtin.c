@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 16:54:28 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/29 17:03:50 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/02 12:49:22 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	exec_env_builtin(t_shell *s)
 	{
 		while (v)
 		{
-			printf("%s=", v->key);
-			printf("%s\n", v->value);
+			if (v->exported == 1)
+				printf("%s=%s\n", v->key, v->value);
 			v = v->next;
 		}
 	}

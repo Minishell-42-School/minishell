@@ -28,7 +28,12 @@ SRCS = main.c prompt.c free_all.c signal.c \
 	execution/redirections/heredoc.c execution/redirections/heredoc_utils.c
 	env_expansion/set_env_vars.c env_expansion/expansion.c \
 	env_expansion/expansion_utils.c env_expansion/envp_array.c \
-	env_expansion/local_vars.c free_envp.c
+	env_expansion/local_vars.c free_envp.c \
+	builtins/export_builtin.c builtins/unset_builtin.c \
+	builtins/pwd_builtin.c builtins/cd_builtin.c \
+	builtins/echo_builtin.c builtins/env_builtin.c \
+	builtins/exit_builtin.c builtins/export_sort.c
+
 
 OBJS = $(SRCS:%.c=%.o)
 

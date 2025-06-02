@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:07:47 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/21 14:59:00 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/05/27 14:02:06 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,33 @@
 
 static int	build_envp(t_var *v, t_aux *aux, char **envp);
 
-char	**var_to_envp(t_var *vars)
+int	var_to_envp(t_shell *s)
 {
 	t_aux	aux;
 	t_var	*v;
-	char	**envp;	
 
 	aux.count = 0;
 	aux.i = 0;
-	v = vars;
+	if (s->new_envp)
+		free_new_envp(s->new_envp);
+	v = s->vars;
 	while (v)
 	{
 		if (v->exported)
 			aux.count++;
 		v = v->next;
 	}
-	envp = malloc((aux.count + 1) * sizeof(char *));
-	if (!envp)
-		return (NULL);
-	v = vars;
-	if (build_envp(v, &aux, envp) < 0)
+	s->new_envp = malloc((aux.count + 1) * sizeof(char *));
+	if (!s->new_envp)
+		return (-1);
+	v = s->vars;
+	if (build_envp(v, &aux, s->new_envp) < 0)
 	{
-		free(envp);
-		return (NULL);
+		free(s->new_envp);
+		return (-1);
 	}
-	envp[aux.i] = NULL;
-	return (envp);
+	s->new_envp[aux.i] = NULL;
+	return (0);
 }
 
 static int	build_envp(t_var *v, t_aux *aux, char **envp)

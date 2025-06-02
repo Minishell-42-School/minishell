@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 12:30:46 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 13:44:57 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,15 +97,25 @@ typedef struct s_exp_aux
 	size_t				len;
 }	t_aux;
 
+typedef struct s_shell
+{
+	t_token			*token_list;
+	t_command		*cmd;
+	t_var			*vars;
+	char			**new_envp;
+	char			*line;
+	t_parser_state	p_state;
+	int				last_status;
+}	t_shell;
+
 // Functions
 // prompt.c
 char			*get_prompt(void);
 
 // free_all.c
 void			free_token_lst(t_token **token_lst);
-void			free_all(t_token **token_lst, t_command **cmd, char **new_envp);
-void			free_command_list(t_command *head);
-void			free_vars(t_var *vars);
+void			free_loop(t_token **token_lst, t_command **cmd);
+void			free_vars_and_envp(t_var *vars, char **new_envp);
 
 //free_envp.c
 void			free_new_envp(char **new_envp);
@@ -165,6 +175,7 @@ int				check_syntax(t_parser_state *token);
 void			ft_error(char *msg);
 // ----Parser----
 
+// ----Environment_&_Expansion----
 //set_env_vars.c
 int				init_vars_from_envp(t_var **vars, char **envp);
 int				split_env(const char *env, char **key, char **value);
@@ -183,14 +194,18 @@ void			process_env_flags(t_token *tok, t_aux *aux,
 int				var_name_len(char *tok_val);
 
 //envp_array.c
-char			**var_to_envp(t_var *vars);
+int				var_to_envp(t_shell *s);
 
 //local_vars.c
-int				try_set_local_var(t_command *cmd_pipeline, t_var **vars);
+int				is_valid_identifier(char *key);
+int				try_set_local_var(t_command *cmd, t_var **vars);
+int				exec_set_local_vars(t_shell *shell);
+
+// ----Environment_&_Exapansion----
 
 // ----Execution----
 // execution.c
-void			exec_cmd(t_command *cmd);
+void			exec_cmd(t_shell *shell);
 
 // exec_simple_cmd.c
 void			exec_simple_cmd(t_command *cmd);
@@ -220,5 +235,31 @@ void			fork_error(int heredoc_fd, char **file_name);
 // --------
 
 // ----Execution----
+
+// ----Built_ins----
+
+//export_builtin.c
+int				exec_export_builtin(t_shell	*s);
+
+//export_builtin.c
+int				exec_unset_builtin(t_shell *s);
+int				print_sorted_export(t_var *vars);
+
+//cd_builtin.c
+int				exec_cd_builtin(t_shell *s);
+
+//pwd_builtin.c
+int				pwd_builtin(void);
+
+//echo_builtin.c
+int				exec_echo_builtin(t_shell *s);
+
+//env_builtin.c
+int				exec_env_builtin(t_shell *s);
+
+//exit_builtin.c
+int				exec_exit_builtin(t_shell *s);
+
+// ----Built_ins----
 
 #endif

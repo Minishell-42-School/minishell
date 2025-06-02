@@ -1,30 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   free_envp.c                                        :+:      :+:    :+:   */
+/*   env_builtin.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/20 16:43:45 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/27 14:18:53 by ekeller-@st      ###   ########.fr       */
+/*   Created: 2025/05/28 16:54:28 by ekeller-@st       #+#    #+#             */
+/*   Updated: 2025/06/02 12:49:22 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-void	free_new_envp(char **new_envp)
+int	exec_env_builtin(t_shell *s)
 {
-	int	i;
+	t_var	*v;
 
-	i = 0;
-	if (!new_envp)
-		return ;
-	if (new_envp[i])
+	v = s->vars;
+	if (s->cmd->args_count == 1)
 	{
-		while (new_envp[i])
-			free(new_envp[i++]);
+		while (v)
+		{
+			if (v->exported == 1)
+				printf("%s=%s\n", v->key, v->value);
+			v = v->next;
+		}
 	}
-	if (new_envp)
-		free(new_envp);
-	new_envp = NULL;
+	else
+		printf("env error");
+	return (0);
 }

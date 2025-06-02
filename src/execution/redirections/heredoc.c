@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 10:56:54 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 14:17:32 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	heredoc_child_proc(t_redirections *redir, int heredoc_fd)
 	exit(EXIT_SUCCESS);
 }
 
-static void	heredoc_parent_proc(pid_t pid, int heredoc_fd)
+static void	heredoc_parent_proc(t_shell *shell, pid_t pid, int heredoc_fd)
 {
 	int	status;
 
@@ -30,12 +30,12 @@ static void	heredoc_parent_proc(pid_t pid, int heredoc_fd)
 	config_signals();
 	close(heredoc_fd);
 	if (WIFSIGNALED(status))
-		g_exit_status = 128 + WTERMSIG(status);
+		shell->last_status = 128 + WTERMSIG(status);
 	else
-		g_exit_status = WEXITSTATUS(status);
+		shell->last_status = WEXITSTATUS(status);
 }
 
-static void	handle_heredoc(t_redirections *redir)
+static void	handle_heredoc(t_shell *shell, t_redirections *redir)
 {
 	pid_t	pid;
 	char	*file_name;
@@ -54,22 +54,23 @@ static void	handle_heredoc(t_redirections *redir)
 		heredoc_child_proc(redir, heredoc_fd);
 	else
 	{
-		heredoc_parent_proc(pid, heredoc_fd);
-		if (g_exit_status == 0)
+		heredoc_parent_proc(shell, pid, heredoc_fd);
+		if (shell->last_status == 0)
 			definy_redir(file_name, redir);
 		else
 			clean_filename(&file_name);
-		if (g_exit_status == 130)
+		if (shell->last_status == 130)
 			return ;
 	}
 }
 
-void	verif_heredoc(t_command *command)
+// void	verif_heredoc(t_command *command)
+void	verif_heredoc(t_shell *shell)
 {
 	t_redirections	*redir;
 	t_command		*cmd;
 
-	cmd = command;
+	cmd = shell->cmd;
 	while (cmd)
 	{
 		redir = cmd->redirs;
@@ -77,8 +78,8 @@ void	verif_heredoc(t_command *command)
 		{
 			if (redir->type == R_DELIMITER)
 			{
-				handle_heredoc(redir);
-				if (g_exit_status == 130)
+				handle_heredoc(shell, redir);
+				if (shell->last_status == 130)
 					return ;
 			}
 			redir = redir->next;

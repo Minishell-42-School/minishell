@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 13:36:09 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:48:03 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,18 +79,4 @@ void	free_loop(t_token **token_lst, t_command **cmd)
 		free_command_list(*cmd);
 		*cmd = NULL;
 	}
-}
-
-void	free_vars_and_envp(t_var *vars, char **new_envp)
-{
-	while (vars)
-	{
-		if (vars->value)
-			free(vars->value);
-		if (vars->key)
-			free(vars->key);
-		vars = vars->next;
-	}
-	if (new_envp)
-		free_new_envp(new_envp);
 }

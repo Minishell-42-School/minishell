@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 13:44:57 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:20:23 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
 
-extern volatile sig_atomic_t	g_exit_status;
+// extern volatile sig_atomic_t	g_exit_status;
 
 typedef enum e_token_type
 {
@@ -115,9 +115,9 @@ char			*get_prompt(void);
 // free_all.c
 void			free_token_lst(t_token **token_lst);
 void			free_loop(t_token **token_lst, t_command **cmd);
-void			free_vars_and_envp(t_var *vars, char **new_envp);
 
 //free_envp.c
+void			free_vars_and_envp(t_var *vars, char **new_envp);
 void			free_new_envp(char **new_envp);
 
 // signal.c
@@ -183,15 +183,15 @@ int				vars_set(t_var **vars, char *key, char *value, int exported);
 t_var			*var_find(t_var *vars, const char *key);
 
 //expansion.c
-void			expand_all_tokens(t_token *head, t_var *vars);
 int				expand_one_token(t_token *tok, t_var *vars);
+void			expand_all_tokens(t_token *head, t_var *vars);
 
 //expansion_utils.c
+int				var_name_len(char *tok_val);
 char			*var_get(t_var *vars, const char *key);
 size_t			calc_new_len(t_token *tok, t_var *vars);
 void			process_env_flags(t_token *tok, t_aux *aux,
 					size_t *len, t_var *vars);
-int				var_name_len(char *tok_val);
 
 //envp_array.c
 int				var_to_envp(t_shell *s);
@@ -200,21 +200,23 @@ int				var_to_envp(t_shell *s);
 int				is_valid_identifier(char *key);
 int				try_set_local_var(t_command *cmd, t_var **vars);
 int				exec_set_local_vars(t_shell *shell);
-
 // ----Environment_&_Exapansion----
 
 // ----Execution----
+void			exec_builtin(t_shell *shell);
+int				is_builtin(t_command *cmd);
+
 // execution.c
 void			exec_cmd(t_shell *shell);
 
 // exec_simple_cmd.c
-void			exec_simple_cmd(t_command *cmd);
+void			exec_simple_cmd(t_shell *shell);
 
 // get_path.c
 char			*get_path(t_command *cmd);
 
 // pipe.c
-void			exec_pipe(t_command *cmd);
+void			exec_pipe(t_shell *shell);
 
 // - Redirections -
 // exec_redir.c
@@ -224,7 +226,7 @@ void			handle_in(t_redirections *redir);
 void			handle_creat(t_redirections *redir);
 
 // heredoc.c
-void			verif_heredoc(t_command *command);
+void			verif_heredoc(t_shell *shell);
 
 // heredoc_utils.c
 char			*tmpfile_name(int *heredoc_fd);
@@ -233,11 +235,9 @@ void			definy_redir(char *file_name, t_redirections *redir);
 void			clean_filename(char **file_name);
 void			fork_error(int heredoc_fd, char **file_name);
 // --------
-
 // ----Execution----
 
 // ----Built_ins----
-
 //export_builtin.c
 int				exec_export_builtin(t_shell	*s);
 

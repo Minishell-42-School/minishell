@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:16:18 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 10:59:52 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:18:42 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	ign_signals(void)
 static void	handle_sigint(int sig)
 {
 	(void)sig;
-	g_exit_status = 130;
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();

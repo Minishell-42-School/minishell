@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 13:35:55 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 18:19:03 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,13 @@ void	init_t_shell(t_shell *shell)
 	shell->token_list = NULL;
 	shell->vars = NULL;
 	shell->new_envp = NULL;
+	shell->last_status = 0;
 }
 
 int	main(int argc, char **av, char **envp)
 {
-	t_shell			shell;
-	//check flags in make
+	t_shell	shell;
+
 	if (argc || av)
 		;
 	init_t_shell(&shell);
@@ -36,6 +37,7 @@ int	main(int argc, char **av, char **envp)
 			break ;
 		get_token(&shell.token_list, shell.line);
 		free(shell.line);
+		printf("1. EXIT... %d\n", shell.last_status);
 		expand_all_tokens(shell.token_list, shell.vars);
 		if (shell.token_list)
 		{
@@ -47,6 +49,7 @@ int	main(int argc, char **av, char **envp)
 				exec_cmd(&shell);
 			free_loop(&shell.token_list, &shell.cmd);
 		}
+		printf("2. EXIT... %d\n", shell.last_status);
 	}
 	free_vars_and_envp(shell.vars, shell.new_envp);
 	return (0);

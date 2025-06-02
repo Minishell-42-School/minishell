@@ -6,107 +6,76 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:32:49 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 13:47:55 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:57:20 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// void	exec_cmd(t_command *cmd)
-// {
-// 	g_exit_status = 0;
-// 	if (!cmd)
-// 		return ;
-// 	verif_heredoc(cmd);
-// 	if (g_exit_status == 130)
-// 		return ;
-// 	if (cmd->next)
-// 	{
-// 		exec_pipe(cmd);
-// 		return ;
-// 	}
-// 	// if (is_builtin(cmd) && !cmd->redirs)
-// 	// {
-// 	// 	exec_builtin(cmd);
-// 	// 	return ;
-// 	// }
-// 	// else
-// 	exec_simple_cmd(cmd);
-
-// }
-
-
-// if is builtin and no error ocurred, it returns 0, if not builtin 1
-// if no command name -1.
-static int	is_builtin(t_shell *shell)
+void	exec_builtin(t_shell *shell)
 {
-	if (!shell->cmd->command_name)
-		return (-1);
 	if (ft_strcmp(shell->cmd->command_name, "echo") == 0)
-		return (exec_echo_builtin(shell));
+		exec_echo_builtin(shell);
 	else if (ft_strcmp(shell->cmd->command_name, "cd") == 0)
-		return (exec_cd_builtin(shell));
+		exec_cd_builtin(shell);
 	else if (ft_strcmp(shell->cmd->command_name, "pwd") == 0)
-		return (pwd_builtin());
+		pwd_builtin();
 	else if (ft_strcmp(shell->cmd->command_name, "export") == 0)
-		return (exec_export_builtin(shell));
+		exec_export_builtin(shell);
 	else if (ft_strcmp(shell->cmd->command_name, "unset") == 0)
-		return (exec_unset_builtin(shell));
+		exec_unset_builtin(shell);
 	else if (ft_strcmp(shell->cmd->command_name, "env") == 0)
-		return (exec_env_builtin(shell));
-	else if (ft_strcmp(shell->cmd->command_name, "exit") == 0)
-		return (exec_exit_builtin(shell));
-	return (1);
+		exec_env_builtin(shell);
+	else
+		exec_exit_builtin(shell);
 }
 
-// REVER SOH MONTEI COMO "MODELO"
+int	is_builtin(t_command *cmd)
+{
+	char	*cmd_name;
+
+	cmd_name = cmd->command_name;
+	if (!ft_strcmp(cmd_name, "echo") || !ft_strcmp(cmd_name, "cd") || \
+		!ft_strcmp(cmd_name, "pwd") || !ft_strcmp(cmd_name, "export") || \
+		!ft_strcmp(cmd_name, "unset") || !ft_strcmp(cmd_name, "env") || \
+		!ft_strcmp(cmd_name, "exit"))
+		return (1);
+	return (0);
+}
+
+void	handle_builtin(t_shell *shell)
+{
+	int		saved_stdin;
+	int		saved_stdout;
+
+	saved_stdin = dup(STDIN_FILENO);
+	saved_stdout = dup(STDOUT_FILENO);
+	if (shell->cmd->redirs)
+		definy_fd(shell->cmd);
+	exec_builtin(shell);
+	dup2(saved_stdin, STDIN_FILENO);
+	dup2(saved_stdout, STDOUT_FILENO);
+	close(saved_stdin);
+	close(saved_stdout);
+}
+
 void	exec_cmd(t_shell *shell)
 {
-	// 	g_exit_status = 0;
+	shell->last_status = 0;
 	if (!shell->cmd)
 		return ;
-	verif_heredoc(shell->cmd);
-	if (g_exit_status == 130)
+	verif_heredoc(shell);
+	if (shell->last_status == 130)
 		return ;
 	if (shell->cmd->next)
 	{
-		exec_pipe(shell->cmd);
+		exec_pipe(shell);
 		return ;
 	}
-	if (is_builtin(shell) == 0)
+	if (is_builtin(shell->cmd))
 	{
-		//printf("builtin executed\n");
+		handle_builtin(shell);
 		return ;
-	}	
-	// else if (has_pipe(cmd))
-	// 	exec_pipeline(cmd);
-	// else
-	else
-	{
-		//printf("external command executed\n");
-		exec_external_cmd(shell->cmd);	
 	}
+	exec_simple_cmd(shell);
 }
-
-// void	exec_cmd(t_command *cmd)
-// {
-
-// 	if (!cmd)
-// 		return ;
-// 	verif_heredoc(cmd);
-// 	if (g_exit_status == 130)
-// 		return ;
-// 	if (cmd->next)
-// 	{
-// 		exec_pipe(cmd);
-// 		return ;
-// 	}
-// 	// if (is_builtin(cmd) && !cmd->redirs)
-// 	// {
-// 	// 	exec_builtin(cmd);
-// 	// 	return ;
-// 	// }
-// 	// else
-// 	exec_simple_cmd(cmd);
-
-// }

@@ -6,28 +6,33 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 12:09:39 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 16:58:14 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	exec_child_proc(t_command *cmd)
+static void	exec_child_proc(t_shell *shell, t_command *cmd)
 {
 	char	*path;
 
+	if (is_builtin(cmd))
+	{
+		exec_builtin(shell);
+		exit(EXIT_SUCCESS);
+	}
 	path = get_path(cmd);
 	if (!path)
 	{
 		perror("get_path");
 		exit(EXIT_FAILURE);
 	}
-	execve(path, cmd->args, NULL);
+	execve(path, cmd->args, shell->new_envp);
 	perror("execve");
 	exit(EXIT_FAILURE);
 }
 
-static void	child_proc(t_command *cmd, int control_fd, int fd[2])
+static void	child_proc(t_shell *s, t_command *cmd, int control_fd, int fd[2])
 {
 	if (control_fd != -1)
 	{
@@ -42,7 +47,7 @@ static void	child_proc(t_command *cmd, int control_fd, int fd[2])
 	}
 	if (cmd->redirs)
 		definy_fd(cmd);
-	exec_child_proc(cmd);
+	exec_child_proc(s, cmd);
 }
 
 static void	parent_proc(t_command *cmd, int *control_fd, int fd[2])
@@ -60,7 +65,7 @@ static void	parent_proc(t_command *cmd, int *control_fd, int fd[2])
 	}
 }
 
-void	pipe_signal(void)
+void	pipe_signal(t_shell *shell)
 {
 	int	status;
 
@@ -68,18 +73,20 @@ void	pipe_signal(void)
 	while (waitpid(-1, &status, 0) > 0)
 	{
 		if (WIFEXITED(status))
-			g_exit_status = WEXITSTATUS(status);
+			shell->last_status = WEXITSTATUS(status);
 	}
 	config_signals();
 }
 
-void	exec_pipe(t_command *cmd)
+void	exec_pipe(t_shell *shell)
 {
-	int		fd[2];
-	int		control_fd;
-	pid_t	pid;
+	int			fd[2];
+	int			control_fd;
+	pid_t		pid;
+	t_command	*cmd;
 
 	control_fd = -1;
+	cmd = shell->cmd;
 	while (cmd)
 	{
 		if (cmd->next && pipe(fd) == -1)
@@ -88,12 +95,12 @@ void	exec_pipe(t_command *cmd)
 		if (pid == -1)
 			return ((void)perror("fork"));
 		if (pid == 0)
-			child_proc(cmd, control_fd, fd);
+			child_proc(shell, cmd, control_fd, fd);
 		else
 		{
 			parent_proc(cmd, &control_fd, fd);
 			cmd = cmd->next;
 		}
 	}
-	pipe_signal();
+	pipe_signal(shell);
 }

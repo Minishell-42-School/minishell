@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/29 18:20:06 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 12:30:46 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,15 +80,35 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-// --- Functions ---
+typedef struct s_var
+{
+	char				*key;
+	char				*value;
+	int					exported;
+	struct s_var		*next;
+}	t_var;
 
+typedef struct s_exp_aux
+{
+	int					i;
+	int					j;
+	int					k;
+	int					count;
+	size_t				len;
+}	t_aux;
+
+// Functions
 // prompt.c
 char			*get_prompt(void);
 
 // free_all.c
-void			free_all(t_token **token_lst, t_command **cmd);
 void			free_token_lst(t_token **token_lst);
+void			free_all(t_token **token_lst, t_command **cmd, char **new_envp);
 void			free_command_list(t_command *head);
+void			free_vars(t_var *vars);
+
+//free_envp.c
+void			free_new_envp(char **new_envp);
 
 // signal.c
 void			config_signals(void);
@@ -144,6 +164,29 @@ t_redirections	*parse_redirection(t_parser_state *p_state);
 int				check_syntax(t_parser_state *token);
 void			ft_error(char *msg);
 // ----Parser----
+
+//set_env_vars.c
+int				init_vars_from_envp(t_var **vars, char **envp);
+int				split_env(const char *env, char **key, char **value);
+int				vars_set(t_var **vars, char *key, char *value, int exported);
+t_var			*var_find(t_var *vars, const char *key);
+
+//expansion.c
+void			expand_all_tokens(t_token *head, t_var *vars);
+int				expand_one_token(t_token *tok, t_var *vars);
+
+//expansion_utils.c
+char			*var_get(t_var *vars, const char *key);
+size_t			calc_new_len(t_token *tok, t_var *vars);
+void			process_env_flags(t_token *tok, t_aux *aux,
+					size_t *len, t_var *vars);
+int				var_name_len(char *tok_val);
+
+//envp_array.c
+char			**var_to_envp(t_var *vars);
+
+//local_vars.c
+int				try_set_local_var(t_command *cmd_pipeline, t_var **vars);
 
 // ----Execution----
 // execution.c

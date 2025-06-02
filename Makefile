@@ -26,6 +26,9 @@ SRCS = main.c prompt.c free_all.c signal.c \
 	execution/execution.c execution/exec_simple_cmd.c execution/get_path.c \
 	execution/pipe.c execution/redirections/exec_redir.c \
 	execution/redirections/heredoc.c execution/redirections/heredoc_utils.c
+	env_expansion/set_env_vars.c env_expansion/expansion.c \
+	env_expansion/expansion_utils.c env_expansion/envp_array.c \
+	env_expansion/local_vars.c free_envp.c
 
 OBJS = $(SRCS:%.c=%.o)
 

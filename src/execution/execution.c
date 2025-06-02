@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:32:49 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/29 15:41:35 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 11:00:51 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	exec_cmd(t_command *cmd)
 	if (!cmd)
 		return ;
 	verif_heredoc(cmd);
-  if (g_exit_status == 130)
-    return ;
+	if (g_exit_status == 130)
+		return ;
 	if (cmd->next)
 	{
 		exec_pipe(cmd);

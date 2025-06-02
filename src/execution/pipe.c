@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/29 12:50:22 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 12:09:39 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static void	child_proc(t_command *cmd, int control_fd, int fd[2])
 		close(fd[1]);
 	}
 	if (cmd->redirs)
-    definy_fd(cmd);
+		definy_fd(cmd);
 	exec_child_proc(cmd);
 }
 
@@ -60,17 +60,14 @@ static void	parent_proc(t_command *cmd, int *control_fd, int fd[2])
 	}
 }
 
-void	pipe_signal()
+void	pipe_signal(void)
 {
 	int	status;
-	pid_t pid;
 
 	ign_signals();
-	while ((pid = waitpid(-1, &status, 0)) > 0)
+	while (waitpid(-1, &status, 0) > 0)
 	{
-		if (WIFSIGNALED(status))
-			g_exit_status = 128 + WTERMSIG(status);
-		else
+		if (WIFEXITED(status))
 			g_exit_status = WEXITSTATUS(status);
 	}
 	config_signals();
@@ -86,10 +83,10 @@ void	exec_pipe(t_command *cmd)
 	while (cmd)
 	{
 		if (cmd->next && pipe(fd) == -1)
-      return ((void)perror("pipe"));
+			return ((void)perror("pipe"));
 		pid = fork();
 		if (pid == -1)
-      return ((void)perror("fork"));
+			return ((void)perror("fork"));
 		if (pid == 0)
 			child_proc(cmd, control_fd, fd);
 		else

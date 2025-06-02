@@ -155,6 +155,7 @@ void	exec_redir(void)
 	// Multiplos redirs
 	// Same type
 	exec_cmd("echo teste > a.txt > b.txt", NULL, &test_nbr);
+	exec_cmd("echo teste > a.txt again > b.txt balula", NULL, &test_nbr);
 	exec_cmd("cat < a.txt < b.txt", NULL, &test_nbr);
 	exec_cmd("cat < Makefile > output.txt", NULL, &test_nbr);
 	exec_cmd("cat < Makefile >> output.txt", NULL, &test_nbr);

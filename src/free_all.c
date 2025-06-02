@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/29 18:19:13 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 11:00:21 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static void	free_redirections(t_redirections *redir)
 	{
 		temp = redir->next;
 		if (ft_strncmp(redir->filename, "/tmp/.hdoc_tmp_", 15) == 0)
-      unlink(redir->filename);
+			unlink(redir->filename);
 		free(redir->filename);
 		free(redir);
 		redir = temp;

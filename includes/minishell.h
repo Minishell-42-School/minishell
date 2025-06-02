@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 16:53:37 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/02 19:45:25 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,13 +158,13 @@ t_command		*init_command_struct(void);
 int				count_args(t_parser_state *p_state);
 t_redirections	*assign_redir_type(t_parser_state *p_state, \
 				t_redirections *redir);
-t_command		*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
+//t_command		*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
 
 //parser.c
 t_command		*parse_pipeline(t_parser_state *p_state);
 t_command		*parse_command(t_parser_state *p_state);
-t_command		*check_command_args(t_parser_state *p_state, t_command *cmd);
-t_command		*check_redirections(t_parser_state *p_state, t_command	*cmd);
+//t_command		*check_command_args(t_parser_state *p_state, t_command *cmd);
+//t_command		*check_redirections(t_parser_state *p_state, t_command	*cmd);
 t_redirections	*parse_redirection(t_parser_state *p_state);
 
 //check_syntax_env.c

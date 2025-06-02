@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/08 15:45:34 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 19:45:44 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,57 +32,56 @@ t_command	*parse_pipeline(t_parser_state *p_state)
 	return (first_cmd);
 }
 
+// t_command	*parse_command(t_parser_state *p_state)
+// {
+// 	t_command	*cmd;
+
+// 	cmd = init_command_struct();
+// 	cmd = check_redirections(p_state, cmd);
+// 	cmd = check_command_args(p_state, cmd);
+// 	cmd = check_redirections(p_state, cmd);
+// 	return (cmd);
+// }
+
 t_command	*parse_command(t_parser_state *p_state)
 {
-	t_command	*cmd;
-
-	cmd = init_command_struct();
-	cmd = check_redirections(p_state, cmd);
-	cmd = check_command_args(p_state, cmd);
-	cmd = check_redirections(p_state, cmd);
-	return (cmd);
-}
-
-//cmd->args[0] is the name of the command.
-t_command	*check_command_args(t_parser_state *p_state, t_command *cmd)
-{
-	t_token	*token;
-	int		args_count;
-
-	token = p_state->current;
-	args_count = count_args(p_state);
-	cmd->args_count = args_count;
-	if (token && token->type == WORD)
-		cmd->command_name = ft_strdup(token->value);
-	cmd->args = malloc(sizeof(char *) * (args_count + 1));
-	if (!cmd->args)
-		ft_error("Malloc cmd->args failed\n");
-	cmd = fill_cmd_args(p_state, cmd);
-	return (cmd);
-}
-
-t_command	*check_redirections(t_parser_state *p_state, t_command	*cmd)
-{
+	t_command		*cmd;
 	t_redirections	*redir;
 	t_redirections	*last_redir;
-	t_token			*curr_token;
+	int				args_count;
+	int				i;
 
-	curr_token = p_state->current;
-	while (curr_token && (curr_token->type != WORD
-			&& curr_token->type != PIPE))
+	cmd = init_command_struct();
+	args_count = count_args(p_state);
+	cmd->args_count = args_count;
+	cmd->args = malloc(sizeof(char *) * (args_count + 1));
+	if (!cmd->args)
+		ft_error("Malloc cmd args failed\n");
+	i = 0;
+	while (p_state->current && p_state->current->type != PIPE)
 	{
-		redir = parse_redirection(p_state);
-		if (!cmd->redirs)
-			cmd->redirs = redir;
+		if (p_state->current->type == WORD)
+		{
+			cmd->args[i++] = ft_strdup(p_state->current->value);
+			if (i == 1)
+				cmd->command_name = ft_strdup(p_state->current->value);
+			p_state->current = p_state->current->next;
+		}
 		else
 		{
-			last_redir = cmd->redirs;
-			while (last_redir->next)
-				last_redir = last_redir->next;
-			last_redir->next = redir;
+			redir = parse_redirection(p_state);
+			if (!cmd->redirs)
+				cmd->redirs = redir;
+			else
+			{
+				last_redir = cmd->redirs;
+				while (last_redir->next)
+					last_redir = last_redir->next;
+				last_redir->next = redir;
+			}
 		}
-		curr_token = p_state->current;
 	}
+	cmd->args[i] = NULL;
 	return (cmd);
 }
 

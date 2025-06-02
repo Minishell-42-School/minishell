@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:09:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/08 15:45:30 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/02 19:43:46 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,6 @@ t_command	*init_command_struct(void)
 	return (cmd);
 }
 
-t_command	*fill_cmd_args(t_parser_state *p_state, t_command *cmd)
-{
-	int	i;
-
-	i = 0;
-	while (p_state->current && p_state->current->type == WORD)
-	{
-		cmd->args[i] = ft_strdup(p_state->current->value);
-		i++;
-		advance_token(p_state);
-	}
-	cmd->args[i] = NULL;
-	return (cmd);
-}
-
 int	count_args(t_parser_state *p_state)
 {
 	t_parser_state	temp;
@@ -63,10 +48,19 @@ int	count_args(t_parser_state *p_state)
 
 	temp = *p_state;
 	arg_count = 0;
-	while (temp.current && temp.current->type == WORD)
+	while (temp.current && temp.current->type != PIPE)
 	{
-		arg_count++;
-		temp.current = temp.current->next;
+		if (temp.current->type == WORD)
+		{
+			arg_count++;
+			temp.current = temp.current->next;
+		}
+		else
+		{
+			temp.current = temp.current->next;
+			if (temp.current && temp.current->type == WORD)
+				temp.current = temp.current->next;
+		}
 	}
 	return (arg_count);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:36:44 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/29 17:10:23 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/03 17:16:33 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ static int	unset_builtin(t_command *cmd, t_var **vars)
 	return (0);
 }
 
-int	exec_unset_builtin(t_shell *s)
+int	exec_unset_builtin(t_shell *s, t_command *cmd)
 {
-	if (unset_builtin(s->cmd, &s->vars) == 0)
+	if (unset_builtin(cmd, &s->vars) == 0)
 	{
 		var_to_envp(s);
 		return (0);

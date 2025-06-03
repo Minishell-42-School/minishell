@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 13:52:11 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:19:39 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,7 +218,7 @@ void			exec_simple_cmd(t_shell *shell);
 void			exec_pipe(t_shell *shell);
 
 // get_path.c
-char			*get_path(t_command *cmd);
+char			*get_path(t_shell *shell, t_command *cmd);
 
 // - Redirections -
 // exec_redir.c
@@ -243,29 +243,35 @@ void			fork_error(int heredoc_fd, char **file_name);
 // exec_builtin
 int				is_builtin(t_command *cmd);
 int				handle_builtin(t_shell *shell);
-void			exec_builtin(t_shell *shell);
+// void			exec_builtin(t_shell *shell);
+void			exec_builtin(t_shell *shell, t_command *cmd);
 
 //export_builtin.c
-int				exec_export_builtin(t_shell	*s);
+// int				exec_export_builtin(t_shell	*s);
+int				exec_export_builtin(t_shell	*s, t_command *cmd);
 
 //export_builtin.c
-int				exec_unset_builtin(t_shell *s);
+// int				exec_unset_builtin(t_shell *s);
+int				exec_unset_builtin(t_shell *s, t_command *cmd);
 int				print_sorted_export(t_var *vars);
 
 //cd_builtin.c
-int				exec_cd_builtin(t_shell *s);
-
+// int				exec_cd_builtin(t_shell *s);
+int				exec_cd_builtin(t_shell *s, t_command *cmd);
 //pwd_builtin.c
 int				pwd_builtin(void);
 
 //echo_builtin.c
-int				exec_echo_builtin(t_shell *s);
+// int				exec_echo_builtin(t_shell *s);
+int				exec_echo_builtin(t_command *cmd);
 
 //env_builtin.c
-int				exec_env_builtin(t_shell *s);
+// int				exec_env_builtin(t_shell *s);
+int				exec_env_builtin(t_shell *s, t_command *cmd);
 
 //exit_builtin.c
-int				exec_exit_builtin(t_shell *s);
+// int				exec_exit_builtin(t_shell *s);
+int				exec_exit_builtin(t_shell *s, t_command *cmd);
 
 // ----Built_ins----
 

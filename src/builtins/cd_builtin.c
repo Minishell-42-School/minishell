@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:01:41 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/29 17:09:43 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/03 17:13:56 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	cd_builtin(t_command *cmd, t_var **vars)
 	return (0);
 }
 
-int	exec_cd_builtin(t_shell *s)
+int	exec_cd_builtin(t_shell *s, t_command *cmd)
 {
-	cd_builtin(s->cmd, &s->vars);
+	cd_builtin(cmd, &s->vars);
 	var_to_envp(s);
 	return (0);
 }

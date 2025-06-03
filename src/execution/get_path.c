@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/21 13:59:07 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/03 18:09:02 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static char	*get_env_path(t_command *cmd, char ***dir)
 	return (NULL);
 }
 
-char	*get_path(t_command *cmd)
+char	*get_path(t_shell *shell, t_command *cmd)
 {
 	char	*env_path;
 	char	*path;
@@ -67,7 +67,7 @@ char	*get_path(t_command *cmd)
 		path = cmd->command_name;
 	else
 	{
-		env_path = getenv("PATH");
+		env_path = var_get(shell->vars, "PATH");
 		if (!env_path)
 			return (NULL);
 		dir = ft_split(env_path, ':');
@@ -75,7 +75,11 @@ char	*get_path(t_command *cmd)
 			return (NULL);
 		path = get_env_path(cmd, &dir);
 	}
-	if (!path || access(path, X_OK) != 0)
-		perror("Command not found or not executable");
+	if (!path)
+		return (NULL);
+	if (access(path, X_OK) != 0)
+		return (path);
+	// if (!path || access(path, X_OK) != 0)
+	// 	perror("Command not found or not executable");
 	return (path);
 }

@@ -1,21 +1,21 @@
-/******************************************************************************/
+/* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
 /*   export_sort.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller- <ekeller-@student.42sp.org.br>    +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 17:18:27 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/30 13:12:44 by ekeller-         ###   ########.fr       */
+/*   Created: 2025/06/03 10:10:39 by ekeller-@st       #+#    #+#             */
+/*   Updated: 2025/06/03 10:51:59 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
-/******************************************************************************/
+/* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
 static int	count_exported(t_var *vars)
 {
 	int	count;
-	
+
 	count = 0;
 	while (vars)
 	{
@@ -31,7 +31,7 @@ static void	sort_var_array(t_var **arr, int size)
 	int		i;
 	int		j;
 	t_var	*tmp;
-	
+
 	i = 0;
 	while (i < size - 1)
 	{
@@ -52,7 +52,9 @@ static void	sort_var_array(t_var **arr, int size)
 
 static void	fill_exported_array(t_var **arr, t_var *vars)
 {
-	int	i = 0;
+	int	i;
+
+	i = 0;
 	while (vars)
 	{
 		if (vars->exported)

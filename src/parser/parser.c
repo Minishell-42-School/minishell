@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/02 19:45:44 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/03 10:45:19 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,53 +32,50 @@ t_command	*parse_pipeline(t_parser_state *p_state)
 	return (first_cmd);
 }
 
-// t_command	*parse_command(t_parser_state *p_state)
-// {
-// 	t_command	*cmd;
+static void	link_redir(t_command *cmd, t_redirections *redir)
+{
+	t_redirections	*last;
 
-// 	cmd = init_command_struct();
-// 	cmd = check_redirections(p_state, cmd);
-// 	cmd = check_command_args(p_state, cmd);
-// 	cmd = check_redirections(p_state, cmd);
-// 	return (cmd);
-// }
+	if (!cmd->redirs)
+		cmd->redirs = redir;
+	else
+	{
+		last = cmd->redirs;
+		while (last->next)
+			last = last->next;
+		last->next = redir;
+	}
+}
+
+static void	fill_cmd_args(t_parser_state *p_state, t_command *cmd, int *i)
+{
+	cmd->args[*i] = ft_strdup(p_state->current->value);
+	if (*i == 0)
+		cmd->command_name = ft_strdup(p_state->current->value);
+	(*i)++;
+	p_state->current = p_state->current->next;
+}
 
 t_command	*parse_command(t_parser_state *p_state)
 {
 	t_command		*cmd;
 	t_redirections	*redir;
-	t_redirections	*last_redir;
-	int				args_count;
 	int				i;
 
 	cmd = init_command_struct();
-	args_count = count_args(p_state);
-	cmd->args_count = args_count;
-	cmd->args = malloc(sizeof(char *) * (args_count + 1));
+	cmd->args_count = count_args(p_state);
+	cmd->args = malloc(sizeof(char *) * (cmd->args_count + 1));
 	if (!cmd->args)
 		ft_error("Malloc cmd args failed\n");
 	i = 0;
 	while (p_state->current && p_state->current->type != PIPE)
 	{
 		if (p_state->current->type == WORD)
-		{
-			cmd->args[i++] = ft_strdup(p_state->current->value);
-			if (i == 1)
-				cmd->command_name = ft_strdup(p_state->current->value);
-			p_state->current = p_state->current->next;
-		}
+			fill_cmd_args(p_state, cmd, &i);
 		else
 		{
 			redir = parse_redirection(p_state);
-			if (!cmd->redirs)
-				cmd->redirs = redir;
-			else
-			{
-				last_redir = cmd->redirs;
-				while (last_redir->next)
-					last_redir = last_redir->next;
-				last_redir->next = redir;
-			}
+			link_redir(cmd, redir);
 		}
 	}
 	cmd->args[i] = NULL;

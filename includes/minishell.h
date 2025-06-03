@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 11:19:40 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/03 15:18:05 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,6 @@ void			verif_value(t_token **token_list);
 int				count_args(t_parser_state *p_state);
 t_token			*advance_token(t_parser_state *p_state);
 t_command		*init_command_struct(void);
-t_command		*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
 t_redirections	*assign_redir_type(t_parser_state *p_state, \
 				t_redirections *redir);
 
@@ -183,13 +182,13 @@ int				vars_set(t_var **vars, char *key, char *value, int exported);
 t_var			*var_find(t_var *vars, const char *key);
 
 //expansion.c
-int				expand_one_token(t_token *tok, t_var *vars);
-void			expand_all_tokens(t_token *head, t_var *vars);
+int				expand_one_token(t_shell *s);
+void			expand_all_tokens(t_shell *s);
 
 //expansion_utils.c
 int				var_name_len(char *tok_val);
 char			*var_get(t_var *vars, const char *key);
-size_t			calc_new_len(t_token *tok, t_var *vars);
+size_t			calc_new_len(t_shell *s);
 void			process_env_flags(t_token *tok, t_aux *aux,
 					size_t *len, t_var *vars);
 

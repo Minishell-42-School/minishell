@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 11:21:45 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/03 15:25:16 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	main(int argc, char **av, char **envp)
 			break ;
 		get_token(&shell.token_list, shell.line);
 		free(shell.line);
-		printf("1. EXIT... %d\n", shell.last_status);
-		expand_all_tokens(shell.token_list, shell.vars);
+		//printf("1. EXIT... %d\n", shell.last_status);
+		expand_all_tokens(&shell);
 		if (shell.token_list)
 		{
 			shell.p_state.current = shell.token_list;
@@ -49,7 +49,7 @@ int	main(int argc, char **av, char **envp)
 				exec_cmd(&shell);
 			free_loop(&shell.token_list, &shell.cmd);
 		}
-		printf("2. EXIT... %d\n", shell.last_status);
+		//printf("2. EXIT... %d\n", shell.last_status);
 	}
 	free_vars_and_envp(shell.vars, shell.new_envp);
 	return (0);

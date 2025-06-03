@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 18:23:56 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/21 14:12:36 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/03 15:27:37 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,27 @@ char	*var_get(t_var *vars, const char *key)
 		return (NULL);
 }
 
-size_t	calc_new_len(t_token *tok, t_var *vars)
+static size_t	digit_count(int n)
+{
+	size_t	digits;
+	long	val;
+
+	val = n;
+	digits = 0;
+	if (val <= 0)
+	{
+		digits = 1;
+		val = -val;
+	}
+	while (val > 0)
+	{
+		val /= 10;
+		digits++;
+	}
+	return (digits);
+}
+
+size_t	calc_new_len(t_shell *s)
 {
 	t_aux	aux;
 	size_t	len;
@@ -31,22 +51,36 @@ size_t	calc_new_len(t_token *tok, t_var *vars)
 	aux.i = 0;
 	aux.k = 0;
 	len = 0;
-	while (tok->value[aux.i])
+	while (s->token_list->value[aux.i])
 	{
-		if (tok->expand_var && aux.k < tok->nbr_env_var
-			&& tok->expand_var[aux.k] && tok->value[aux.i] == '$')
-			process_env_flags(tok, &aux, &len, vars);
+		if (s->token_list->value[aux.i] == '$'
+			&& s->token_list->value[aux.i + 1]
+			&& s->token_list->value[aux.i + 1] == '?')
+		{
+			len += digit_count(s->last_status);
+			aux.i += 2;
+			continue ;
+		}
+		if (s->token_list->expand_var
+			&& aux.k < s->token_list->nbr_env_var
+			&& s->token_list->expand_var[aux.k]
+			&& s->token_list->value[aux.i] == '$')
+		{
+			process_env_flags(s->token_list, &aux, &len, s->vars);
+		}
 		else
 		{
 			len++;
-			if (tok->expand_var && tok->value[aux.i] == '$'
-				&& aux.k < tok->nbr_env_var)
+			if (s->token_list->expand_var
+				&& s->token_list->value[aux.i] == '$'
+				&& aux.k < s->token_list->nbr_env_var)
 				aux.k++;
 			aux.i++;
 		}
 	}
 	return (len);
 }
+
 
 void	process_env_flags(t_token *tok, t_aux *aux,
 	size_t *len, t_var *vars)

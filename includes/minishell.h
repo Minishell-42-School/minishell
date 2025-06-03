@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 12:18:01 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/03 12:55:01 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,8 @@ char			*get_prompt(t_shell *shell);
 // free_all.c
 void			free_token_lst(t_token **token_lst);
 void			free_loop(t_token **token_lst, t_command **cmd);
+void			free_vars_and_envp(t_var *vars, char **new_envp);
+void			free_command_list(t_command *head);
 
 //free_envp.c
 void			free_vars_and_envp(t_var *vars, char **new_envp);
@@ -159,15 +161,12 @@ void			verif_value(t_token **token_list);
 int				count_args(t_parser_state *p_state);
 t_token			*advance_token(t_parser_state *p_state);
 t_command		*init_command_struct(void);
-t_command		*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
 t_redirections	*assign_redir_type(t_parser_state *p_state, \
 				t_redirections *redir);
 
 //parser.c
 t_command		*parse_pipeline(t_parser_state *p_state);
 t_command		*parse_command(t_parser_state *p_state);
-t_command		*check_command_args(t_parser_state *p_state, t_command *cmd);
-t_command		*check_redirections(t_parser_state *p_state, t_command	*cmd);
 t_redirections	*parse_redirection(t_parser_state *p_state);
 
 //check_syntax.c

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 18:20:23 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/03 12:18:01 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
 
-// extern volatile sig_atomic_t	g_exit_status;
+extern volatile sig_atomic_t	g_signal;
 
 typedef enum e_token_type
 {
@@ -110,7 +110,7 @@ typedef struct s_shell
 
 // Functions
 // prompt.c
-char			*get_prompt(void);
+char			*get_prompt(t_shell *shell);
 
 // free_all.c
 void			free_token_lst(t_token **token_lst);

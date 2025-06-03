@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:47:50 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/02 17:58:44 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:53:24 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,6 @@ static void	process_build(t_token *tok, t_aux *aux, t_var *vars, char *new)
 	exp_len = var_name_len(tok->value + aux->i + 1);
 	var_name = ft_strndup(tok->value + aux->i + 1, exp_len);
 	exp_value = var_get(vars, var_name);
-
-	// char	*last_exit;
-	// last_exit = ft_itoa(shell->last_status);
-	// if (!exp_value && ft_strcmp(&tok->value[1], "?") == 0)
-	// 	exp_value = last_exit;
-
 	if (exp_value)
 	{
 		ft_memcpy(new + aux->j, exp_value, ft_strlen(exp_value));

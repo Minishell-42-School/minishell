@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 16:58:14 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:49:33 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ static void	child_proc(t_shell *s, t_command *cmd, int control_fd, int fd[2])
 		close(fd[1]);
 	}
 	if (cmd->redirs)
-		definy_fd(cmd);
+		if (definy_fd(cmd))
+			exit(EXIT_FAILURE);
 	exec_child_proc(s, cmd);
 }
 
@@ -60,12 +61,10 @@ static void	parent_proc(t_command *cmd, int *control_fd, int fd[2])
 		*control_fd = fd[0];
 	}
 	else
-	{
 		close(fd[0]);
-	}
 }
 
-void	pipe_signal(t_shell *shell)
+static void	pipe_signal(t_shell *shell)
 {
 	int	status;
 

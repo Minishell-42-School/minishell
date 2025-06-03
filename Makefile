@@ -18,7 +18,7 @@ VALGRIND = valgrind
 SUPP = --suppressions=readline.supp --leak-check=full
 IGNRL = --leak-check=full --show-leak-kinds=definite
 
-SRCS = main.c prompt.c free_all.c signal.c \
+SRCS = main.c prompt.c init_shell.c main_looping.c free_all.c signal.c \
 	token/token.c token/create_token.c token/get_env_var.c token/read_token.c \
 	token/read_operator.c token/verif_quote.c token/verif_valid_op.c \
 	token/verif_value.c \
@@ -32,7 +32,7 @@ SRCS = main.c prompt.c free_all.c signal.c \
 	builtins/export_builtin.c builtins/unset_builtin.c \
 	builtins/pwd_builtin.c builtins/cd_builtin.c \
 	builtins/echo_builtin.c builtins/env_builtin.c \
-	builtins/exit_builtin.c builtins/export_sort.c
+	builtins/exit_builtin.c builtins/export_sort.c builtins/exec_builtin.c
 
 OBJS = $(SRCS:%.c=%.o)
 

@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/12 18:23:56 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/03 15:27:37 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/03 17:32:07 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*var_get(t_var *vars, const char *key)
 		return (NULL);
 }
 
-static size_t	digit_count(int n)
+static size_t	digit_count(int n, int *i)
 {
 	size_t	digits;
 	long	val;
@@ -40,50 +40,61 @@ static size_t	digit_count(int n)
 		val /= 10;
 		digits++;
 	}
+	i += 2;
 	return (digits);
+}
+
+statict int	check_if_interrogation(t_token *t, t_aux *aux, t_shell *s)
+{
+	if (t->value[aux->i] == '$' && t->value[aux->i + 1]
+			&& t->value[aux->i + 1] == '?')
+	{
+		aux->len += digit_count(s->last_status, &aux->i);
+		return (0);
+	}
+	return (1);	
+}
+
+static size_t free_aux_return_len(t_aux *aux)
+{
+	size_t	len;
+
+	len = aux->len;
+	if (aux)
+		free(aux);
+	return (len);
 }
 
 size_t	calc_new_len(t_shell *s)
 {
-	t_aux	aux;
-	size_t	len;
+	t_aux	*aux;
+	t_token	*t;
 
-	aux.i = 0;
-	aux.k = 0;
-	len = 0;
-	while (s->token_list->value[aux.i])
+	aux = malloc(sizeof(t_aux));
+	aux->i = 0;
+	aux->k = 0;
+	aux->len = 0;
+	t = s->token_list;
+	while (t->value[aux->i])
 	{
-		if (s->token_list->value[aux.i] == '$'
-			&& s->token_list->value[aux.i + 1]
-			&& s->token_list->value[aux.i + 1] == '?')
-		{
-			len += digit_count(s->last_status);
-			aux.i += 2;
+		if (check_if_interrogation(t, aux, s) == 0)
 			continue ;
-		}
-		if (s->token_list->expand_var
-			&& aux.k < s->token_list->nbr_env_var
-			&& s->token_list->expand_var[aux.k]
-			&& s->token_list->value[aux.i] == '$')
-		{
-			process_env_flags(s->token_list, &aux, &len, s->vars);
-		}
+		if (t->expand_var && aux->k < t->nbr_env_var
+			&& t->expand_var[aux->k] && t->value[aux->i] == '$')
+			process_env_flags(t, aux, s->vars);
 		else
 		{
-			len++;
-			if (s->token_list->expand_var
-				&& s->token_list->value[aux.i] == '$'
-				&& aux.k < s->token_list->nbr_env_var)
-				aux.k++;
-			aux.i++;
+			aux->len++;
+			if (t->expand_var && t->value[aux->i] == '$'
+				&& aux->k < t->nbr_env_var)
+				aux->k++;
+			aux->i++;
 		}
 	}
-	return (len);
+	return (free_aux_return_len(aux));
 }
 
-
-void	process_env_flags(t_token *tok, t_aux *aux,
-	size_t *len, t_var *vars)
+void	process_env_flags(t_token *tok, t_aux *aux, t_var *vars)
 {
 	char	*new_value;
 	int		exp_len;
@@ -94,7 +105,7 @@ void	process_env_flags(t_token *tok, t_aux *aux,
 	new_value = var_get(vars, var_name);
 	free(var_name);
 	if (new_value)
-		*len += ft_strlen(new_value);
+		aux->len += ft_strlen(new_value);
 	aux->i += exp_len + 1;
 	aux->k++;
 }
@@ -104,6 +115,8 @@ int	var_name_len(char *tok_val)
 	int	len;
 
 	len = 0;
+	if (tok_val[0] == '?')
+		return (1);
 	while ((tok_val[len] >= 'A' && tok_val[len] <= 'Z')
 		|| (tok_val[len] >= 'a' && tok_val[len] <= 'z')
 		|| (tok_val[len] >= '0' && tok_val[len] <= '9')

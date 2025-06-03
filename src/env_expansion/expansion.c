@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:47:50 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/03 15:45:37 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/03 16:00:43 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,19 @@ int	expand_one_token(t_shell *s)
 
 void	expand_all_tokens(t_shell *s)
 {
-	while (s->token_list)
+	t_token	*temp;
+	t_token	*saved;
+	
+	temp = s->token_list;
+	while (temp)
 	{
-		if (s->token_list->nbr_env_var > 0)
+		if (temp->nbr_env_var > 0)
+		{
+			saved = s->token_list;
+			s->token_list = temp;
 			expand_one_token(s);
-		s->token_list = s->token_list->next;
+			s->token_list = saved;
+		}
+		temp = temp->next;
 	}
 }

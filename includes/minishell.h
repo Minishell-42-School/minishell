@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 12:55:01 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:52:11 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,12 @@ typedef struct s_shell
 }	t_shell;
 
 // Functions
+// init_shell.c
+void			init_t_shell(t_shell *shell);
+
+// main_looping.c
+void			main_looping(t_shell *shell);
+
 // prompt.c
 char			*get_prompt(t_shell *shell);
 
@@ -202,27 +208,24 @@ int				exec_set_local_vars(t_shell *shell);
 // ----Environment_&_Exapansion----
 
 // ----Execution----
-void			exec_builtin(t_shell *shell);
-int				is_builtin(t_command *cmd);
-
 // execution.c
 void			exec_cmd(t_shell *shell);
 
 // exec_simple_cmd.c
 void			exec_simple_cmd(t_shell *shell);
 
+// exec_pipe.c
+void			exec_pipe(t_shell *shell);
+
 // get_path.c
 char			*get_path(t_command *cmd);
 
-// pipe.c
-void			exec_pipe(t_shell *shell);
-
 // - Redirections -
 // exec_redir.c
-void			definy_fd(t_command *cmd);
-void			handle_out(t_redirections *redir);
-void			handle_in(t_redirections *redir);
-void			handle_creat(t_redirections *redir);
+int				definy_fd(t_command *cmd);
+int				handle_out(t_redirections *redir);
+int				handle_in(t_redirections *redir);
+int				handle_creat(t_redirections *redir);
 
 // heredoc.c
 void			verif_heredoc(t_shell *shell);
@@ -233,10 +236,15 @@ int				loop_heredoc(t_redirections *redir, int heredoc_fd);
 void			definy_redir(char *file_name, t_redirections *redir);
 void			clean_filename(char **file_name);
 void			fork_error(int heredoc_fd, char **file_name);
-// --------
+// -----------------
 // ----Execution----
 
 // ----Built_ins----
+// exec_builtin
+int				is_builtin(t_command *cmd);
+int				handle_builtin(t_shell *shell);
+void			exec_builtin(t_shell *shell);
+
 //export_builtin.c
 int				exec_export_builtin(t_shell	*s);
 

@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 11:19:40 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/03 11:41:33 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,7 +161,6 @@ void			verif_value(t_token **token_list);
 int				count_args(t_parser_state *p_state);
 t_token			*advance_token(t_parser_state *p_state);
 t_command		*init_command_struct(void);
-t_command		*fill_cmd_args(t_parser_state *p_state, t_command *cmd);
 t_redirections	*assign_redir_type(t_parser_state *p_state, \
 				t_redirections *redir);
 

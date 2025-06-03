@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 16:53:21 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/03 11:21:13 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ static void	free_redirections(t_redirections *redir)
 	while (redir)
 	{
 		temp = redir->next;
+		if (ft_strncmp(redir->filename, "/tmp/.hdoc_tmp_", 15) == 0)
+			unlink(redir->filename);
 		free(redir->filename);
 		free(redir);
 		redir = temp;
@@ -77,18 +79,4 @@ void	free_loop(t_token **token_lst, t_command **cmd)
 		free_command_list(*cmd);
 		*cmd = NULL;
 	}
-}
-
-void	free_vars_and_envp(t_var *vars, char **new_envp)
-{
-	while (vars)
-	{
-		if (vars->value)
-			free(vars->value);
-		if (vars->key)
-			free(vars->key);
-		vars = vars->next;
-	}
-	if (new_envp)
-		free_new_envp(new_envp);
 }

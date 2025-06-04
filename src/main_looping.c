@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 12:15:01 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:46:06 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	main_looping(t_shell *shell)
 			break ;
 		get_token(&shell->token_list, shell->line);
 		free(shell->line);
-		expand_all_tokens(shell->token_list, shell->vars);
+		expand_all_tokens(shell);
 		if (shell->token_list)
 		{
 			shell->p_state.current = shell->token_list;

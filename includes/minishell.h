@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 12:44:24 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:46:43 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -250,20 +250,16 @@ void			fork_error(int heredoc_fd, char **file_name);
 // exec_builtin
 int				is_builtin(t_command *cmd);
 int				handle_builtin(t_shell *shell);
-// void			exec_builtin(t_shell *shell);
 void			exec_builtin(t_shell *shell, t_command *cmd);
 
 //export_builtin.c
-// int				exec_export_builtin(t_shell	*s);
 int				exec_export_builtin(t_shell	*s, t_command *cmd);
 
 //export_builtin.c
-// int				exec_unset_builtin(t_shell *s);
 int				exec_unset_builtin(t_shell *s, t_command *cmd);
 int				print_sorted_export(t_var *vars);
 
 //cd_builtin.c
-// int				exec_cd_builtin(t_shell *s);
 int				exec_cd_builtin(t_shell *s, t_command *cmd);
 //pwd_builtin.c
 int				pwd_builtin(void);

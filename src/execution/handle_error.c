@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:13:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 12:14:17 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:29:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,4 +36,30 @@ void	handle_error(t_command *cmd)
 		exit(127);
 	else
 		exit(EXIT_FAILURE);
+}
+
+void	check_error(char *path, t_command *cmd)
+{
+	struct stat	st;
+
+	if (!path)
+	{
+		print_error(cmd->command_name, "command not found");
+		exit(127);
+	}
+	if (stat(path, &st) != 0)
+	{
+		print_error(path, "No such file or directory");
+		exit(127);
+	}
+	if (S_ISDIR(st.st_mode))
+	{
+		print_error(path, "Is a directory");
+		exit(126);
+	}
+	if (access(path, X_OK) != 0)
+	{
+		print_error(path, "Permission denied");
+		exit(126);
+	}
 }

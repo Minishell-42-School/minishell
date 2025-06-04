@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:36:44 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/03 17:16:33 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:30:56 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	unset_builtin(t_command *cmd, t_var **vars)
 	int	i;
 
 	i = 1;
-	if (!cmd || !vars || cmd->args_count < 2)
+	if (!cmd || !vars)
 		return (1);
 	while (cmd->args[i])
 	{
@@ -62,5 +62,5 @@ int	exec_unset_builtin(t_shell *s, t_command *cmd)
 		var_to_envp(s);
 		return (0);
 	}
-	return (-1);
+	return (1);
 }

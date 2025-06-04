@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 12:46:43 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:12:59 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <sys/types.h> // pid_t
 # include <sys/wait.h> // wait
 # include <errno.h> // error
+#include <sys/stat.h> //stat
 # include <readline/readline.h> // readline
 # include <readline/history.h> // add_history
 							// rl -> clear, new_line, replace, redisplay
@@ -226,6 +227,7 @@ char			*get_path(t_shell *shell, t_command *cmd);
 // handle_error.c
 void			handle_error(t_command *cmd);
 void			print_error(char *cmd, char *msg);
+void			check_error(char *path, t_command *cmd);
 
 // - Redirections -
 // exec_redir.c
@@ -250,8 +252,7 @@ void			fork_error(int heredoc_fd, char **file_name);
 // exec_builtin
 int				is_builtin(t_command *cmd);
 int				handle_builtin(t_shell *shell);
-void			exec_builtin(t_shell *shell, t_command *cmd);
-
+int				exec_builtin(t_shell *shell, t_command *cmd);
 //export_builtin.c
 int				exec_export_builtin(t_shell	*s, t_command *cmd);
 
@@ -265,15 +266,12 @@ int				exec_cd_builtin(t_shell *s, t_command *cmd);
 int				pwd_builtin(void);
 
 //echo_builtin.c
-// int				exec_echo_builtin(t_shell *s);
 int				exec_echo_builtin(t_command *cmd);
 
 //env_builtin.c
-// int				exec_env_builtin(t_shell *s);
 int				exec_env_builtin(t_shell *s, t_command *cmd);
 
 //exit_builtin.c
-// int				exec_exit_builtin(t_shell *s);
 int				exec_exit_builtin(t_shell *s, t_command *cmd);
 
 // ----Built_ins----

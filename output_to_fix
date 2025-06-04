@@ -1,139 +1,92 @@
-#------------------- ECHO -------------------#
-
-# --- $ ---
-Test  13: ❌[38;5;244m echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<" 
-mmini output = (> >> < 123 wildcards ? [ ] | ; [ ] || && ( ) & # <<)
-bash output = (> >> < 123 wildcards ? [ ] | ; [ ] || && ( ) & # $ <<)
-mini exit code = ?
-bash exit code = 0
-
-# --- $? expansao ---
-Test  15: ❌[38;5;244m echo "exit_code ->$? user ->$USER home -> $HOME" 
-mmini output = (exit_code ->? user ->jcosta-b home -> /nfs/homes/jcosta-b)
-bash output = (exit_code ->0 user ->jcosta-b home -> /nfs/homes/jcosta-b)
-mini exit code = ?
-bash exit code = 0
-
-# --- $ ---
-Test  17: ❌[38;5;244m echo "$" 
-mmini output = ()
-bash output = ($)
-mini exit code = ?
-bash exit code = 0
-
-Test  19: ❌[38;5;244m echo $ 
-mmini output = ()
-bash output = ($)
-mini exit code = ?
-bash exit code = 0
-
-# --- $? expansao ---
-Test  20: ❌[38;5;244m echo $? 
-mmini output = (?)
-bash output = (0)
-mini exit code = ?
-bash exit code = 0
-
-Test  21: ❌[38;5;244m echo $?HELLO 
-mmini output = (?HELLO)
-bash output = (0HELLO)
-mini exit code = ?
-bash exit code = 0
-
-#------------------- EXPORT -------------------#
+# Test  13: ❌[38;5;244m echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<" 
+# mmini output = (> >> < 123 bash_outfiles bash.supp bonus bonus_bonus builtins extras local.supp loop.out manual_tests mini_outfiles missing os_specific outfiles pipes README.md redirects syntax tester test_files wildcards ? [ ] | ; [ ] || && ( ) & # <<)
+# bash output = (> >> < 123 bash_outfiles bash.supp bonus bonus_bonus builtins extras local.supp loop.out manual_tests mini_outfiles missing os_specific outfiles pipes README.md redirects syntax tester test_files wildcards ? [ ] | ; [ ] || && ( ) & # $ <<)
 
 Test  26: ❌[38;5;244m export A- 
-mmini exit code = ?
+mmini exit code = 0
 bash exit code = 1
 mini error = ()
 bash error = ( not a valid identifier)
 
 Test  30: ❌[38;5;244m export HELLO-=123 
-[0mmini output = (bash: export: `HELLO-=123' : not a valid identifier)
+mmini output = (bash: export: `HELLO-=123' : not a valid identifier)
 bash output = ()
-mini exit code = ?
+mini exit code = 0
 bash exit code = 1
 mini error = ()
 bash error = ( not a valid identifier)
 
 Test  31: ❌[38;5;244m export = 
-mini output = (bash: export: `=' : not a valid identifier)
+mmini output = (bash: export: `=' : not a valid identifier)
 bash output = ()
-mini exit code = ?
+mini exit code = 0
 bash exit code = 1
 mini error = ()
 bash error = ( not a valid identifier)
 
 Test  32: ❌[38;5;244m export 123 
-mmini exit code = ?
+mmini exit code = 0
 bash exit code = 1
 mini error = ()
 bash error = ( not a valid identifier)
 
-#------------------- CD -------------------#
-
 Test  40: ❌[38;5;244m cd $PWD hi 
-mmini exit code = ?
+mmini exit code = 0
 bash exit code = 1
 mini error = ( /nfs/homes/jcosta-b/42cursus/cursus/M.03/My_Minishell/minishell_tester)
 bash error = ( too many arguments)
 
 Test  41: ❌[38;5;244m cd 123123 
-mmini exit code = ?
+mmini exit code = 0
 bash exit code = 1
 mini error = ( 123123)
 bash error = ( No such file or directory)
 
-#------------------- EXIT -------------------#
+Test  42: ✅⚠️ [38;5;244m exit 123 
+mmini error = (exit)
+bash error = ()
+
+Test  43: ✅⚠️ [38;5;244m exit 298 
+mmini error = (exit)
+bash error = ()
+
+Test  44: ✅⚠️ [38;5;244m exit +100 
+mmini error = (exit)
+bash error = ()
+
+Test  45: ✅⚠️ [38;5;244m exit "+100" 
+mmini error = (exit)
+bash error = ()
+
+Test  46: ✅⚠️ [38;5;244m exit +"100" 
+mmini error = (exit)
+bash error = ()
+
+Test  47: ✅⚠️ [38;5;244m exit -100 
+mmini error = (exit)
+bash error = ()
+
+Test  48: ✅⚠️ [38;5;244m exit "-100" 
+mmini error = (exit)
+bash error = ()
+
+Test  49: ✅⚠️ [38;5;244m exit -"100" 
+mmini error = (exit)
+bash error = ()
+
+Test  50: ✅⚠️ [38;5;244m exit hello 
+mmini error = (exit numeric argument required)
+bash error = ( numeric argument required)
 
 Test  51: ❌[38;5;244m exit 42 world 
-mmini exit code = ?
+mmini exit code = 0
 bash exit code = 1
 mini error = (exit too many arguments)
 bash error = ( too many arguments)
 
-#------------------- REDIRS  & PIPES-------------------#
-
-; Test  70: ❌[38;5;244m echo <"./test_files/infile_big" | echo <"./test_files/infile" 
-; nmini exit code = ?
-; bash exit code = 0
-; mini error = ()
-; bash error = ( Broken pipe)
-; -> OK
-
-; Test  73: ❌[38;5;244m cat <"./test_files/infile" | echo hi 
-; mmini output = ()
-; bash output = (hi)
-; mini exit code = ?
-; bash exit code = 0
-; mini error = (exit Broken pipe)
-; bash error = ( Broken pipe)
-; -> OK
-
-; Test  75: ❌[38;5;244m cat <"./test_files/infile_big" | echo hi 
-; mmini output = ()
-; bash output = (hi)
-; mini exit code = ?
-; bash exit code = 0
-; mini error = (exit Broken pipe)
-; bash error = ( Broken pipe)
-; -> OK
-
-; Test  78: ❌[38;5;244m cat <missing | echo oi 
-; mmini output = ()
-; bash output = (oi)
-; mini exit code = ?
-; bash exit code = 0
-; mini error = (exit)
-; bash error = ()
-; -> OK
-
-; Test  80: ❌[38;5;244m echo <123 <456 hi | echo 42 
-; nmini output = (hi)
-; bash output = (42)
-; mini exit code = ?
-; bash exit code = 0
-; -> OK
+# Test  70: ✅⚠️ [38;5;244m echo <"./test_files/infile_big" | echo <"./test_files/infile" 
+# mmini error = ()
+# bash error = ( Broken pipe)
 
 Test  83: ❌[38;5;244m echo hi >         ./outfiles/outfile01 bye 
 mFiles ./mini_outfiles/outfile01 and ./bash_outfiles/outfile01 differ
@@ -142,131 +95,33 @@ bash outfiles:
 hi bye
 mini output = (hi bye)
 bash output = ()
-mini exit code = ?
+
+Test  96: ❌[38;5;244m echo hi >./outfiles/outfile01 >./test_files/invalid_permission | echo bye 
+mmini exit code = 1
 bash exit code = 0
 
-; Test  91: ❌[38;5;244m echo hi >./outfiles/outfile01 | echo bye 
-; mmini output = (hi)
-; bash output = (bye)
-; mini exit code = ?
-; bash exit code = 0
+Test  97: ❌[38;5;244m echo hi >./test_files/invalid_permission | echo bye 
+mmini exit code = 1
+bash exit code = 0
 
-; Test  92: ❌[38;5;244m echo hi >./outfiles/outfile01 >./outfiles/outfile02 | echo bye 
-; mmini output = (hi)
-; bash output = (bye)
-; mini exit code = ?
-; bash exit code = 0
+Test  98: ❌[38;5;244m echo hi >./test_files/invalid_permission >./outfiles/outfile01 | echo bye 
+mini exit code = 1
+bash exit code = 0
 
-; Test  93: ❌[38;5;244m echo hi | echo >./outfiles/outfile01 bye 
-; mFiles ./mini_outfiles/outfile01 and ./bash_outfiles/outfile01 differ
-; mini outfiles:
-; hi
-; bash outfiles:
-; bye
-; mini exit code = ?
-; bash exit code = 0
+Test 126: ❌[38;5;244m echo hi >>./test_files/invalid_permission | echo bye 
+mmini exit code = 1
+bash exit code = 0
 
-; Test  94: ❌[38;5;244m echo hi | echo bye >./outfiles/outfile01 >./outfiles/outfile02 
-; mFiles ./mini_outfiles/outfile02 and ./bash_outfiles/outfile02 differ
-; mini outfiles:
-; hi
-; bash outfiles:
-; bye
-; mini exit code = ?
-; bash exit code = 0
+Test 127: ❌[38;5;244m echo hi >>./test_files/invalid_permission >./outfiles/outfile01 | echo bye 
+mmini exit code = 1
+bash exit code = 0
 
-; Test  95: ❌[38;5;244m echo hi >./outfiles/outfile01 | echo bye >./outfiles/outfile02 
-; mFiles ./mini_outfiles/outfile02 and ./bash_outfiles/outfile02 differ
-; mini outfiles:
-; hi
-; hi
-; bash outfiles:
-; hi
-; bye
-; mini exit code = ?
-; bash exit code = 0
-
-; Test  96: ❌[38;5;244m echo hi >./outfiles/outfile01 >./test_files/invalid_permission | echo bye 
-; mmini output = (hi)
-; bash output = (bye)
-; mini exit code = ?
-; bash exit code = 0
-
-; Test  97: ❌[38;5;244m echo hi >./test_files/invalid_permission | echo bye 
-; mmini output = (hi)
-; bash output = (bye)
-; mini exit code = ?
-; bash exit code = 0
-
-; Test  98: ❌[38;5;244m echo hi >./test_files/invalid_permission >./outfiles/outfile01 | echo bye 
-; mmini output = (hi)
-; bash output = (bye)
-; mini exit code = ?
-; bash exit code = 0
-
-; Test 121: ❌[38;5;244m echo hi >>./outfiles/outfile01 | echo bye 
-; mmini output = (hi)
-; bash output = (bye)
-; mini exit code = ?
-; bash exit code = 0
-
-; Test 122: ❌[38;5;244m echo hi >>./outfiles/outfile01 >>./outfiles/outfile02 | echo bye 
-; mmini output = (hi)
-; bash output = (bye)
-; mini exit code = ?
-; bash exit code = 0
-
-; Test 123: ❌[38;5;244m echo hi | echo >>./outfiles/outfile01 bye 
-; mFiles ./mini_outfiles/outfile01 and ./bash_outfiles/outfile01 differ
-; mini outfiles:
-; hi
-; bash outfiles:
-; bye
-; mini exit code = ?
-; bash exit code = 0
-
-; Test 124: ❌[38;5;244m echo hi | echo bye >>./outfiles/outfile01 >>./outfiles/outfile02 
-; mFiles ./mini_outfiles/outfile02 and ./bash_outfiles/outfile02 differ
-; mini outfiles:
-; hi
-; bash outfiles:
-; bye
-; mini exit code = ?
-; bash exit code = 0
-
-; Test 125: ❌[38;5;244m echo hi >>./outfiles/outfile01 | echo bye >>./outfiles/outfile02 
-; mFiles ./mini_outfiles/outfile02 and ./bash_outfiles/outfile02 differ
-; mini outfiles:
-; hi
-; hi
-; bash outfiles:
-; hi
-; bye
-; mini exit code = ?
-; bash exit code = 0
-
-; Test 126: ❌[38;5;244m echo hi >>./test_files/invalid_permission | echo bye 
-; mmini output = (hi)
-; bash output = (bye)
-; mini exit code = ?
-; bash exit code = 0
-
-; Test 127: ❌[38;5;244m echo hi >>./test_files/invalid_permission >./outfiles/outfile01 | echo bye 
-; mmini output = (hi)
-; bash output = (bye)
-; mini exit code = ?
-; bash exit code = 0
-
-#------------------- EXTRA -------------------#
-
-Test 133: ❌[38;5;244m $PWD 
-mmini exit code = ?
-bash exit code = 126
-mini error = ( Permission denied)
+Test 133: ✅⚠️ [38;5;244m $PWD 
+mmini error = ( Permission denied)
 bash error = ( Is a directory)
 
 Test 134: ❌[38;5;244m $EMPTY 
-mmini exit code = ?
+mmini exit code = 126
 bash exit code = 0
 mini error = ( Permission denied)
 bash error = ()
@@ -274,73 +129,19 @@ bash error = ()
 Test 135: ❌[38;5;244m $EMPTY echo hi 
 mmini output = ()
 bash output = (hi)
-mini exit code = ?
+mini exit code = 126
 bash exit code = 0
 mini error = ( Permission denied)
 bash error = ()
 
-; Test 136: ❌[38;5;244m ./test_files/invalid_permission 
-; mmini exit code = ?
-; bash exit code = 126
-; mini error = ( Permission denied Permission denied)
-; bash error = ( Permission denied)
-
-Test 137: ❌[38;5;244m ./missing.out 
-mmini exit code = ?
-bash exit code = 127
-mini error = ( No such file or directory No such file or directory)
+Test 137: ✅⚠️ [38;5;244m ./missing.out 
+mmini error = ( command not found)
 bash error = ( No such file or directory)
 
-; Test 138: ❌[38;5;244m missing.out 
-; mmini exit code = ?
-; bash exit code = 127
-; mini error = ( No such file or directory)
-; bash error = ( command not found)
-
-; Test 139: ❌[38;5;244m "aaa" 
-; mmini exit code = ?
-; bash exit code = 127
-; mini error = ( No such file or directory)
-; bash error = ( command not found)
-
-; Test 140: ❌[38;5;244m test_files 
-; mmini exit code = ?
-; bash exit code = 127
-; mini error = ( No such file or directory)
-; bash error = ( command not found)
-
-Test 141: ❌[38;5;244m ./test_files 
-mmini exit code = ?
-bash exit code = 126
-mini error = ( Permission denied)
+Test 141: ✅⚠️ [38;5;244m ./test_files 
+mmini error = ( Permission denied)
 bash error = ( Is a directory)
 
-Test 142: ❌[38;5;244m /test_files 
-mmini exit code = ?
-bash exit code = 127
-mini error = ( No such file or directory No such file or directory)
-bash error = ( No such file or directory)
-
-; Test 143: ❌[38;5;244m minishell.h 
-; mmini exit code = ?
-; bash exit code = 127
-; mini error = ( No such file or directory)
-; bash error = ( command not found)
-
-Test 144: ❌[38;5;244m $ 
-mmini exit code = ?
-bash exit code = 127
-mini error = ( Permission denied)
-bash error = ( command not found)
-
-; Test 145: ❌[38;5;244m $? 
-; mmini exit code = ?
-; bash exit code = 127
-; mini error = ( No such file or directory)
-; bash error = ( command not found)
-
-; Test 146: ❌[38;5;244m README.md 
-; mmini exit code = ?
-; bash exit code = 127
-; mini error = ( No such file or directory)
-; bash error = ( command not found)
+Test 142: ✅⚠️ [38;5;244m /test_files 
+mmini error = ( command not found)
+bash error = ( No such file or directory)output

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 12:10:44 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 15:30:31 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,7 @@ static void	exec_child_proc(t_shell *shell)
 	if (shell->last_status == 130)
 		exit(130);
 	path = get_path(shell, shell->cmd);
-	if (!path)
-	{
-		print_error(shell->cmd->command_name, "command not found");
-		exit(127);
-	}
+	check_error(path, shell->cmd);
 	if (execve(path, shell->cmd->args, shell->new_envp) == -1)
 		handle_error(shell->cmd);
 	exit(EXIT_SUCCESS);

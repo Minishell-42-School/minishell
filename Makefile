@@ -26,9 +26,10 @@ SRCS = main.c prompt.c init_shell.c main_looping.c free_all.c signal.c \
 	execution/execution.c execution/exec_simple_cmd.c execution/get_path.c \
 	execution/exec_pipe.c execution/redirections/exec_redir.c \
 	execution/redirections/heredoc.c execution/redirections/heredoc_utils.c \
-	env_expansion/set_env_vars.c env_expansion/expansion.c \
-	env_expansion/expansion_utils.c env_expansion/envp_array.c \
-	env_expansion/local_vars.c free_envp.c \
+	environment/set_env_vars.c expansion/expansion.c \
+	expansion/expansion_len.c \
+	expansion/expansion_utils.c environment/envp_array.c \
+	environment/local_vars.c free_envp.c \
 	builtins/export_builtin.c builtins/unset_builtin.c \
 	builtins/pwd_builtin.c builtins/cd_builtin.c \
 	builtins/echo_builtin.c builtins/env_builtin.c \

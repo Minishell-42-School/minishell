@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 12:23:55 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/04 17:10:26 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	main(int argc, char **av, char **envp)
 	init_t_shell(&shell);
 	init_vars_from_envp(&shell.vars, envp);
 	var_to_envp(&shell);
+	
 	main_looping(&shell);
 	free_vars_and_envp(shell.vars, shell.new_envp);
 	return (0);

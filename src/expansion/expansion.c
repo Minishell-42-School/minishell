@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:47:50 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/03 16:00:43 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/04 11:17:49 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,35 +14,20 @@
 
 static void	process_build(t_shell *s, t_aux *aux, char *new)
 {
-	char	*exp_value;
 	int		exp_len;
 	char	*var_name;
-	char	*last_exit;
 
 	exp_len = var_name_len(s->token_list->value + aux->i + 1);
 	var_name = ft_strndup(s->token_list->value + aux->i + 1, exp_len);
 	if (exp_len == 1 && var_name[0] == '?')
 	{
-		last_exit = ft_itoa(s->last_status);
-		if (last_exit)
-		{
-			ft_memcpy(new + aux->j, last_exit, ft_strlen(last_exit));
-			aux->j += ft_strlen(last_exit);
-			free(last_exit);
-		}
+		handle_question_mark(s, aux, new);
 	}
 	else
 	{
-		exp_value = var_get(s->vars, var_name);
-		if (exp_value)
-		{
-			ft_memcpy(new + aux->j, exp_value, ft_strlen(exp_value));
-			aux->j += ft_strlen(exp_value);
-		}
+		handle_env_var(s->vars, aux, new, var_name);
 	}
 	free(var_name);
-	aux->i += exp_len + 1;
-	aux->k++;
 }
 
 static void	process_literal(t_shell *s, t_aux *aux, char *new)
@@ -79,7 +64,7 @@ static char	*build_expanded(t_shell *s, size_t new_len)
 	return (new_value);
 }
 
-int	expand_one_token(t_shell *s)
+static int	expand_one_token(t_shell *s)
 {
 	size_t	new_len;
 	char	*new;
@@ -104,7 +89,7 @@ void	expand_all_tokens(t_shell *s)
 	temp = s->token_list;
 	while (temp)
 	{
-		if (temp->nbr_env_var > 0)
+		if (temp->nbr_env_var > 0 && ft_strcmp(temp->value, "$") != 0)
 		{
 			saved = s->token_list;
 			s->token_list = temp;

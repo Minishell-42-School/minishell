@@ -1,27 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   expansion_utils.c                                  :+:      :+:    :+:   */
+/*   expansion_len.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/12 18:23:56 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/03 17:32:07 by ekeller-@st      ###   ########.fr       */
+/*   Created: 2025/06/04 11:04:55 by ekeller-@st       #+#    #+#             */
+/*   Updated: 2025/06/04 11:06:52 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-char	*var_get(t_var *vars, const char *key)
-{
-	t_var	*v;
-
-	v = var_find(vars, key);
-	if (v)
-		return (v->value);
-	else
-		return (NULL);
-}
 
 static size_t	digit_count(int n, int *i)
 {
@@ -40,11 +29,11 @@ static size_t	digit_count(int n, int *i)
 		val /= 10;
 		digits++;
 	}
-	i += 2;
+	*i += 2;
 	return (digits);
 }
 
-statict int	check_if_interrogation(t_token *t, t_aux *aux, t_shell *s)
+static int	check_if_interrogation(t_token *t, t_aux *aux, t_shell *s)
 {
 	if (t->value[aux->i] == '$' && t->value[aux->i + 1]
 			&& t->value[aux->i + 1] == '?')
@@ -63,6 +52,21 @@ static size_t free_aux_return_len(t_aux *aux)
 	if (aux)
 		free(aux);
 	return (len);
+}
+static void	process_env_flags(t_token *tok, t_aux *aux, t_var *vars)
+{
+	char	*new_value;
+	int		exp_len;
+	char	*var_name;
+
+	exp_len = var_name_len(tok->value + aux->i + 1);
+	var_name = ft_strndup(tok->value + aux->i + 1, exp_len);
+	new_value = var_get(vars, var_name);
+	free(var_name);
+	if (new_value)
+		aux->len += ft_strlen(new_value);
+	aux->i += exp_len + 1;
+	aux->k++;
 }
 
 size_t	calc_new_len(t_shell *s)
@@ -92,35 +96,4 @@ size_t	calc_new_len(t_shell *s)
 		}
 	}
 	return (free_aux_return_len(aux));
-}
-
-void	process_env_flags(t_token *tok, t_aux *aux, t_var *vars)
-{
-	char	*new_value;
-	int		exp_len;
-	char	*var_name;
-
-	exp_len = var_name_len(tok->value + aux->i + 1);
-	var_name = ft_strndup(tok->value + aux->i + 1, exp_len);
-	new_value = var_get(vars, var_name);
-	free(var_name);
-	if (new_value)
-		aux->len += ft_strlen(new_value);
-	aux->i += exp_len + 1;
-	aux->k++;
-}
-
-int	var_name_len(char *tok_val)
-{
-	int	len;
-
-	len = 0;
-	if (tok_val[0] == '?')
-		return (1);
-	while ((tok_val[len] >= 'A' && tok_val[len] <= 'Z')
-		|| (tok_val[len] >= 'a' && tok_val[len] <= 'z')
-		|| (tok_val[len] >= '0' && tok_val[len] <= '9')
-		|| tok_val[len] == '_')
-		len++;
-	return (len);
 }

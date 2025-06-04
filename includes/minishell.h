@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 11:29:31 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/04 12:17:57 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
 
-// extern volatile sig_atomic_t	g_exit_status;
+extern volatile sig_atomic_t	g_signal;
 
 typedef enum e_token_type
 {
@@ -109,8 +109,14 @@ typedef struct s_shell
 }	t_shell;
 
 // Functions
+// init_shell.c
+void			init_t_shell(t_shell *shell);
+
+// main_looping.c
+void			main_looping(t_shell *shell);
+
 // prompt.c
-char			*get_prompt(void);
+char			*get_prompt(t_shell *shell);
 
 // free_all.c
 void			free_token_lst(t_token **token_lst);
@@ -200,31 +206,28 @@ void			handle_env_var(t_var *vars, t_aux *aux, char *new, char *var_name);
 int				handle_question_mark(t_shell *s, t_aux *aux, char *new);
 
 //expansion_len.c
-size_t	calc_new_len(t_shell *s);
+size_t			calc_new_len(t_shell *s);
 // ----Expansion----
 
 // ----Execution----
-void			exec_builtin(t_shell *shell);
-int				is_builtin(t_command *cmd);
-
 // execution.c
 void			exec_cmd(t_shell *shell);
 
 // exec_simple_cmd.c
 void			exec_simple_cmd(t_shell *shell);
 
+// exec_pipe.c
+void			exec_pipe(t_shell *shell);
+
 // get_path.c
 char			*get_path(t_command *cmd);
 
-// pipe.c
-void			exec_pipe(t_shell *shell);
-
 // - Redirections -
 // exec_redir.c
-void			definy_fd(t_command *cmd);
-void			handle_out(t_redirections *redir);
-void			handle_in(t_redirections *redir);
-void			handle_creat(t_redirections *redir);
+int				definy_fd(t_command *cmd);
+int				handle_out(t_redirections *redir);
+int				handle_in(t_redirections *redir);
+int				handle_creat(t_redirections *redir);
 
 // heredoc.c
 void			verif_heredoc(t_shell *shell);
@@ -235,10 +238,15 @@ int				loop_heredoc(t_redirections *redir, int heredoc_fd);
 void			definy_redir(char *file_name, t_redirections *redir);
 void			clean_filename(char **file_name);
 void			fork_error(int heredoc_fd, char **file_name);
-// --------
+// -----------------
 // ----Execution----
 
 // ----Built_ins----
+// exec_builtin
+int				is_builtin(t_command *cmd);
+int				handle_builtin(t_shell *shell);
+void			exec_builtin(t_shell *shell);
+
 //export_builtin.c
 int				exec_export_builtin(t_shell	*s);
 

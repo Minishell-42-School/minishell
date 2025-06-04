@@ -6,13 +6,13 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/29 14:12:55 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:14:05 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	handle_out(t_redirections *redir)
+int	handle_out(t_redirections *redir)
 {
 	int	fd;
 
@@ -23,18 +23,19 @@ void	handle_out(t_redirections *redir)
 	if (fd == -1)
 	{
 		perror("Error for open the file");
-		return ;
+		return (1);
 	}
 	if (dup2(fd, STDOUT_FILENO) == -1)
 	{
 		printf("Error - dup");
 		close(fd);
-		return ;
+		return (1);
 	}
 	close(fd);
+	return (0);
 }
 
-void	handle_in(t_redirections *redir)
+int	handle_in(t_redirections *redir)
 {
 	int	fd;
 
@@ -42,18 +43,19 @@ void	handle_in(t_redirections *redir)
 	if (fd == -1)
 	{
 		perror("Error for open the file");
-		return ;
+		return (1);
 	}
 	if (dup2(fd, STDIN_FILENO) == -1)
 	{
 		printf("Error - dup");
 		close(fd);
-		return ;
+		return (1);
 	}
 	close(fd);
+	return (0);
 }
 
-void	handle_creat(t_redirections *redir)
+int	handle_creat(t_redirections *redir)
 {
 	int	fd;
 
@@ -61,15 +63,18 @@ void	handle_creat(t_redirections *redir)
 	if (fd == -1)
 	{
 		perror("Error for open the file");
-		return ;
+		return (1);
 	}
 	close(fd);
+	return (0);
 }
 
-void	definy_fd(t_command *cmd)
+int	definy_fd(t_command *cmd)
 {
 	t_redirections	*redir;
+	int				error_control;
 
+	error_control = 0;
 	redir = cmd->redirs;
 	while (redir)
 	{
@@ -78,13 +83,17 @@ void	definy_fd(t_command *cmd)
 			((redir->type == R_OUT || redir->type == R_APPEND) && \
 			(redir->next->type == R_OUT || redir->next->type == R_APPEND))))
 		{
-			handle_creat(redir);
+			if (handle_creat(redir))
+				return (1);
 			redir = redir->next;
 		}
 		if (redir->type == R_OUT || redir->type == R_APPEND)
-			handle_out(redir);
+			error_control = handle_out(redir);
 		else if (redir->type == R_IN)
-			handle_in(redir);
+			error_control = handle_in(redir);
+		if (error_control)
+			return (1);
 		redir = redir->next;
 	}
+	return (0);
 }

@@ -15,16 +15,16 @@ RLFLAGS = -lreadline -lncurses
 # FLAGS = -R CheckForbiddenSourceHeader
 
 VALGRIND = valgrind
-SUPP = --suppressions=readline.supp --leak-check=full
-IGNRL = --leak-check=full --show-leak-kinds=definite
+SUPP = --suppressions=readline.supp
+IGNRL = --leak-check=full --show-leak-kinds=all
 
-SRCS = main.c prompt.c free_all.c signal.c \
+SRCS = main.c prompt.c init_shell.c main_looping.c free_all.c signal.c \
 	token/token.c token/create_token.c token/get_env_var.c token/read_token.c \
 	token/read_operator.c token/verif_quote.c token/verif_valid_op.c \
 	token/verif_value.c \
 	parser/parser_utils.c parser/parser.c parser/check_syntax.c \
 	execution/execution.c execution/exec_simple_cmd.c execution/get_path.c \
-	execution/pipe.c execution/redirections/exec_redir.c \
+	execution/exec_pipe.c execution/redirections/exec_redir.c \
 	execution/redirections/heredoc.c execution/redirections/heredoc_utils.c \
 	environment/set_env_vars.c expansion/expansion.c \
 	expansion/expansion_len.c \
@@ -33,7 +33,7 @@ SRCS = main.c prompt.c free_all.c signal.c \
 	builtins/export_builtin.c builtins/unset_builtin.c \
 	builtins/pwd_builtin.c builtins/cd_builtin.c \
 	builtins/echo_builtin.c builtins/env_builtin.c \
-	builtins/exit_builtin.c builtins/export_sort.c
+	builtins/exit_builtin.c builtins/export_sort.c builtins/exec_builtin.c
 
 OBJS = $(SRCS:%.c=%.o)
 
@@ -49,7 +49,7 @@ val:
 	$(VALGRIND) ./minishell
 
 val_sup:
-	$(VALGRIND) $(IGNRL) ./minishell
+	$(VALGRIND) $(IGNRL) $(SUPP) ./minishell
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 14:17:32 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:35:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ static void	handle_heredoc(t_shell *shell, t_redirections *redir)
 	}
 }
 
-// void	verif_heredoc(t_command *command)
 void	verif_heredoc(t_shell *shell)
 {
 	t_redirections	*redir;

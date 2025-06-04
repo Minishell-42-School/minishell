@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/02 16:52:14 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/03 13:49:13 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,10 @@ static void	exec_child_proc(t_shell *shell)
 	char	*path;
 
 	if (shell->cmd->redirs)
-		definy_fd(shell->cmd);
+	{
+		if (definy_fd(shell->cmd))
+			exit(EXIT_FAILURE);
+	}
 	if (shell->last_status == 130)
 		exit(130);
 	path = get_path(shell->cmd);
@@ -44,7 +47,6 @@ static void	exec_parent_proc(t_shell *shell, pid_t pid)
 		shell->last_status = WEXITSTATUS(status);
 }
 
-// void	exec_simple_cmd(t_command *cmd)
 void	exec_simple_cmd(t_shell *shell)
 {
 	pid_t	pid;

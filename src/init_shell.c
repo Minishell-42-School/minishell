@@ -1,35 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   prompt.c                                           :+:      :+:    :+:   */
+/*   init_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:11:02 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 12:22:04 by jcosta-b         ###   ########.fr       */
+/*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
+/*   Updated: 2025/06/03 13:44:57 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
 
-char	*get_prompt(t_shell *shell)
+void	init_t_shell(t_shell *shell)
 {
-	char	*input;
-
-	config_signals();
-	input = readline(GREEN"Minishell~> "RESET);
-	if (g_signal)
-	{
-		shell->last_status = 130;
-		g_signal = 0;
-	}
-	if (!input)
-	{
-		printf("%s...Exit Minishell...\n%s", YELLOW, RESET);
-		rl_clear_history();
-		exit(0);
-	}
-	if (*input)
-		add_history(input);
-	return (input);
+	shell->cmd = NULL;
+	shell->token_list = NULL;
+	shell->vars = NULL;
+	shell->new_envp = NULL;
+	shell->last_status = 0;
 }

@@ -279,11 +279,11 @@ bash exit code = 0
 mini error = ( Permission denied)
 bash error = ()
 
-Test 136: ❌[38;5;244m ./test_files/invalid_permission 
-mmini exit code = ?
-bash exit code = 126
-mini error = ( Permission denied Permission denied)
-bash error = ( Permission denied)
+; Test 136: ❌[38;5;244m ./test_files/invalid_permission 
+; mmini exit code = ?
+; bash exit code = 126
+; mini error = ( Permission denied Permission denied)
+; bash error = ( Permission denied)
 
 Test 137: ❌[38;5;244m ./missing.out 
 mmini exit code = ?
@@ -291,23 +291,23 @@ bash exit code = 127
 mini error = ( No such file or directory No such file or directory)
 bash error = ( No such file or directory)
 
-Test 138: ❌[38;5;244m missing.out 
-mmini exit code = ?
-bash exit code = 127
-mini error = ( No such file or directory)
-bash error = ( command not found)
+; Test 138: ❌[38;5;244m missing.out 
+; mmini exit code = ?
+; bash exit code = 127
+; mini error = ( No such file or directory)
+; bash error = ( command not found)
 
-Test 139: ❌[38;5;244m "aaa" 
-mmini exit code = ?
-bash exit code = 127
-mini error = ( No such file or directory)
-bash error = ( command not found)
+; Test 139: ❌[38;5;244m "aaa" 
+; mmini exit code = ?
+; bash exit code = 127
+; mini error = ( No such file or directory)
+; bash error = ( command not found)
 
-Test 140: ❌[38;5;244m test_files 
-mmini exit code = ?
-bash exit code = 127
-mini error = ( No such file or directory)
-bash error = ( command not found)
+; Test 140: ❌[38;5;244m test_files 
+; mmini exit code = ?
+; bash exit code = 127
+; mini error = ( No such file or directory)
+; bash error = ( command not found)
 
 Test 141: ❌[38;5;244m ./test_files 
 mmini exit code = ?
@@ -321,11 +321,11 @@ bash exit code = 127
 mini error = ( No such file or directory No such file or directory)
 bash error = ( No such file or directory)
 
-Test 143: ❌[38;5;244m minishell.h 
-mmini exit code = ?
-bash exit code = 127
-mini error = ( No such file or directory)
-bash error = ( command not found)
+; Test 143: ❌[38;5;244m minishell.h 
+; mmini exit code = ?
+; bash exit code = 127
+; mini error = ( No such file or directory)
+; bash error = ( command not found)
 
 Test 144: ❌[38;5;244m $ 
 mmini exit code = ?
@@ -333,14 +333,14 @@ bash exit code = 127
 mini error = ( Permission denied)
 bash error = ( command not found)
 
-Test 145: ❌[38;5;244m $? 
-mmini exit code = ?
-bash exit code = 127
-mini error = ( No such file or directory)
-bash error = ( command not found)
+; Test 145: ❌[38;5;244m $? 
+; mmini exit code = ?
+; bash exit code = 127
+; mini error = ( No such file or directory)
+; bash error = ( command not found)
 
-Test 146: ❌[38;5;244m README.md 
-mmini exit code = ?
-bash exit code = 127
-mini error = ( No such file or directory)
-bash error = ( command not found)
+; Test 146: ❌[38;5;244m README.md 
+; mmini exit code = ?
+; bash exit code = 127
+; mini error = ( No such file or directory)
+; bash error = ( command not found)

@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:47:50 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 11:59:21 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/04 15:07:24 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,13 @@ static void	process_build(t_shell *s, t_aux *aux, char *new)
 
 	exp_len = var_name_len(s->token_list->value + aux->i + 1);
 	var_name = ft_strndup(s->token_list->value + aux->i + 1, exp_len);
-	if (exp_len == 1 && var_name[0] == '?')
+	if (exp_len == 0)
+	{
+		new[aux->j] = '$';
+		aux->j++;
+		aux->i++;
+    }
+	else if (exp_len == 1 && var_name[0] == '?')
 	{
 		handle_question_mark(s, aux, new);
 	}

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 17:09:01 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:10:30 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,12 +24,11 @@ static void	exec_child_proc(t_shell *shell, t_command *cmd)
 	path = get_path(shell, cmd);
 	if (!path)
 	{
-		perror("get_path");
-		exit(EXIT_FAILURE);
+		print_error(shell->cmd->command_name, "command not found");
+		exit(127);
 	}
 	execve(path, cmd->args, shell->new_envp);
-	perror("execve");
-	exit(EXIT_FAILURE);
+	handle_error(cmd);
 }
 
 static void	child_proc(t_shell *s, t_command *cmd, int control_fd, int fd[2])

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 17:19:39 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:01:48 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <signal.h> // signal, sigaction, sigemptyset, sigaddset
 # include <sys/types.h> // pid_t
 # include <sys/wait.h> // wait
+# include <errno.h> // error
 # include <readline/readline.h> // readline
 # include <readline/history.h> // add_history
 							// rl -> clear, new_line, replace, redisplay
@@ -219,6 +220,10 @@ void			exec_pipe(t_shell *shell);
 
 // get_path.c
 char			*get_path(t_shell *shell, t_command *cmd);
+
+// handle_error.c
+void			handle_error(t_command *cmd);
+void			print_error(char *cmd, char *msg);
 
 // - Redirections -
 // exec_redir.c

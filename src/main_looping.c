@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 17:41:35 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:15:01 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,5 @@ void	main_looping(t_shell *shell)
 				exec_cmd(shell);
 			free_loop(&shell->token_list, &shell->cmd);
 		}
-		printf("EXIT.. %d\n", shell->last_status);
 	}
 }

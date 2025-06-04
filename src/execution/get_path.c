@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 18:09:02 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:10:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,5 @@ char	*get_path(t_shell *shell, t_command *cmd)
 		return (NULL);
 	if (access(path, X_OK) != 0)
 		return (path);
-	// if (!path || access(path, X_OK) != 0)
-	// 	perror("Command not found or not executable");
 	return (path);
 }

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 12:01:48 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 12:44:24 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -181,32 +181,34 @@ int				check_syntax(t_parser_state *token);
 void			ft_error(char *msg);
 // ----Parser----
 
-// ----Environment_&_Expansion----
+// ----Environment----
 //set_env_vars.c
 int				init_vars_from_envp(t_var **vars, char **envp);
 int				split_env(const char *env, char **key, char **value);
 int				vars_set(t_var **vars, char *key, char *value, int exported);
 t_var			*var_find(t_var *vars, const char *key);
-
-//expansion.c
-int				expand_one_token(t_token *tok, t_var *vars);
-void			expand_all_tokens(t_token *head, t_var *vars);
-
-//expansion_utils.c
-int				var_name_len(char *tok_val);
 char			*var_get(t_var *vars, const char *key);
-size_t			calc_new_len(t_token *tok, t_var *vars);
-void			process_env_flags(t_token *tok, t_aux *aux,
-					size_t *len, t_var *vars);
-
-//envp_array.c
-int				var_to_envp(t_shell *s);
 
 //local_vars.c
 int				is_valid_identifier(char *key);
-int				try_set_local_var(t_command *cmd, t_var **vars);
 int				exec_set_local_vars(t_shell *shell);
-// ----Environment_&_Exapansion----
+
+//envp_array.c
+int				var_to_envp(t_shell *s);
+// ----Environment----
+
+// ----Expansion----
+//expansion.c
+void			expand_all_tokens(t_shell *s);
+
+//expansion_utils.c
+int				var_name_len(char *tok_val);
+void			handle_env_var(t_var *vars, t_aux *aux, char *new, char *var_name);
+int				handle_question_mark(t_shell *s, t_aux *aux, char *new);
+
+//expansion_len.c
+size_t			calc_new_len(t_shell *s);
+// ----Expansion----
 
 // ----Execution----
 // execution.c

@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:43:19 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/16 12:44:32 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/04 11:20:41 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,4 +92,15 @@ int	split_env(const char *env, char **key, char **value)
 	}
 	(*key)[len] = '\0';
 	return (0);
+}
+
+char	*var_get(t_var *vars, const char *key)
+{
+	t_var	*v;
+
+	v = var_find(vars, key);
+	if (v)
+		return (v->value);
+	else
+		return (NULL);
 }

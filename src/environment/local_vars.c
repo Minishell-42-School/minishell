@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:12:26 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/03 11:41:56 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/04 12:22:34 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static int	is_all_assignments(t_command *cmd)
 	return (1);
 }
 
-int	try_set_local_var(t_command *cmd, t_var **vars)
+static int	try_set_local_var(t_command *cmd, t_var **vars)
 {
 	char	*key;
 	char	*value;

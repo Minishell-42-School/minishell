@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 15:30:39 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:25:54 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	exec_child_proc(t_shell *shell, t_command *cmd)
 
 	if (is_builtin(cmd))
 	{
-		exec_builtin(shell, cmd);
+		if (exec_builtin(shell, cmd) != 0)
+			exit(EXIT_FAILURE);
 		exit(EXIT_SUCCESS);
 	}
 	path = get_path(shell, cmd);

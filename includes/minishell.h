@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 15:31:24 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:12:59 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -252,8 +252,7 @@ void			fork_error(int heredoc_fd, char **file_name);
 // exec_builtin
 int				is_builtin(t_command *cmd);
 int				handle_builtin(t_shell *shell);
-void			exec_builtin(t_shell *shell, t_command *cmd);
-
+int				exec_builtin(t_shell *shell, t_command *cmd);
 //export_builtin.c
 int				exec_export_builtin(t_shell	*s, t_command *cmd);
 

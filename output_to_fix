@@ -1,6 +1,6 @@
-Test  13: ❌[38;5;244m echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<" 
-mmini output = (> >> < 123 bash_outfiles bash.supp bonus bonus_bonus builtins extras local.supp loop.out manual_tests mini_outfiles missing os_specific outfiles pipes README.md redirects syntax tester test_files wildcards ? [ ] | ; [ ] || && ( ) & # <<)
-bash output = (> >> < 123 bash_outfiles bash.supp bonus bonus_bonus builtins extras local.supp loop.out manual_tests mini_outfiles missing os_specific outfiles pipes README.md redirects syntax tester test_files wildcards ? [ ] | ; [ ] || && ( ) & # $ <<)
+# Test  13: ❌[38;5;244m echo "> >> < * ? [ ] | ; [ ] || && ( ) & # $  <<" 
+# mmini output = (> >> < 123 bash_outfiles bash.supp bonus bonus_bonus builtins extras local.supp loop.out manual_tests mini_outfiles missing os_specific outfiles pipes README.md redirects syntax tester test_files wildcards ? [ ] | ; [ ] || && ( ) & # <<)
+# bash output = (> >> < 123 bash_outfiles bash.supp bonus bonus_bonus builtins extras local.supp loop.out manual_tests mini_outfiles missing os_specific outfiles pipes README.md redirects syntax tester test_files wildcards ? [ ] | ; [ ] || && ( ) & # $ <<)
 
 Test  26: ❌[38;5;244m export A- 
 mmini exit code = 0

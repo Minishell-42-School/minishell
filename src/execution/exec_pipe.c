@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 16:25:54 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 18:25:22 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ static void	exec_child_proc(t_shell *shell, t_command *cmd)
 
 static void	child_proc(t_shell *s, t_command *cmd, int control_fd, int fd[2])
 {
+	signal(SIGQUIT, SIG_DFL);
+	signal(SIGINT, SIG_DFL);
 	if (control_fd != -1)
 	{
 		dup2(control_fd, STDIN_FILENO);
@@ -69,6 +71,8 @@ static void	pipe_signal(t_shell *shell)
 	{
 		if (WIFEXITED(status))
 			shell->last_status = WEXITSTATUS(status);
+		if (WIFSIGNALED(status))
+			printf("\n");
 	}
 	config_signals();
 }

@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:12:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 17:18:49 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/04 18:23:50 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ static int	check_var_assignment(t_command *cmd, t_var **vars, int *i, int *ex)
 		{
 			if (!is_valid_identifier(key))
 			{
-				printf("bash: export: `%s=%s' : not a valid identifier\n",
+				printf_stderr("bash: export: `%s=%s' : not a valid identifier\n",
 					key, value);
 				*ex = 1;
 			}
@@ -47,7 +47,7 @@ static int	check_var_assignment(t_command *cmd, t_var **vars, int *i, int *ex)
 	return (0);
 }
 
-static int	export_builtin(t_command *cmd, t_var **vars)
+int	export_builtin(t_command *cmd, t_var **vars)
 {
 	int		i;
 	int		exit;
@@ -64,7 +64,7 @@ static int	export_builtin(t_command *cmd, t_var **vars)
 		{
 			if (is_valid_identifier(cmd->args[i]) == 0)
 			{
-				printf ("bash: export: `%s': not a valid identifier\n", cmd->args[i]);
+				printf_stderr("bash: export: `%s': not a valid identifier\n", cmd->args[i]);
 				exit = 1;
 			}	
 			var_mark_exported(vars, cmd->args[i]);	

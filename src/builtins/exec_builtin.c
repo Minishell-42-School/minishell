@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:32:49 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 17:19:58 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/04 16:16:12 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,29 +25,35 @@ int	is_builtin(t_command *cmd)
 	return (0);
 }
 
-void	exec_builtin(t_shell *shell, t_command *cmd)
+int	exec_builtin(t_shell *shell, t_command *cmd)
 {
+	int	control;
+
+	control = 0;
 	if (ft_strcmp(cmd->command_name, "echo") == 0)
-		exec_echo_builtin(cmd);
+		control = exec_echo_builtin(cmd);
 	else if (ft_strcmp(cmd->command_name, "cd") == 0)
-		exec_cd_builtin(shell, cmd);
+		control = exec_cd_builtin(shell, cmd);
 	else if (ft_strcmp(cmd->command_name, "pwd") == 0)
-		pwd_builtin();
+		control = pwd_builtin();
 	else if (ft_strcmp(cmd->command_name, "export") == 0)
-		exec_export_builtin(shell, cmd);
+		control = exec_export_builtin(shell, cmd);
 	else if (ft_strcmp(cmd->command_name, "unset") == 0)
-		exec_unset_builtin(shell, cmd);
+		control = exec_unset_builtin(shell, cmd);
 	else if (ft_strcmp(cmd->command_name, "env") == 0)
-		exec_env_builtin(shell, cmd);
+		control = exec_env_builtin(shell, cmd);
 	else
-		exec_exit_builtin(shell, cmd);
+		control = exec_exit_builtin(shell, cmd);
+	return (control);
 }
 
 int	handle_builtin(t_shell *shell)
 {
 	int		saved_stdin;
 	int		saved_stdout;
+	int		control;
 
+	control = 0;
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
 	if (shell->cmd->redirs)
@@ -55,10 +61,15 @@ int	handle_builtin(t_shell *shell)
 		if (definy_fd(shell->cmd))
 			return (1);
 	}
-	exec_builtin(shell, shell->cmd);
-	dup2(saved_stdin, STDIN_FILENO);
-	dup2(saved_stdout, STDOUT_FILENO);
+	control = exec_builtin(shell, shell->cmd);
+	if (control == 0)
+	{
+		dup2(saved_stdin, STDIN_FILENO);
+		dup2(saved_stdout, STDOUT_FILENO);
+	}
 	close(saved_stdin);
 	close(saved_stdout);
+	if (control != 0)
+		return (1);
 	return (0);
 }

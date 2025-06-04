@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:47:50 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 11:17:49 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/04 11:59:21 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ void	expand_all_tokens(t_shell *s)
 {
 	t_token	*temp;
 	t_token	*saved;
-	
+
 	temp = s->token_list;
 	while (temp)
 	{

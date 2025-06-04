@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:04:55 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 11:06:52 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/04 11:59:08 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,15 +36,15 @@ static size_t	digit_count(int n, int *i)
 static int	check_if_interrogation(t_token *t, t_aux *aux, t_shell *s)
 {
 	if (t->value[aux->i] == '$' && t->value[aux->i + 1]
-			&& t->value[aux->i + 1] == '?')
+		&& t->value[aux->i + 1] == '?')
 	{
 		aux->len += digit_count(s->last_status, &aux->i);
 		return (0);
 	}
-	return (1);	
+	return (1);
 }
 
-static size_t free_aux_return_len(t_aux *aux)
+static size_t	free_aux_return_len(t_aux *aux)
 {
 	size_t	len;
 
@@ -53,6 +53,7 @@ static size_t free_aux_return_len(t_aux *aux)
 		free(aux);
 	return (len);
 }
+
 static void	process_env_flags(t_token *tok, t_aux *aux, t_var *vars)
 {
 	char	*new_value;

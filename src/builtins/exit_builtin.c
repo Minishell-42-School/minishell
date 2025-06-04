@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:19:49 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/29 16:47:33 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/03 17:19:16 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ static long	ft_atol(const char *str)
 	return (sign * result);
 }
 
-int	exec_exit_builtin(t_shell *s)
+int	exec_exit_builtin(t_shell *s, t_command *cmd)
 {
 	char		*arg;
 	long		status;
 
-	arg = s->cmd->args[1];
+	arg = cmd->args[1];
 	ft_putendl_fd("exit", STDERR_FILENO);
 	if (!arg)
 		exit(s->last_status);
@@ -69,7 +69,7 @@ int	exec_exit_builtin(t_shell *s)
 		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 		exit(2);
 	}
-	if (s->cmd->args[2])
+	if (cmd->args[2])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 		return (1);

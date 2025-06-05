@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 16:12:59 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 14:29:06 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,9 +218,6 @@ void			exec_cmd(t_shell *shell);
 // exec_simple_cmd.c
 void			exec_simple_cmd(t_shell *shell);
 
-// exec_pipe.c
-void			exec_pipe(t_shell *shell);
-
 // get_path.c
 char			*get_path(t_shell *shell, t_command *cmd);
 
@@ -228,6 +225,15 @@ char			*get_path(t_shell *shell, t_command *cmd);
 void			handle_error(t_command *cmd);
 void			print_error(char *cmd, char *msg);
 void			check_error(char *path, t_command *cmd);
+
+// - Pipe -
+// exec_pipe.c
+void			exec_pipe(t_shell *shell);
+
+// exec_pipe_proc.c
+void			child_proc(t_shell *s, t_command *cmd, int control_fd, int fd[2]);
+void			parent_proc(t_command *cmd, int *control_fd, int fd[2]);
+// -----------------
 
 // - Redirections -
 // exec_redir.c

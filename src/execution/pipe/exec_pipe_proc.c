@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_pipe.c                                        :+:      :+:    :+:   */
+/*   exec_pipe_proc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 11:59:16 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 14:29:25 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/minishell.h"
+#include "../../../includes/minishell.h"
 
 static void	exec_child_proc(t_shell *shell, t_command *cmd)
 {
@@ -28,7 +28,7 @@ static void	exec_child_proc(t_shell *shell, t_command *cmd)
 	handle_error(cmd);
 }
 
-static void	child_proc(t_shell *s, t_command *cmd, int control_fd, int fd[2])
+void	child_proc(t_shell *s, t_command *cmd, int control_fd, int fd[2])
 {
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
@@ -49,7 +49,7 @@ static void	child_proc(t_shell *s, t_command *cmd, int control_fd, int fd[2])
 	exec_child_proc(s, cmd);
 }
 
-static void	parent_proc(t_command *cmd, int *control_fd, int fd[2])
+void	parent_proc(t_command *cmd, int *control_fd, int fd[2])
 {
 	if (*control_fd != -1)
 		close(*control_fd);
@@ -60,46 +60,4 @@ static void	parent_proc(t_command *cmd, int *control_fd, int fd[2])
 	}
 	else
 		close(fd[0]);
-}
-
-static void	pipe_signal(t_shell *shell)
-{
-	int	status;
-
-	ign_signals();
-	while (waitpid(-1, &status, 0) > 0)
-	{
-		if (WIFSIGNALED(status) && status == SIGINT)
-			printf("\n");
-		if (WIFEXITED(status))
-			shell->last_status = WEXITSTATUS(status);
-	}
-	config_signals();
-}
-
-void	exec_pipe(t_shell *shell)
-{
-	int			fd[2];
-	int			control_fd;
-	pid_t		pid;
-	t_command	*cmd;
-
-	control_fd = -1;
-	cmd = shell->cmd;
-	while (cmd)
-	{
-		if (cmd->next && pipe(fd) == -1)
-			return ((void)perror("pipe"));
-		pid = fork();
-		if (pid == -1)
-			return ((void)perror("fork"));
-		if (pid == 0)
-			child_proc(shell, cmd, control_fd, fd);
-		else
-		{
-			parent_proc(cmd, &control_fd, fd);
-			cmd = cmd->next;
-		}
-	}
-	pipe_signal(shell);
 }

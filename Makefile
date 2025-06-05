@@ -23,8 +23,9 @@ SRCS = main.c prompt.c init_shell.c main_looping.c free_all.c signal.c \
 	token/read_operator.c token/verif_quote.c token/verif_valid_op.c \
 	token/verif_value.c \
 	parser/parser_utils.c parser/parser.c parser/check_syntax.c \
-	execution/execution.c execution/exec_simple_cmd.c execution/get_path.c \
-	execution/handle_error.c execution/exec_pipe.c execution/redirections/exec_redir.c \
+	execution/execution.c execution/get_path.c execution/handle_error.c \
+	execution/exec_simple_cmd.c execution/redirections/exec_redir.c \
+	execution/pipe/exec_pipe.c execution/pipe/exec_pipe_proc.c \
 	execution/redirections/heredoc.c execution/redirections/heredoc_utils.c \
 	environment/set_env_vars.c expansion/expansion.c \
 	expansion/expansion_len.c \

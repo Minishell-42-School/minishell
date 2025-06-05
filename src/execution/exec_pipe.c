@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 18:25:22 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:59:16 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ static void	pipe_signal(t_shell *shell)
 	ign_signals();
 	while (waitpid(-1, &status, 0) > 0)
 	{
+		if (WIFSIGNALED(status) && status == SIGINT)
+			printf("\n");
 		if (WIFEXITED(status))
 			shell->last_status = WEXITSTATUS(status);
-		if (WIFSIGNALED(status))
-			printf("\n");
 	}
 	config_signals();
 }

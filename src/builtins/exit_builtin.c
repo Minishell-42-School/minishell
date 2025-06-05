@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:19:49 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 19:16:03 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/05 17:19:29 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	exec_exit_builtin(t_shell *s, t_command *cmd)
 	long		status;
 
 	arg = cmd->args[1];
-	ft_putendl_fd("exit", STDERR_FILENO);
+	printf ("exit\n"); 
 	if (!arg)
 		exit(s->last_status);
 	if (!is_numeric(arg))

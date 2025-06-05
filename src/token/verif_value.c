@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   verif_value.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:42:15 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/12 11:38:50 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 17:43:29 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,10 +18,7 @@ static void	del_last_token(t_token **token_list)
 	t_token	*del_token;
 
 	if (!(*token_list)->next)
-	{
-		printf("Command not found or not executable\n");
 		free_token_lst(token_list);
-	}
 	else
 	{
 		temp = *token_list;

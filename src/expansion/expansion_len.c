@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 11:04:55 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 11:59:08 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:53:43 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,13 @@ static void	process_env_flags(t_token *tok, t_aux *aux, t_var *vars)
 	char	*var_name;
 
 	exp_len = var_name_len(tok->value + aux->i + 1);
+	if (exp_len == 0)
+	{
+		aux->len++;
+		aux->i++;
+		aux->k++;
+		return ;
+	}
 	var_name = ft_strndup(tok->value + aux->i + 1, exp_len);
 	new_value = var_get(vars, var_name);
 	free(var_name);

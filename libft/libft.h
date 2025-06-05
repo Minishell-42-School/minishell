@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:21:50 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/20 12:50:21 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/04 19:05:26 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ size_t	printf_putnbr(int n);
 size_t	printf_putnbr_unsig(unsigned int n);
 size_t	printf_puthex(unsigned long n, const char base_specifier);
 size_t	printf_putptr(va_list args, char c);
+
+int	printf_stderr(const char *format, ...);
 
 // Get Next Line
 char	*get_next_line(int fd);

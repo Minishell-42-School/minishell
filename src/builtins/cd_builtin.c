@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   cd_builtin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:01:41 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/03 17:13:56 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:56:40 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-static int	return_error(char *std_message, char *input)
-{
-	write(2, std_message, ft_strlen(std_message));
-	write(2, input, ft_strlen(input));
-	write(2, "\n", 1);
-	return (-1);
-}
 
 static void	update_and_free_pwd(t_var **vars, char *oldpwd, char *pwd)
 {
@@ -34,7 +26,7 @@ int	cd_builtin(t_command *cmd, t_var **vars)
 	char	*pwd;
 
 	if (cmd->args[2])
-		return (return_error("cd: string not in pwd: ", cmd->args[1]));
+		return (printf_stderr("bash: cd: too many arguments\n"));
 	oldpwd = getcwd(NULL, 0);
 	if (!cmd->args[1])
 	{
@@ -42,13 +34,14 @@ int	cd_builtin(t_command *cmd, t_var **vars)
 		if (!pwd || chdir(pwd) != 0)
 		{
 			free(oldpwd);
-			return (-1);
+			return (1);
 		}
 	}
 	else if (chdir(cmd->args[1]) != 0)
 	{
 		free(oldpwd);
-		return (return_error("cd: no such file or directory: ", cmd->args[1]));
+		return (printf_stderr("cd: no such file or directory: %s\n",
+				cmd->args[1]));
 	}
 	pwd = getcwd(NULL, 0);
 	update_and_free_pwd(vars, oldpwd, pwd);
@@ -57,7 +50,9 @@ int	cd_builtin(t_command *cmd, t_var **vars)
 
 int	exec_cd_builtin(t_shell *s, t_command *cmd)
 {
-	cd_builtin(cmd, &s->vars);
+	int	exit;
+
+	exit = cd_builtin(cmd, &s->vars);
 	var_to_envp(s);
-	return (0);
+	return (exit);
 }

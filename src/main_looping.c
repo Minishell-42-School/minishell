@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   main_looping.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 12:46:06 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:17:26 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/minishell.h"
+
+static int	verify_empty_arg0(t_shell *s)
+{
+	int	i;
+	
+	i = 0;
+	if ((ft_strcmp(s->cmd->args[0], "") == 0) && !s->cmd->args[1])
+	{
+		free_loop(&s->token_list, &s->cmd);
+		return (1);
+	}
+	else if ((ft_strcmp(s->cmd->args[0], "") == 0) && s->cmd->args[1])
+	{
+		free (s->cmd->args[0]);
+		while (s->cmd->args[i + 1])
+		{
+			s->cmd->args[i] = s->cmd->args[i + 1];
+			i++;
+		}
+		s->cmd->args[i] = NULL;
+		free(s->cmd->command_name);
+		s->cmd->command_name = ft_strdup(s->cmd->args[0]);
+	}
+	return (0);
+}
 
 void	main_looping(t_shell *shell)
 {
@@ -26,6 +51,8 @@ void	main_looping(t_shell *shell)
 		{
 			shell->p_state.current = shell->token_list;
 			shell->cmd = parse_pipeline(&shell->p_state);
+			if (verify_empty_arg0(shell) == 1)
+				continue ;
 			if (exec_set_local_vars(shell) == 1)
 				continue ;
 			if (shell->cmd)

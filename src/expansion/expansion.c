@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/11 15:47:50 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 15:07:24 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:53:02 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	process_build(t_shell *s, t_aux *aux, char *new)
 		new[aux->j] = '$';
 		aux->j++;
 		aux->i++;
-    }
+	}
 	else if (exp_len == 1 && var_name[0] == '?')
 	{
 		handle_question_mark(s, aux, new);

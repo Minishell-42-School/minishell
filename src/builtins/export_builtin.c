@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:12:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 18:23:50 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/05 11:51:21 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	export_builtin(t_command *cmd, t_var **vars)
 {
 	int		i;
 	int		exit;
-	
+
 	exit = 0;
 	i = 1;
 	if (cmd->args_count == 1)
@@ -64,10 +64,11 @@ int	export_builtin(t_command *cmd, t_var **vars)
 		{
 			if (is_valid_identifier(cmd->args[i]) == 0)
 			{
-				printf_stderr("bash: export: `%s': not a valid identifier\n", cmd->args[i]);
+				printf_stderr("bash: export: `%s': not a valid identifier\n",
+					cmd->args[i]);
 				exit = 1;
 			}	
-			var_mark_exported(vars, cmd->args[i]);	
+			var_mark_exported(vars, cmd->args[i]);
 		}
 		i++;
 	}

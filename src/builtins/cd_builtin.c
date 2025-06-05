@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:01:41 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/05 17:24:47 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/05 18:44:56 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	cd_builtin(t_command *cmd, t_var **vars)
 	char	*oldpwd;
 	char	*pwd;
 
-	if (cmd->args[2])
+	if (cmd->args_count > 2)
 		return (printf_stderr("bash: cd: too many arguments\n"));
 	oldpwd = getcwd(NULL, 0);
 	if (!cmd->args[1])

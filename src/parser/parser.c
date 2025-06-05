@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/05 13:32:11 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:16:40 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,30 @@ static void	link_redir(t_command *cmd, t_redirections *redir)
 
 static void	fill_cmd_args(t_parser_state *p_state, t_command *cmd, int *i)
 {
-	cmd->args[*i] = ft_strdup(p_state->current->value);
+	char	*val;
+	char	*dup;
+
+	val = p_state->current->value;
+	if (!val)
+		dup = ft_strdup("");
+	else
+		dup = ft_strdup(val);
+	cmd->args[*i] = dup;
 	if (*i == 0)
-		cmd->command_name = ft_strdup(p_state->current->value);
+	{
+		if (!val)
+			cmd->command_name = ft_strdup("");
+		else
+			cmd->command_name = ft_strdup(val);
+	}
 	(*i)++;
 	p_state->current = p_state->current->next;
 }
+
+/*
+	… rest of parser.c unchanged …
+*/
+
 
 t_command	*parse_command(t_parser_state *p_state)
 {

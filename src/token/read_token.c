@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:02:00 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 16:52:03 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:35:21 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ static char	*clean_quote(char *str)
 	return (clean_str);
 }
 
-char	*read_token(char *str, int *i, t_token *token, int *hdoc_control)
+char	*read_token(char *str, int *i, t_token *token, int hdoc_control)
 {
 	int		start;
 	char	quote;
@@ -76,16 +76,17 @@ char	*read_token(char *str, int *i, t_token *token, int *hdoc_control)
 
 	start = *i;
 	quote = 0;
-	printf("Read - %s\nControl %d\n", str, (*hdoc_control));
+	if (hdoc_control == 1)
+	{
+		if ((str[*i] == '\'' || str[*i] == '\"'))
+			token->hdoc = NO_EXPAND;
+		else
+			token->hdoc = EXPAND;
+	}
 	while (str[*i])
 	{
 		if ((str[*i] == '\'' || str[*i] == '\"') && !quote)
-		{
 			quote = str[*i];
-			// NAO EXPAND
-			if (hdoc_control)
-				(*hdoc_control = 2);
-		}
 		else if (quote == str[*i] && quote)
 			quote = '\0';
 		else if (!quote && (is_wspace(str[*i]) || is_operator(str[*i])))

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 16:05:13 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:19:51 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ void	main_looping(t_shell *shell)
 		int	i = 1;
 		while(test)
 		{
-			printf("TOKEN %d\ntype %d\nvalue %s\nnbr_var %d\n\n", i,test->type, test->value, test->nbr_env_var);
+			// printf("TOKEN %d\ntype %d\nvalue %s\nnbr_var %d\nHdoc %d\n\n", i,test->type, test->value, test->nbr_env_var, test->hdoc);
+			printf("TOKEN %d\ntype %d\nvalue %s\nheredoc %d\n\n", i,test->type, test->value, test->hdoc);
 			i++;
 			test = test->next;
 		}

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 16:45:15 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:34:08 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,18 @@ typedef enum e_token_type
 	REDIR_APPEND
 }	t_token_type;
 
+typedef enum e_hdoc
+{
+	NO_HDOC,
+	EXPAND,
+	NO_EXPAND
+}	t_hdoc;
+
 typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
+	t_hdoc			hdoc;
 	int				nbr_env_var;
 	int				*expand_var;
 	struct s_token	*next;
@@ -149,12 +157,12 @@ void			add_back(t_token **token, t_token *new_t);
 void			verif_env_var(char *str, t_token *token);
 
 // read_operator.c
-// char			*read_operator(char *str, int *i, t_token *token);
-char	*read_operator(char *str, int *i, t_token *token, int *hdoc_control);
+char			*read_operator(char *str, int *i, t_token *token);
+// char	*read_operator(char *str, int *i, t_token *token, int *hdoc_control);
 
 // read_token.c
 // char			*read_token(char *str, int *i, t_token *token);
-char	*read_token(char *str, int *i, t_token *token, int *hdoc_control);
+char	*read_token(char *str, int *i, t_token *token, int hdoc_control);
 
 // verif_quote.c
 int				verif_close_q(char *str);

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:42:15 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 16:27:47 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:33:53 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,13 @@ void	get_token(t_token **token_list, char *input)
 		while (is_wspace(input[i]))
 			i++;
 		if (is_operator(input[i]))
-			new_token->value = read_operator(input, &i, new_token, &hdoc_control);
+			new_token->value = read_operator(input, &i, new_token);
 		else
-			new_token->value = read_token(input, &i, new_token, &hdoc_control);
+			new_token->value = read_token(input, &i, new_token, hdoc_control);
+		if (new_token->type == REDIR_HEREDOC)
+			hdoc_control = 1;
+		else
+			hdoc_control = 0;
 		add_back(token_list, new_token);
 	}
 	verif_value(token_list);

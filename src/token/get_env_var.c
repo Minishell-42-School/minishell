@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:02:00 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 15:43:28 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 16:22:11 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ static void	get_expand(char *str, t_token *token)
 
 void	verif_env_var(char *str, t_token *token)
 {
+	printf("%s\n", str);
 	nbr_var(str, token);
 	if (token->nbr_env_var > 0)
 	{

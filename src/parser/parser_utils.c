@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:09:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 11:11:49 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:39:39 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ t_redirections	*assign_redir_type(t_parser_state *p_state,
 		redir->type = R_IN;
 	else if (token->type == REDIR_OUT)
 		redir->type = R_OUT;
-	else if (token->type == REDIR_DELIMITER)
-		redir->type = R_DELIMITER;
+	else if (token->type == REDIR_HEREDOC)
+		redir->type = R_HEREDOC;
 	else if (token->type == REDIR_APPEND)
 		redir->type = R_APPEND;
 	else

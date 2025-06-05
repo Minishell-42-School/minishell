@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 13:35:55 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 15:38:57 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	verif_heredoc(t_shell *shell)
 		redir = cmd->redirs;
 		while (redir)
 		{
-			if (redir->type == R_DELIMITER)
+			if (redir->type == R_HEREDOC)
 			{
 				handle_heredoc(shell, redir);
 				if (shell->last_status == 130)

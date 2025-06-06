@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:42:15 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 15:43:32 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/05 18:30:14 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static t_token_type	get_type(char *str, int i)
 		if (!is_operator(str[i + 1]))
 			type = REDIR_IN;
 		else if (str[i + 1] == '<' && !is_operator(str[i + 2]))
-			type = REDIR_DELIMITER;
+			type = REDIR_HEREDOC;
 	}
 	else if (str[i] == '>')
 	{

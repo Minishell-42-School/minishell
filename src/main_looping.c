@@ -15,7 +15,7 @@
 static int	verify_empty_arg0(t_shell *s)
 {
 	int	i;
-	
+
 	i = 0;
 	if ((ft_strcmp(s->cmd->args[0], "") == 0) && !s->cmd->args[1])
 	{
@@ -45,6 +45,15 @@ void	main_looping(t_shell *shell)
 		if (!shell->line)
 			break ;
 		get_token(&shell->token_list, shell->line);
+		t_token *test = shell->token_list;
+		int	i = 1;
+		while(test)
+		{
+			// printf("TOKEN %d\ntype %d\nvalue %s\nnbr_var %d\nHdoc %d\n\n", i,test->type, test->value, test->nbr_env_var, test->hdoc);
+			printf("TOKEN %d\ntype %d\nvalue %s\nheredoc %d\n\n", i,test->type, test->value, test->hdoc);
+			i++;
+			test = test->next;
+		}
 		free(shell->line);
 		expand_all_tokens(shell);
 		if (shell->token_list)

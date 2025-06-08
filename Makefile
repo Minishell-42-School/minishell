@@ -27,6 +27,7 @@ SRCS = main.c prompt.c init_shell.c main_looping.c free_all.c signal.c \
 	execution/exec_simple_cmd.c execution/redirections/exec_redir.c \
 	execution/pipe/exec_pipe.c execution/pipe/exec_pipe_proc.c \
 	execution/redirections/heredoc.c execution/redirections/heredoc_utils.c \
+	execution/redirections/loop_heredoc.c execution/redirections/loop_heredoc_utils.c \
 	environment/set_env_vars.c expansion/expansion.c \
 	expansion/expansion_len.c \
 	expansion/expansion_utils.c environment/envp_array.c \

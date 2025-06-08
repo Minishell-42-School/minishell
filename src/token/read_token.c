@@ -67,7 +67,7 @@ static char	*clean_quote(char *str)
 	return (clean_str);
 }
 
-char	*read_token(char *str, int *i, t_token *token, int hdoc_control)
+char	*read_token(char *str, int *i, t_token *token)
 {
 	int		start;
 	char	quote;
@@ -76,13 +76,6 @@ char	*read_token(char *str, int *i, t_token *token, int hdoc_control)
 
 	start = *i;
 	quote = 0;
-	if (hdoc_control == 1)
-	{
-		if ((str[*i] == '\'' || str[*i] == '\"'))
-			token->hdoc = NO_EXPAND;
-		else
-			token->hdoc = EXPAND;
-	}
 	while (str[*i])
 	{
 		if ((str[*i] == '\'' || str[*i] == '\"') && !quote)

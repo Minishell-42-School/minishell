@@ -31,13 +31,17 @@ void	free_new_envp(char **new_envp)
 
 void	free_vars_and_envp(t_var *vars, char **new_envp)
 {
+  t_var *tmp;
+
 	while (vars)
 	{
+    tmp = vars->next;
 		if (vars->value)
 			free(vars->value);
 		if (vars->key)
 			free(vars->key);
-		vars = vars->next;
+    free(vars);
+		vars = tmp;
 	}
 	if (new_envp)
 		free_new_envp(new_envp);

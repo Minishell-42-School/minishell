@@ -12,6 +12,26 @@
 
 #include "../../../includes/minishell.h"
 
+void	definy_redir(char *file_name, t_redirections *redir)
+{
+	free(redir->filename);
+	redir->filename = file_name;
+	redir->type = R_IN;
+}
+
+void	clean_filename(char **file_name)
+{
+	unlink(*file_name);
+	free(*file_name);
+}
+
+void	fork_error(int heredoc_fd, char **file_name)
+{
+	perror("fork");
+	close(heredoc_fd);
+	clean_filename(file_name);
+}
+
 char	*tmpfile_name(int *heredoc_fd)
 {
 	int		fd;
@@ -37,48 +57,4 @@ char	*tmpfile_name(int *heredoc_fd)
 	}
 	perror("heredoc temp file");
 	return (NULL);
-}
-
-int	loop_heredoc(t_redirections *redir, int heredoc_fd)
-{
-	char	*line;
-
-	while (1)
-	{
-		line = readline("Heredoc ~> ");
-		if (!line)
-		{
-			printf("Warning: here-document delimited by end-of-file\n");
-			break ;
-		}
-		if (ft_strncmp(line, redir->filename, ft_strlen(redir->filename)) == 0)
-		{
-			free(line);
-			break ;
-		}
-		write(heredoc_fd, line, ft_strlen(line));
-		write(heredoc_fd, "\n", 1);
-		free(line);
-	}
-	return (1);
-}
-
-void	definy_redir(char *file_name, t_redirections *redir)
-{
-	free(redir->filename);
-	redir->filename = file_name;
-	redir->type = R_IN;
-}
-
-void	clean_filename(char **file_name)
-{
-	unlink(*file_name);
-	free(*file_name);
-}
-
-void	fork_error(int heredoc_fd, char **file_name)
-{
-	perror("fork");
-	close(heredoc_fd);
-	clean_filename(file_name);
 }

@@ -22,29 +22,24 @@ int	is_operator(char c)
 	return (c == '|' || c == '<' || c == '>');
 }
 
-// void	get_token(t_token **token_list, char *input)
-// {
-// 	int		i;
-// 	t_token	*new_token;
+static void	hdoc_exp(t_token *token, char input, int control)
+{
+  if (control == 1)
+  {
+    if (input == '\'' || input == '\"')
+      token->hdoc = NO_EXPAND_VAR;
+    else
+      token->hdoc = EXPAND_VAR;
+  }
+}
 
-// 	i = 0;
-// 	if (!verif_close_q(input) || verif_valid_op(input) || *input == '\0')
-// 		return ;
-// 	while (input[i])
-// 	{
-// 		new_token = init_token();
-// 		if (!new_token)
-// 			return ;
-// 		while (is_wspace(input[i]))
-// 			i++;
-// 		if (is_operator(input[i]))
-// 			new_token->value = read_operator(input, &i, new_token);
-// 		else
-// 			new_token->value = read_token(input, &i, new_token);
-// 		add_back(token_list, new_token);
-// 	}
-// 	verif_value(token_list);
-// }
+static void	handle_control(t_token *token, int *control)
+{
+  if (token->type == REDIR_HEREDOC)
+    (*control) = 1;
+  else
+    (*control) = 0;
+}
 
 void	get_token(t_token **token_list, char *input)
 {
@@ -53,9 +48,9 @@ void	get_token(t_token **token_list, char *input)
 	t_token	*new_token;
 
 	i = 0;
-	hdoc_control = 0;
 	if (!verif_close_q(input) || verif_valid_op(input) || *input == '\0')
-		return ;
+    return ;
+	hdoc_control = 0;
 	while (input[i])
 	{
 		new_token = init_token();
@@ -63,14 +58,12 @@ void	get_token(t_token **token_list, char *input)
 			return ;
 		while (is_wspace(input[i]))
 			i++;
+    hdoc_exp(new_token, input[i], hdoc_control);
 		if (is_operator(input[i]))
 			new_token->value = read_operator(input, &i, new_token);
 		else
-			new_token->value = read_token(input, &i, new_token, hdoc_control);
-		if (new_token->type == REDIR_HEREDOC)
-			hdoc_control = 1;
-		else
-			hdoc_control = 0;
+			new_token->value = read_token(input, &i, new_token);
+    handle_control(new_token, &hdoc_control);
 		add_back(token_list, new_token);
 	}
 	verif_value(token_list);

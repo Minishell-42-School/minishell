@@ -16,8 +16,9 @@ int	main(int argc, char **av, char **envp)
 {
 	t_shell	shell;
 
-	if (argc || av)
-		;
+	if (argc || av){
+    ;
+  }
 	init_t_shell(&shell);
 	init_vars_from_envp(&shell.vars, envp);
 	var_to_envp(&shell);

@@ -22,7 +22,7 @@ void	free_token_lst(t_token **token_lst)
 	{
 		tmp = (*token_lst)->next;
 		if ((*token_lst)->value)
-			free((*token_lst)->value);
+      free((*token_lst)->value);
 		if ((*token_lst)->expand_var)
 			free((*token_lst)->expand_var);
 		free(*token_lst);
@@ -33,27 +33,27 @@ void	free_token_lst(t_token **token_lst)
 
 static void	free_redirections(t_redirections *redir)
 {
-	t_redirections	*temp;
+	t_redirections	*tmp;
 
 	while (redir)
 	{
-		temp = redir->next;
+		tmp = redir->next;
 		if (ft_strncmp(redir->filename, "/tmp/.hdoc_tmp_", 15) == 0)
 			unlink(redir->filename);
 		free(redir->filename);
 		free(redir);
-		redir = temp;
+		redir = tmp;
 	}
 }
 
 void	free_command_list(t_command *head)
 {
-	t_command	*temp;
+	t_command	*tmp;
 	int			i;
 
 	while (head)
 	{
-		temp = head->next;
+		tmp = head->next;
 		if (head->command_name)
 			free(head->command_name);
 		if (head->args)
@@ -66,7 +66,7 @@ void	free_command_list(t_command *head)
 		if (head->redirs)
 			free_redirections(head->redirs);
 		free(head);
-		head = temp;
+		head = tmp;
 	}
 }
 

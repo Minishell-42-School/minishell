@@ -12,10 +12,10 @@
 
 #include "../../../includes/minishell.h"
 
-static void	heredoc_child_proc(t_redirections *redir, int heredoc_fd)
+static void	heredoc_child_proc(t_shell *shell, t_redirections *redir, int heredoc_fd)
 {
 	heredoc_signals();
-	if (!loop_heredoc(redir, heredoc_fd))
+	if (!loop_heredoc(shell, redir, heredoc_fd))
 		exit(EXIT_FAILURE);
 	close(heredoc_fd);
 	exit(EXIT_SUCCESS);
@@ -51,7 +51,7 @@ static void	handle_heredoc(t_shell *shell, t_redirections *redir)
 		return ;
 	}
 	if (pid == 0)
-		heredoc_child_proc(redir, heredoc_fd);
+    heredoc_child_proc(shell, redir, heredoc_fd);
 	else
 	{
 		heredoc_parent_proc(shell, pid, heredoc_fd);

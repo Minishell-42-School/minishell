@@ -84,3 +84,13 @@ t_redirections	*assign_redir_type(t_parser_state *p_state,
 	advance_token(p_state);
 	return (redir);
 }
+
+t_hdoc  assign_hdoc_expansion(t_token *token)
+{
+  if (token->hdoc == EXPAND_VAR)
+		return (EXPAND);
+	else // if (token->hdoc == NO_EXPAND_VAR)
+		return (NO_EXPAND);
+	// else
+	// 	return (NO_HDOC);
+}

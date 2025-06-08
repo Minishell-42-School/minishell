@@ -12,7 +12,7 @@
 
 #include "../../includes/minishell.h"
 
-// check if first command starts with pipe amd if there
+// check if first command starts with pipe and if there
 //are two pipes in a sequence.
 int	check_syntax(t_parser_state *token)
 {

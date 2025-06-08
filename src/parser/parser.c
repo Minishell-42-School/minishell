@@ -79,7 +79,6 @@ t_command	*parse_command(t_parser_state *p_state)
 		}
 	}
 	cmd->args[i] = NULL;
-	// cmd->pipe_pid = 0;
 	return (cmd);
 }
 
@@ -98,7 +97,8 @@ t_redirections	*parse_redirection(t_parser_state *p_state)
 	redir = assign_redir_type(p_state, redir);
 	if (p_state->current->type != WORD || !p_state->current)
 		ft_error("Expected filename after redirection operator\n");
-	redir->filename = ft_strdup(p_state->current->value);
+  redir->filename = ft_strdup(p_state->current->value);
+  redir->expand_hdoc = assign_hdoc_expansion(p_state->current);
 	redir->next = NULL;
 	advance_token(p_state);
 	return (redir);

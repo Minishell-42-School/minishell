@@ -21,7 +21,7 @@ t_token	*init_token(void)
 		return (NULL);
 	new_t->type = WORD;
 	new_t->value = NULL;
-	new_t->hdoc = NO_HDOC;
+	new_t->hdoc = R_NO_HDOC;
 	new_t->nbr_env_var = 0;
 	new_t->expand_var = NULL;
 	new_t->next = NULL;

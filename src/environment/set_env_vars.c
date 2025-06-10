@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:43:19 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 11:20:41 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/10 14:31:58 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	vars_set(t_var **vars, char *key, char *value, int exported)
 	v = malloc(sizeof(*v));
 	if (!v)
 		return (-1);
-	v->key = strdup(key);
+	v->key = strdup(key);//free this?
 	v->value = strdup(value);
 	v->exported = exported;
 	v->next = *vars;

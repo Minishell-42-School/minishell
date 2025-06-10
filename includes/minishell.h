@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 15:17:42 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/10 15:38:27 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,7 @@ void			free_token_lst(t_token **token_lst);
 void			free_loop(t_token **token_lst, t_command **cmd);
 void			free_vars_and_envp(t_var *vars, char **new_envp);
 void			free_command_list(t_command *head);
+void			cleanup_and_exit(t_shell *s, int status);
 
 //free_envp.c
 void			free_vars_and_envp(t_var *vars, char **new_envp);

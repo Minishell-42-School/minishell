@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   prompt.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:02 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 12:22:04 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/10 16:32:19 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ char	*get_prompt(t_shell *shell)
 	if (!input)
 	{
 		printf("%s...Exit Minishell...\n%s", YELLOW, RESET);
-		rl_clear_history();
-		exit(0);
+		return (NULL);
 	}
 	if (*input)
 		add_history(input);

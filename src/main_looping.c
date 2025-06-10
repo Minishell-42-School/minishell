@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 16:17:26 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/10 16:32:34 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ static int	verify_empty_arg0(t_shell *s)
 	}
 	return (0);
 }
-
+ 
 void	main_looping(t_shell *shell)
 {
 	while (1)
 	{
 		shell->line = get_prompt(shell);
 		if (!shell->line)
-			break ;
+			cleanup_and_exit(shell, shell->last_status);
 		get_token(&shell->token_list, shell->line);
 		free(shell->line);
 		expand_all_tokens(shell);

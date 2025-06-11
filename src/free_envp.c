@@ -19,12 +19,12 @@ void	free_new_envp(char **new_envp)
 	i = 0;
 	if (!new_envp)
 		return ;
-	if (new_envp[i])
-	{
+	// if (new_envp[i])
+	// {
 		while (new_envp[i])
 			free(new_envp[i++]);
-	}
-	if (new_envp)
+	// }
+	// if (new_envp)
 		free(new_envp);
 	new_envp = NULL;
 }
@@ -33,6 +33,7 @@ void	free_vars_and_envp(t_var *vars, char **new_envp)
 {
   t_var *tmp;
 
+  printf("LIBERANDO MEM\n");
 	while (vars)
 	{
     tmp = vars->next;

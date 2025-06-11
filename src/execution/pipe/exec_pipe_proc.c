@@ -19,16 +19,20 @@ static void	exec_child_proc(t_shell *shell, t_command *cmd)
 	if (is_builtin(cmd))
 	{
 		if (exec_builtin(shell, cmd) != 0)
-			exit(EXIT_FAILURE);
-		exit(EXIT_SUCCESS);
+    {
+      free_all(shell, EXIT_FAILURE);
+			// exit(EXIT_FAILURE);
+    }
+    free_all(shell, EXIT_SUCCESS);
+		// exit(EXIT_SUCCESS);
 	}
 	path = get_path(shell, cmd);
-	check_error(path, shell->cmd);
+	check_error(path, shell->cmd, shell);
 	execve(path, cmd->args, shell->new_envp);
-	handle_error(cmd);
+	handle_error(shell, cmd);
 }
 
-void	child_proc(t_shell *s, t_command *cmd, int control_fd, int fd[2])
+void	child_proc(t_shell *shell, t_command *cmd, int control_fd, int fd[2])
 {
 	signal(SIGQUIT, SIG_DFL);
 	signal(SIGINT, SIG_DFL);
@@ -45,8 +49,11 @@ void	child_proc(t_shell *s, t_command *cmd, int control_fd, int fd[2])
 	}
 	if (cmd->redirs)
 		if (definy_fd(cmd))
-			exit(EXIT_FAILURE);
-	exec_child_proc(s, cmd);
+    {
+      free_all(shell, EXIT_FAILURE);
+			// exit(EXIT_FAILURE);
+    }
+	exec_child_proc(shell, cmd);
 }
 
 void	parent_proc(t_command *cmd, int *control_fd, int fd[2])

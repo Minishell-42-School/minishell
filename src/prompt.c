@@ -26,8 +26,10 @@ char	*get_prompt(t_shell *shell)
 	if (!input)
 	{
 		printf("%s...Exit Minishell...\n%s", YELLOW, RESET);
-		rl_clear_history();
-		exit(0);
+    free_all(shell, 0);
+    // free_vars_and_envp(shell->vars, shell->new_envp);
+		// rl_clear_history();
+		// exit(0);
 	}
 	if (*input)
 		add_history(input);

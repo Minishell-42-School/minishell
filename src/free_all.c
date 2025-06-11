@@ -12,71 +12,10 @@
 
 #include "../includes/minishell.h"
 
-void	free_token_lst(t_token **token_lst)
+void	free_all(t_shell *shell, int status)
 {
-	t_token	*tmp;
-
-	if (!token_lst || !*token_lst)
-		return ;
-	while (*token_lst)
-	{
-		tmp = (*token_lst)->next;
-		if ((*token_lst)->value)
-      free((*token_lst)->value);
-		if ((*token_lst)->expand_var)
-			free((*token_lst)->expand_var);
-		free(*token_lst);
-		*token_lst = tmp;
-	}
-	*token_lst = NULL;
-}
-
-static void	free_redirections(t_redirections *redir)
-{
-	t_redirections	*tmp;
-
-	while (redir)
-	{
-		tmp = redir->next;
-		if (ft_strncmp(redir->filename, "/tmp/.hdoc_tmp_", 15) == 0)
-			unlink(redir->filename);
-		free(redir->filename);
-		free(redir);
-		redir = tmp;
-	}
-}
-
-void	free_command_list(t_command *head)
-{
-	t_command	*tmp;
-	int			i;
-
-	while (head)
-	{
-		tmp = head->next;
-		if (head->command_name)
-			free(head->command_name);
-		if (head->args)
-		{
-			i = 0;
-			while (head->args[i])
-				free(head->args[i++]);
-			free(head->args);
-		}
-		if (head->redirs)
-			free_redirections(head->redirs);
-		free(head);
-		head = tmp;
-	}
-}
-
-void	free_loop(t_token **token_lst, t_command **cmd)
-{
-	if (*token_lst)
-		free_token_lst(token_lst);
-	if (*cmd)
-	{
-		free_command_list(*cmd);
-		*cmd = NULL;
-	}
+	free_loop(&shell->token_list, &shell->cmd);
+	free_vars_and_envp(shell->vars, shell->new_envp);
+	rl_clear_history();
+	exit(status);
 }

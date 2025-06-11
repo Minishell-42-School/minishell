@@ -50,7 +50,7 @@ void	main_looping(t_shell *shell)
 		if (shell->token_list)
 		{
 			shell->p_state.current = shell->token_list;
-			shell->cmd = parse_pipeline(&shell->p_state);
+			shell->cmd = parse_pipeline(shell, &shell->p_state);
 			if (verify_empty_arg0(shell) == 1)
 				continue ;
 			if (exec_set_local_vars(shell) == 1)
@@ -58,6 +58,7 @@ void	main_looping(t_shell *shell)
 			if (shell->cmd)
 				exec_cmd(shell);
 			free_loop(&shell->token_list, &shell->cmd);
+      printf("HERE\n");
 		}
 	}
 }

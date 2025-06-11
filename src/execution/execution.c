@@ -14,10 +14,14 @@
 
 void	exec_cmd(t_shell *shell)
 {
-	shell->last_status = 0;
+  int last_exit;
+
+  if (shell->last_status)
+    last_exit = shell->last_status;
+  shell->last_status = 0;
 	if (!shell->cmd)
 		return ;
-	verif_heredoc(shell);
+	verif_heredoc(shell, last_exit);
 	if (shell->last_status == 130)
 		return ;
 	if (shell->cmd->next)

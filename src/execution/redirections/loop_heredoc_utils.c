@@ -77,7 +77,7 @@ void expand_var(t_hdoc_env_var *hdoc, char *line, int *i, t_shell *shell)
 {
 	if (line[(*i) + 1] == '?')
 	{
-		hdoc->value = ft_itoa(shell->last_status);
+		hdoc->value = ft_itoa(hdoc->last_exit);
 		(*i) += 2;
 	}
 	else if (ft_isalpha(line[(*i) + 1]) || line[(*i) + 1] == '_')

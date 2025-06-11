@@ -20,7 +20,7 @@ void	print_error(char *cmd, char *msg)
 	ft_putstr_fd("\n", 2);
 }
 
-void	handle_error(t_command *cmd)
+void	handle_error(t_shell *shell, t_command *cmd)
 {
 	if (errno == ENOENT)
 		print_error(cmd->command_name, "command not found");
@@ -31,35 +31,55 @@ void	handle_error(t_command *cmd)
 	else
 		perror(cmd->command_name);
 	if (errno == EACCES || errno == EISDIR)
-		exit(126);
+  {
+    // free_loop(&shell->token_list, &cmd);
+    free_all(shell, 126);
+		// exit(126);
+  }
 	else if (errno == ENOENT)
-		exit(127);
+  {
+    // free_loop(&shell->token_list, &cmd);
+    free_all(shell, 127);
+		// exit(127);
+  }
 	else
-		exit(EXIT_FAILURE);
+  {
+    // free_loop(&shell->token_list, &cmd);
+    free_all(shell, EXIT_FAILURE);
+		// exit(EXIT_FAILURE);
+  }
 }
 
-void	check_error(char *path, t_command *cmd)
+void	check_error(char *path, t_command *cmd, t_shell *shell)
 {
 	struct stat	st;
 
 	if (!path)
 	{
 		print_error(cmd->command_name, "command not found");
-		exit(127);
+    // free_loop(&shell->token_list, &cmd);
+    free_all(shell, 127);
+		// exit(127);
 	}
 	if (stat(path, &st) != 0)
 	{
 		print_error(path, "No such file or directory");
-		exit(127);
+    // free_loop(&shell->token_list, &cmd);
+    free_all(shell, 127);
+		// exit(127);
 	}
 	if (S_ISDIR(st.st_mode))
 	{
 		print_error(path, "Is a directory");
-		exit(126);
+    // free_loop(&shell->token_list, &cmd);
+    free_all(shell, 126);
+		// exit(126);
 	}
 	if (access(path, X_OK) != 0)
 	{
 		print_error(path, "Permission denied");
-		exit(126);
+    // free_loop(&shell->token_list, &cmd);
+    free_all(shell, 126);
+		// exit(126);
 	}
 }

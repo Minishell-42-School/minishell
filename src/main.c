@@ -23,6 +23,5 @@ int	main(int argc, char **av, char **envp)
 	init_vars_from_envp(&shell.vars, envp);
 	var_to_envp(&shell);
 	main_looping(&shell);
-	free_vars_and_envp(shell.vars, shell.new_envp);
 	return (0);
 }

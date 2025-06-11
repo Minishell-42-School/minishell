@@ -36,21 +36,25 @@ static int expand_line(t_shell *shell, t_hdoc_env_var *hdoc, char *line)
 	return (i);
 }
 
-static void  init_hdoc(t_hdoc_env_var *hdoc)
+static void  init_hdoc(t_hdoc_env_var *hdoc, int l_exit)
 {
   hdoc->result = NULL;
 	hdoc->value = NULL;
 	hdoc->start = 0;
+  if (l_exit)
+    hdoc->last_exit = l_exit;
+  else
+    hdoc->last_exit = 0;
 }
 
-static char *expand_env_var(t_shell *shell, char *line)
+static char *expand_env_var(t_shell *shell, char *line, int last_exit)
 {
 	t_hdoc_env_var hdoc;
 	char *str;
 	char *tmp;
 	int i;
 
-	init_hdoc(&hdoc);
+	init_hdoc(&hdoc, last_exit);
 	i = expand_line(shell, &hdoc, line);
 	if ((i - hdoc.start) > 0)
 	{
@@ -72,25 +76,18 @@ static char *expand_env_var(t_shell *shell, char *line)
 	return (hdoc.result);
 }
 
-static void  write_line(t_shell *shell, int heredoc_fd, char *line, t_hdoc expand_hdoc)
+static void  write_exp_line(t_shell *shell, int heredoc_fd, char *line, int last_exit)
 {
   char  *expanded;
 
-  if (expand_hdoc == EXPAND)
-  {
-    expanded = expand_env_var(shell, line);
-    write(heredoc_fd, expanded, ft_strlen(expanded));
-    write(heredoc_fd, "\n", 1);
-    free(expanded);
-  }
-  else
-  {
-    write(heredoc_fd, line, ft_strlen(line));
-    write(heredoc_fd, "\n", 1);
-  }
+  expanded = expand_env_var(shell, line, last_exit);
+  write(heredoc_fd, expanded, ft_strlen(expanded));
+  write(heredoc_fd, "\n", 1);
+  free(expanded);
 }
 
-int	loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd)
+int	loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd, \
+    int last_exit)
 {
 	char	*line;
 
@@ -107,7 +104,13 @@ int	loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd)
 			free(line);
 			break ;
 		}
-    write_line(shell, heredoc_fd, line, redir->expand_hdoc);
+    if (redir->expand_hdoc == EXPAND)
+      write_exp_line(shell, heredoc_fd, line, last_exit);
+    else
+    {
+      write(heredoc_fd, line, ft_strlen(line));
+      write(heredoc_fd, "\n", 1);
+    }
 		free(line);
 	}
 	return (1);

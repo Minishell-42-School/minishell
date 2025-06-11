@@ -18,7 +18,7 @@ VALGRIND = valgrind
 SUPP = --suppressions=readline.supp
 IGNRL = --leak-check=full --show-leak-kinds=all
 
-SRCS = main.c prompt.c init_shell.c main_looping.c free_all.c signal.c \
+SRCS = main.c prompt.c init_shell.c main_looping.c free_all.c free_loop.c signal.c \
 	token/token.c token/create_token.c token/get_env_var.c token/read_token.c \
 	token/read_operator.c token/verif_quote.c token/verif_valid_op.c \
 	token/verif_value.c \

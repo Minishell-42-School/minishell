@@ -61,13 +61,18 @@ int	exec_exit_builtin(t_shell *s, t_command *cmd)
 	arg = cmd->args[1];
 	ft_putendl_fd("exit", STDERR_FILENO);
 	if (!arg)
-		exit(s->last_status);
+  {
+    status = s->last_status;
+    free_all(s, status);
+		// exit(status);
+  }
 	if (!is_numeric(arg))
 	{
 		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 		ft_putstr_fd(arg, STDERR_FILENO);
 		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-		exit(2);
+    free_all(s, 2);
+		// exit(2);
 	}
 	if (cmd->args[2])
 	{
@@ -75,5 +80,7 @@ int	exec_exit_builtin(t_shell *s, t_command *cmd)
 		return (1);
 	}
 	status = ft_atol(arg);
-	exit((unsigned char)status);
+  free_all(s, (unsigned char)status);
+	// exit((unsigned char)status);
+  return (0);
 }

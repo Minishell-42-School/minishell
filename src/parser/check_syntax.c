@@ -38,8 +38,9 @@ int	check_syntax(t_parser_state *token)
 	return (0);
 }
 
-void	ft_error(char *msg)
+void	ft_error(t_shell *shell, char *msg)
 {
 	printf("%s", msg);
-	exit(EXIT_FAILURE);
+  free_all(shell, EXIT_FAILURE);
+	// exit(EXIT_FAILURE);
 }

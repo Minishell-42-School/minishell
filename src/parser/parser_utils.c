@@ -23,7 +23,7 @@ t_token	*advance_token(t_parser_state *p_state)
 	return (token);
 }
 
-t_command	*init_command_struct(void)
+t_command	*init_command_struct(t_shell *shell)
 {
 	t_command	*cmd;
 
@@ -31,7 +31,8 @@ t_command	*init_command_struct(void)
 	if (!cmd)
 	{
 		perror("Malloc parser cmd failed");
-		exit(EXIT_FAILURE);
+    free_all(shell, EXIT_FAILURE);
+		// exit(EXIT_FAILURE);
 	}
 	cmd->command_name = NULL;
 	cmd->args = NULL;
@@ -65,7 +66,7 @@ int	count_args(t_parser_state *p_state)
 	return (arg_count);
 }
 
-t_redirections	*assign_redir_type(t_parser_state *p_state,
+t_redirections	*assign_redir_type(t_shell *shell, t_parser_state *p_state,
 	t_redirections *redir)
 {
 	t_token			*token;
@@ -80,7 +81,7 @@ t_redirections	*assign_redir_type(t_parser_state *p_state,
 	else if (token->type == REDIR_APPEND)
 		redir->type = R_APPEND;
 	else
-		ft_error("Invalid redirection operator");
+		ft_error(shell, "Invalid redirection operator");
 	advance_token(p_state);
 	return (redir);
 }

@@ -12,13 +12,20 @@
 
 #include "../../../includes/minishell.h"
 
-static void	heredoc_child_proc(t_shell *shell, t_redirections *redir, int heredoc_fd)
+static void	heredoc_child_proc(t_shell *shell, t_redirections *redir, \
+            int heredoc_fd, int last_exit)
 {
 	heredoc_signals();
-	if (!loop_heredoc(shell, redir, heredoc_fd))
-		exit(EXIT_FAILURE);
+	if (!loop_heredoc(shell, redir, heredoc_fd, last_exit))
+  {
+    free_all(shell, EXIT_FAILURE);
+		// exit(EXIT_FAILURE);
+  }
 	close(heredoc_fd);
-	exit(EXIT_SUCCESS);
+  {
+    free_all(shell, EXIT_SUCCESS);
+    // exit(EXIT_SUCCESS);
+  }
 }
 
 static void	heredoc_parent_proc(t_shell *shell, pid_t pid, int heredoc_fd)
@@ -35,7 +42,8 @@ static void	heredoc_parent_proc(t_shell *shell, pid_t pid, int heredoc_fd)
 		shell->last_status = WEXITSTATUS(status);
 }
 
-static void	handle_heredoc(t_shell *shell, t_redirections *redir)
+
+static void	handle_heredoc(t_shell *shell, t_redirections *redir, int last_exit)
 {
 	pid_t	pid;
 	char	*file_name;
@@ -51,7 +59,7 @@ static void	handle_heredoc(t_shell *shell, t_redirections *redir)
 		return ;
 	}
 	if (pid == 0)
-    heredoc_child_proc(shell, redir, heredoc_fd);
+    heredoc_child_proc(shell, redir, heredoc_fd, last_exit);
 	else
 	{
 		heredoc_parent_proc(shell, pid, heredoc_fd);
@@ -64,7 +72,7 @@ static void	handle_heredoc(t_shell *shell, t_redirections *redir)
 	}
 }
 
-void	verif_heredoc(t_shell *shell)
+void	verif_heredoc(t_shell *shell, int last_exit)
 {
 	t_redirections	*redir;
 	t_command		*cmd;
@@ -77,7 +85,7 @@ void	verif_heredoc(t_shell *shell)
 		{
 			if (redir->type == R_HEREDOC)
 			{
-				handle_heredoc(shell, redir);
+				handle_heredoc(shell, redir, last_exit);
 				if (shell->last_status == 130)
 					return ;
 			}

@@ -19,15 +19,22 @@ static void	exec_child_proc(t_shell *shell)
 	if (shell->cmd->redirs)
 	{
 		if (definy_fd(shell->cmd))
-			exit(EXIT_FAILURE);
+    {
+      free_all(shell, EXIT_FAILURE);
+			// exit(EXIT_FAILURE);
+    }
 	}
 	if (shell->last_status == 130)
-		exit(130);
+  {
+    free_all(shell, 130);
+		// exit(130);
+  }
 	path = get_path(shell, shell->cmd);
-	check_error(path, shell->cmd);
+	check_error(path, shell->cmd, shell);
 	if (execve(path, shell->cmd->args, shell->new_envp) == -1)
-		handle_error(shell->cmd);
-	exit(EXIT_SUCCESS);
+		handle_error(shell, shell->cmd);
+  free_all(shell, EXIT_SUCCESS);
+	// exit(EXIT_SUCCESS);
 }
 
 static void	exec_parent_proc(t_shell *shell, pid_t pid)

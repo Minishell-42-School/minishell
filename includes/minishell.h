@@ -97,6 +97,7 @@ typedef struct hdoc_env_var
 	char	*result;
 	char	*value;
 	int		start;
+  int   last_exit;
 } t_hdoc_env_var;
 
 // Command Struct
@@ -150,6 +151,9 @@ void			main_looping(t_shell *shell);
 char			*get_prompt(t_shell *shell);
 
 // free_all.c
+void			free_all(t_shell *shell, int status);
+
+// free_loop.c
 void			free_token_lst(t_token **token_lst);
 void			free_loop(t_token **token_lst, t_command **cmd);
 void			free_vars_and_envp(t_var *vars, char **new_envp);
@@ -197,19 +201,20 @@ void			verif_value(t_token **token_list);
 //parser_utils.c
 int				count_args(t_parser_state *p_state);
 t_token			*advance_token(t_parser_state *p_state);
-t_command		*init_command_struct(void);
-t_redirections	*assign_redir_type(t_parser_state *p_state, \
+t_command		*init_command_struct(t_shell *shell);
+t_redirections	*assign_redir_type(t_shell *shell, t_parser_state *p_state, \
 				t_redirections *redir);
 t_hdoc  assign_hdoc_expansion(t_token *token);
 
 //parser.c
-t_command		*parse_pipeline(t_parser_state *p_state);
-t_command		*parse_command(t_parser_state *p_state);
-t_redirections	*parse_redirection(t_parser_state *p_state);
+t_command		*parse_pipeline(t_shell *shell, t_parser_state *p_state);
+t_command		*parse_command(t_shell *shell, t_parser_state *p_state);
+t_redirections	*parse_redirection(t_shell *shell, t_parser_state *p_state);
 
 //check_syntax.c
 int				check_syntax(t_parser_state *token);
-void			ft_error(char *msg);
+// void			ft_error(char *msg);
+void	ft_error(t_shell *shell, char *msg);
 // ----Parser----
 
 // ----Environment----
@@ -252,16 +257,16 @@ void			exec_simple_cmd(t_shell *shell);
 char			*get_path(t_shell *shell, t_command *cmd);
 
 // handle_error.c
-void			handle_error(t_command *cmd);
+void			handle_error(t_shell *shell, t_command *cmd);
 void			print_error(char *cmd, char *msg);
-void			check_error(char *path, t_command *cmd);
+void			check_error(char *path, t_command *cmd, t_shell *shell);
 
 // - Pipe -
 // exec_pipe.c
 void			exec_pipe(t_shell *shell);
 
 // exec_pipe_proc.c
-void			child_proc(t_shell *s, t_command *cmd, int control_fd, int fd[2]);
+void			child_proc(t_shell *shell, t_command *cmd, int control_fd, int fd[2]);
 void			parent_proc(t_command *cmd, int *control_fd, int fd[2]);
 // -----------------
 
@@ -273,17 +278,18 @@ int				handle_in(t_redirections *redir);
 int				handle_creat(t_redirections *redir);
 
 // heredoc.c
-void			verif_heredoc(t_shell *shell);
+void			verif_heredoc(t_shell *shell, int last_exit);
 
 // heredoc_utils.c
 char			*tmpfile_name(int *heredoc_fd);
-int				loop_heredoc(t_shell * shell, t_redirections *redir, int heredoc_fd);
 void			definy_redir(char *file_name, t_redirections *redir);
 void			clean_filename(char **file_name);
 void			fork_error(int heredoc_fd, char **file_name);
 
 // loop_heredoc.c
-int				loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd);
+int				loop_heredoc(t_shell * shell, t_redirections *redir, \
+          int heredoc_fd, int last_exit);
+// int				loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd);
 
 // loop_heredoc_utils.c
 void			str_until_now(t_hdoc_env_var *hdoc, char *line, int i);

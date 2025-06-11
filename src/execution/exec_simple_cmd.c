@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 15:30:31 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:40:04 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,15 @@ static void	exec_child_proc(t_shell *shell)
 	if (shell->cmd->redirs)
 	{
 		if (definy_fd(shell->cmd))
-    {
-      free_all(shell, EXIT_FAILURE);
-			// exit(EXIT_FAILURE);
-    }
+			free_all(shell, EXIT_FAILURE);
 	}
 	if (shell->last_status == 130)
-  {
-    free_all(shell, 130);
-		// exit(130);
-  }
+		free_all(shell, 130);
 	path = get_path(shell, shell->cmd);
 	check_error(path, shell->cmd, shell);
 	if (execve(path, shell->cmd->args, shell->new_envp) == -1)
 		handle_error(shell, shell->cmd);
-  free_all(shell, EXIT_SUCCESS);
-	// exit(EXIT_SUCCESS);
+	free_all(shell, EXIT_SUCCESS);
 }
 
 static void	exec_parent_proc(t_shell *shell, pid_t pid)

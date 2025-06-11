@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:09:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/05 15:39:39 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:39:22 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ t_command	*init_command_struct(t_shell *shell)
 	if (!cmd)
 	{
 		perror("Malloc parser cmd failed");
-    free_all(shell, EXIT_FAILURE);
-		// exit(EXIT_FAILURE);
+		free_all(shell, EXIT_FAILURE);
 	}
 	cmd->command_name = NULL;
 	cmd->args = NULL;
@@ -86,12 +85,10 @@ t_redirections	*assign_redir_type(t_shell *shell, t_parser_state *p_state,
 	return (redir);
 }
 
-t_hdoc  assign_hdoc_expansion(t_token *token)
+t_hdoc	assign_hdoc_expansion(t_token *token)
 {
-  if (token->hdoc == EXPAND_VAR)
+	if (token->hdoc == EXPAND_VAR)
 		return (EXPAND);
-	else // if (token->hdoc == NO_EXPAND_VAR)
+	else
 		return (NO_EXPAND);
-	// else
-	// 	return (NO_HDOC);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_looping.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 16:17:26 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/11 17:38:05 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static int	verify_empty_arg0(t_shell *s)
 	i = 0;
 	if ((ft_strcmp(s->cmd->args[0], "") == 0) && !s->cmd->args[1])
 	{
-		free_loop(&s->token_list, &s->cmd);
+		free_loop(s);
 		return (1);
 	}
 	else if ((ft_strcmp(s->cmd->args[0], "") == 0) && s->cmd->args[1])
@@ -57,7 +57,7 @@ void	main_looping(t_shell *shell)
 				continue ;
 			if (shell->cmd)
 				exec_cmd(shell);
-			free_loop(&shell->token_list, &shell->cmd);
+			free_loop(shell);
 		}
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signal.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 15:16:18 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/11 12:32:59 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/11 17:38:24 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,9 @@ volatile sig_atomic_t	g_signal = 0;
 
 static void	heredoc_sigint(int sig)
 {
- 	g_signal = sig;
-    write(1, "\n", 1);
+	g_signal = sig;
+	write(1, "\n", 1);
 	free_all(get_shell(), 130);
-	exit(130);
 }
 
 void	heredoc_signals(void)

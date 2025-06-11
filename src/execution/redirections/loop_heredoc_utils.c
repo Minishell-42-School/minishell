@@ -12,10 +12,10 @@
 
 #include "../../../includes/minishell.h"
 
-void str_until_now(t_hdoc_env_var *hdoc, char *line, int i)
+void	str_until_now(t_hdoc_env_var *hdoc, char *line, int i)
 {
-	char *str;
-	char *tmp;
+	char	*str;
+	char	*tmp;
 
 	str = ft_substr(line, hdoc->start, i - hdoc->start);
 	if (!str)
@@ -31,49 +31,49 @@ void str_until_now(t_hdoc_env_var *hdoc, char *line, int i)
 	}
 }
 
-static char  *get_key(char *line, int pos)
+static char	*get_key(char *line, int pos)
 {
-  char  *key;
-  int   j;
-  int   len;
+	char	*key;
+	int		j;
+	int		len;
 
-  key = NULL;
-  j = 0;
-  len = pos;
-  while (ft_isalnum(line[len]) || line[len] == '_')
-    len++;
-  len -= pos;
-  key = malloc((len + 1) * sizeof(char));
-  len = pos;
-  while (ft_isalnum(line[len]) || line[len] == '_')
-  {
-    key[j] = line[len];
-    j++;
-    len++;
-  }
-  key[j] = '\0';
-  return (key);
+	key = NULL;
+	j = 0;
+	len = pos;
+	while (ft_isalnum(line[len]) || line[len] == '_')
+		len++;
+	len -= pos;
+	key = malloc((len + 1) * sizeof(char));
+	len = pos;
+	while (ft_isalnum(line[len]) || line[len] == '_')
+	{
+		key[j] = line[len];
+		j++;
+		len++;
+	}
+	key[j] = '\0';
+	return (key);
 }
 
-static void find_value(t_hdoc_env_var *hdoc, char *line, int *i, t_shell *shell)
+static void	find_value(t_hdoc_env_var *hdoc, char *line, int *i, t_shell *shell)
 {
-	char *key;
-	char *tmp_value;
-	int key_len;
+	char	*key;
+	char	*tmp_value;
+	int		key_len;
 
 	key_len = 0;
-  key = get_key(line, (*i) + 1);
-  key_len = ft_strlen(key);
-  tmp_value = var_get(shell->vars, key);
-  if (tmp_value)
-    hdoc->value = ft_strdup(tmp_value);
-  else
-    hdoc->value = ft_strdup("");
-  free(key);
-  (*i) += (key_len + 1);
+	key = get_key(line, (*i) + 1);
+	key_len = ft_strlen(key);
+	tmp_value = var_get(shell->vars, key);
+	if (tmp_value)
+		hdoc->value = ft_strdup(tmp_value);
+	else
+		hdoc->value = ft_strdup("");
+	free(key);
+	(*i) += (key_len + 1);
 }
 
-void expand_var(t_hdoc_env_var *hdoc, char *line, int *i, t_shell *shell)
+void	expand_var(t_hdoc_env_var *hdoc, char *line, int *i, t_shell *shell)
 {
 	if (line[(*i) + 1] == '?')
 	{
@@ -90,16 +90,16 @@ void expand_var(t_hdoc_env_var *hdoc, char *line, int *i, t_shell *shell)
 	hdoc->start = (*i);
 }
 
-void  join_value(t_hdoc_env_var *hdoc)
+void	join_value(t_hdoc_env_var *hdoc)
 {
-	char *tmp;
+	char	*tmp;
 
-  tmp = hdoc->result;
-  if (tmp)
-  {
-    hdoc->result = ft_strjoin(tmp, hdoc->value);
-    free(tmp);
-  }
-  else
-    hdoc->result = ft_strjoin("", hdoc->value);
+	tmp = hdoc->result;
+	if (tmp)
+	{
+		hdoc->result = ft_strjoin(tmp, hdoc->value);
+		free(tmp);
+	}
+	else
+		hdoc->result = ft_strjoin("", hdoc->value);
 }

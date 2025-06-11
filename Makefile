@@ -17,6 +17,7 @@ RLFLAGS = -lreadline -lncurses
 VALGRIND = valgrind
 SUPP = --suppressions=readline.supp
 IGNRL = --leak-check=full --show-leak-kinds=all
+FDS = --track-fds=yes
 
 SRCS = main.c prompt.c init_shell.c main_looping.c free_all.c free_loop.c signal.c \
 	token/token.c token/create_token.c token/get_env_var.c token/read_token.c \
@@ -52,6 +53,9 @@ val:
 
 val_sup:
 	$(VALGRIND) $(IGNRL) $(SUPP) ./minishell
+
+val_fds:
+	$(VALGRIND) $(FDS) ./minishell
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)

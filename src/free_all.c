@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_all.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 11:21:13 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/11 17:48:49 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	free_all(t_shell *shell, int status)
 {
-	free_loop(&shell->token_list, &shell->cmd);
+	free_loop(shell);
 	free_vars_and_envp(shell->vars, shell->new_envp);
+	free(shell->hdoc_file);
 	rl_clear_history();
-  if (status != -42)
-	  exit(status);
+	exit(status);
 }

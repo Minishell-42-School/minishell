@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/11 12:37:24 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/11 17:38:38 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,9 @@ extern volatile sig_atomic_t	g_signal;
 // Token Struct
 typedef enum e_token_hdoc
 {
-  R_NO_HDOC,
-  EXPAND_VAR,
-  NO_EXPAND_VAR
+	R_NO_HDOC,
+	EXPAND_VAR,
+	NO_EXPAND_VAR
 }	t_token_hdoc;
 
 typedef enum e_token_type
@@ -79,32 +79,33 @@ typedef enum e_redirtype
 
 typedef enum e_hdoc
 {
-  NO_EXPAND,
-  EXPAND,
-  NO_HDOC
+	NO_EXPAND,
+	EXPAND,
+	NO_HDOC
 }	t_hdoc;
 
-typedef struct redirection
+typedef struct s_redirection
 {
 	t_redir_type		type;
 	char				*filename;
-  t_hdoc      expand_hdoc;
-	struct redirection	*next;
+	t_hdoc				expand_hdoc;
+	struct s_redirection	*next;
 }	t_redirections;
 
-typedef struct hdoc_env_var
+typedef struct s_hdoc_env_var
 {
 	char	*result;
 	char	*value;
 	int		start;
-  int   last_exit;
-} t_hdoc_env_var;
+	int		last_exit;
+}	t_hdoc_env_var;
 
-typedef struct child_p_hdoc
+typedef struct s_hdoc_file
 {
 	char	*file_name;
-  int   last_exit;
-} t_child_p_hdoc;
+	// int		
+	// struct s_hdoc_file	*next;
+}	t_hdoc_file;
 
 // Command Struct
 typedef struct s_command
@@ -142,9 +143,11 @@ typedef struct s_shell
 	t_var			*vars;
 	char			**new_envp;
 	char			*line;
-	// char 			*file_name;
 	t_parser_state	p_state;
 	int				last_status;
+	char			*hdoc_file;
+	int				hdoc_control;
+	// t_hdoc_file		hdoc_file;
 }	t_shell;
 
 // Functions
@@ -163,9 +166,13 @@ void			free_all(t_shell *shell, int status);
 
 // free_loop.c
 void			free_token_lst(t_token **token_lst);
-void			free_loop(t_token **token_lst, t_command **cmd);
+void			free_loop(t_shell *shell);
 void			free_vars_and_envp(t_var *vars, char **new_envp);
-void			free_command_list(t_command *head);
+void			free_command_list(t_shell *shell, t_command *head);
+// void			free_token_lst(t_token **token_lst);
+// void			free_loop(t_token **token_lst, t_command **cmd, int hdoc_control);
+// void			free_vars_and_envp(t_var *vars, char **new_envp);
+// void			free_command_list(t_command *head);
 
 //free_envp.c
 void			free_vars_and_envp(t_var *vars, char **new_envp);
@@ -212,7 +219,7 @@ t_token			*advance_token(t_parser_state *p_state);
 t_command		*init_command_struct(t_shell *shell);
 t_redirections	*assign_redir_type(t_shell *shell, t_parser_state *p_state, \
 				t_redirections *redir);
-t_hdoc  assign_hdoc_expansion(t_token *token);
+t_hdoc			assign_hdoc_expansion(t_token *token);
 
 //parser.c
 t_command		*parse_pipeline(t_shell *shell, t_parser_state *p_state);
@@ -221,8 +228,7 @@ t_redirections	*parse_redirection(t_shell *shell, t_parser_state *p_state);
 
 //check_syntax.c
 int				check_syntax(t_parser_state *token);
-// void			ft_error(char *msg);
-void	ft_error(t_shell *shell, char *msg);
+void			ft_error(t_shell *shell, char *msg);
 // ----Parser----
 
 // ----Environment----
@@ -295,9 +301,8 @@ void			clean_filename(char **file_name);
 void			fork_error(int heredoc_fd, char **file_name);
 
 // loop_heredoc.c
-void				loop_heredoc(t_shell * shell, t_redirections *redir, \
-          int heredoc_fd, int last_exit);
-// int				loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd);
+void			loop_heredoc(t_shell * shell, t_redirections *redir, \
+				int heredoc_fd, int last_exit);
 
 // loop_heredoc_utils.c
 void			str_until_now(t_hdoc_env_var *hdoc, char *line, int i);

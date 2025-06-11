@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:07:16 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/05/08 15:43:54 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:39:17 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,5 @@ int	check_syntax(t_parser_state *token)
 void	ft_error(t_shell *shell, char *msg)
 {
 	printf("%s", msg);
-  free_all(shell, EXIT_FAILURE);
-	// exit(EXIT_FAILURE);
+	free_all(shell, EXIT_FAILURE);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free_envp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:43:45 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/11 11:24:40 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/11 12:47:22 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,24 @@ void	free_new_envp(char **new_envp)
 	i = 0;
 	if (!new_envp)
 		return ;
-	// if (new_envp[i])
-	// {
 	while (new_envp[i])
 		free(new_envp[i++]);
-	// }
-	// if (new_envp)
 	free(new_envp);
 	new_envp = NULL;
 }
 
 void	free_vars_and_envp(t_var *vars, char **new_envp)
 {
-  t_var *tmp;
+	t_var	*tmp;
 
 	while (vars)
 	{
-    tmp = vars->next;
+		tmp = vars->next;
 		if (vars->value)
 			free(vars->value);
 		if (vars->key)
 			free(vars->key);
-    free(vars);
+		free(vars);
 		vars = tmp;
 	}
 	if (new_envp)

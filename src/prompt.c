@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:02 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 12:22:04 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:41:27 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,7 @@ char	*get_prompt(t_shell *shell)
 	if (!input)
 	{
 		printf("%s...Exit Minishell...\n%s", YELLOW, RESET);
-    free_all(shell, 0);
-    // free_vars_and_envp(shell->vars, shell->new_envp);
-		// rl_clear_history();
-		// exit(0);
+		free_all(shell, 0);
 	}
 	if (*input)
 		add_history(input);

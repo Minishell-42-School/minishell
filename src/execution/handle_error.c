@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/04 12:13:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 15:29:55 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/11 17:39:47 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,11 @@ void	handle_error(t_shell *shell, t_command *cmd)
 	else
 		perror(cmd->command_name);
 	if (errno == EACCES || errno == EISDIR)
-  {
-    // free_loop(&shell->token_list, &cmd);
-    free_all(shell, 126);
-		// exit(126);
-  }
+		free_all(shell, 126);
 	else if (errno == ENOENT)
-  {
-    // free_loop(&shell->token_list, &cmd);
-    free_all(shell, 127);
-		// exit(127);
-  }
+		free_all(shell, 127);
 	else
-  {
-    // free_loop(&shell->token_list, &cmd);
-    free_all(shell, EXIT_FAILURE);
-		// exit(EXIT_FAILURE);
-  }
+		free_all(shell, EXIT_FAILURE);
 }
 
 void	check_error(char *path, t_command *cmd, t_shell *shell)
@@ -57,29 +45,21 @@ void	check_error(char *path, t_command *cmd, t_shell *shell)
 	if (!path)
 	{
 		print_error(cmd->command_name, "command not found");
-    // free_loop(&shell->token_list, &cmd);
-    free_all(shell, 127);
-		// exit(127);
+		free_all(shell, 127);
 	}
 	if (stat(path, &st) != 0)
 	{
 		print_error(path, "No such file or directory");
-    // free_loop(&shell->token_list, &cmd);
-    free_all(shell, 127);
-		// exit(127);
+		free_all(shell, 127);
 	}
 	if (S_ISDIR(st.st_mode))
 	{
 		print_error(path, "Is a directory");
-    // free_loop(&shell->token_list, &cmd);
-    free_all(shell, 126);
-		// exit(126);
+		free_all(shell, 126);
 	}
 	if (access(path, X_OK) != 0)
 	{
 		print_error(path, "Permission denied");
-    // free_loop(&shell->token_list, &cmd);
-    free_all(shell, 126);
-		// exit(126);
+		free_all(shell, 126);
 	}
 }

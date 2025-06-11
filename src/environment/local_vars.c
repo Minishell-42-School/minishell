@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   local_vars.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:12:26 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 12:22:34 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/11 17:42:03 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	exec_set_local_vars(t_shell *shell)
 {
 	if (try_set_local_var(shell->cmd, &shell->vars) == 1)
 	{
-		free_loop(&shell->token_list, &shell->cmd);
+		free_loop(shell);
 		return (1);
 	}
 	return (0);

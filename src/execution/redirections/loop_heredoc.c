@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loop_heredoc.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 11:13:49 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:33:36 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,13 +91,19 @@ void	loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd, \
   // while (!g_signal)
 	while (1)
 	{
-		line = readline("Heredoc ~> ");
-    // if (g_signal == 2)
-    // {
-    //   if (line)
-    //     free(line);
-    //   break ;
-    // }
+       // Check if signal was received before calling readline
+        // if (g_signal == SIGINT)
+        //     return;
+            
+        line = readline("Heredoc ~> ");
+        
+        // Check again after readline returns
+        // if (g_signal == SIGINT)
+        // {
+        //     if (line)
+        //         free(line);
+        //     return;
+        // }
 		if (!line)
 		{
  			printf("Warning: here-document delimited by end-of-file\n");

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 15:38:57 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:37:50 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,19 +15,20 @@
 static void	heredoc_child_proc(t_shell *shell, t_redirections *redir, \
             int heredoc_fd, t_child_p_hdoc *child_hdoc)
 {
-  heredoc_signals();
-  loop_heredoc(shell, redir, heredoc_fd, child_hdoc->last_exit);
-  close(heredoc_fd);
-  free(child_hdoc->file_name);
-  // if (g_signal == 2)
-  // {
-  //   printf("AGAIN\n");
-  //   // free_all(shell, -42);
-  //   g_signal = 0;
-  //   signal(SIGINT, SIG_DFL);
-	// 	kill(getpid(), SIGINT);
-  // }
-  free_all(shell, EXIT_SUCCESS);
+	heredoc_signals();
+	free(child_hdoc->file_name);
+  	loop_heredoc(shell, redir, heredoc_fd, child_hdoc->last_exit);
+  	close(heredoc_fd);
+	
+  	// Check if we received a signal
+  	// if (g_signal == SIGINT)
+  	// {
+  	//   // Clean up and exit with appropriate status for SIGINT
+  	//   free_all(shell, 130);
+  	// }
+  	
+  	// Normal exit path
+  	free_all(shell, 0);
 }
 
 static void	heredoc_parent_proc(t_shell *shell, pid_t pid, int heredoc_fd)

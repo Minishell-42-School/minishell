@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 18:34:08 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:37:24 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ typedef struct s_shell
 	t_var			*vars;
 	char			**new_envp;
 	char			*line;
+	// char 			*file_name;
 	t_parser_state	p_state;
 	int				last_status;
 }	t_shell;
@@ -149,6 +150,7 @@ typedef struct s_shell
 // Functions
 // init_shell.c
 void			init_t_shell(t_shell *shell);
+t_shell			*get_shell(void);
 
 // main_looping.c
 void			main_looping(t_shell *shell);

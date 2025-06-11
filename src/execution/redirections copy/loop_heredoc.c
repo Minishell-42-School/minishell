@@ -41,7 +41,10 @@ static void  init_hdoc(t_hdoc_env_var *hdoc, int l_exit)
   hdoc->result = NULL;
 	hdoc->value = NULL;
 	hdoc->start = 0;
-  hdoc->last_exit = l_exit;
+  if (l_exit)
+    hdoc->last_exit = l_exit;
+  else
+    hdoc->last_exit = 0;
 }
 
 static char *expand_env_var(t_shell *shell, char *line, int last_exit)
@@ -83,24 +86,17 @@ static void  write_exp_line(t_shell *shell, int heredoc_fd, char *line, int last
   free(expanded);
 }
 
-void	loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd, \
-   int  last_exit)
+int	loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd, \
+    int last_exit)
 {
 	char	*line;
 
-  // while (!g_signal)
 	while (1)
 	{
 		line = readline("Heredoc ~> ");
-    // if (g_signal == 2)
-    // {
-    //   if (line)
-    //     free(line);
-    //   break ;
-    // }
 		if (!line)
 		{
- 			printf("Warning: here-document delimited by end-of-file\n");
+			printf("Warning: here-document delimited by end-of-file\n");
 			break ;
 		}
 		if (ft_strncmp(line, redir->filename, ft_strlen(redir->filename)) == 0)
@@ -117,4 +113,5 @@ void	loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd, \
     }
 		free(line);
 	}
+	return (1);
 }

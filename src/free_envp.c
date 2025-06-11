@@ -33,7 +33,6 @@ void	free_vars_and_envp(t_var *vars, char **new_envp)
 {
   t_var *tmp;
 
-  printf("LIBERANDO MEM\n");
 	while (vars)
 	{
     tmp = vars->next;

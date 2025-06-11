@@ -100,6 +100,12 @@ typedef struct hdoc_env_var
   int   last_exit;
 } t_hdoc_env_var;
 
+typedef struct child_p_hdoc
+{
+	char	*file_name;
+  int   last_exit;
+} t_child_p_hdoc;
+
 // Command Struct
 typedef struct s_command
 {
@@ -287,7 +293,7 @@ void			clean_filename(char **file_name);
 void			fork_error(int heredoc_fd, char **file_name);
 
 // loop_heredoc.c
-int				loop_heredoc(t_shell * shell, t_redirections *redir, \
+void				loop_heredoc(t_shell * shell, t_redirections *redir, \
           int heredoc_fd, int last_exit);
 // int				loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd);
 

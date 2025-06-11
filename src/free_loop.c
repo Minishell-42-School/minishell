@@ -16,7 +16,6 @@ void	free_token_lst(t_token **token_lst)
 {
 	t_token	*tmp;
 
-  printf("2. LIMPANDO TOKEN\n");
 	if (!token_lst || !*token_lst)
 		return ;
 	while (*token_lst)
@@ -36,7 +35,6 @@ static void	free_redirections(t_redirections *redir)
 {
 	t_redirections	*tmp;
 
-  printf("4. LIMPANDO REDIR\n");
 	while (redir)
 	{
 		tmp = redir->next;
@@ -53,7 +51,6 @@ void	free_command_list(t_command *head)
 	t_command	*tmp;
 	int			i;
 
-  printf("3. LIMPANDO CMD\n");
 	while (head)
 	{
 		tmp = head->next;
@@ -75,7 +72,6 @@ void	free_command_list(t_command *head)
 
 void	free_loop(t_token **token_lst, t_command **cmd)
 {
-  printf("1. LIMPANDO\n");
 	if (*token_lst)
 		free_token_lst(token_lst);
 	if (*cmd)

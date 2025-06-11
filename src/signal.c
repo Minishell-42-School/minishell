@@ -17,6 +17,7 @@ volatile sig_atomic_t	g_signal = 0;
 static void	heredoc_sigint(int sig)
 {
 	(void)sig;
+  // g_signal = 2;
 	write(1, "\n", 1);
 	exit(130);
 }

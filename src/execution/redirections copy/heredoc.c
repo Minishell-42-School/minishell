@@ -13,21 +13,19 @@
 #include "../../../includes/minishell.h"
 
 static void	heredoc_child_proc(t_shell *shell, t_redirections *redir, \
-            int heredoc_fd, t_child_p_hdoc *child_hdoc)
+            int heredoc_fd, int last_exit)
 {
-  heredoc_signals();
-  loop_heredoc(shell, redir, heredoc_fd, child_hdoc->last_exit);
-  close(heredoc_fd);
-  free(child_hdoc->file_name);
-  // if (g_signal == 2)
-  // {
-  //   printf("AGAIN\n");
-  //   // free_all(shell, -42);
-  //   g_signal = 0;
-  //   signal(SIGINT, SIG_DFL);
-	// 	kill(getpid(), SIGINT);
-  // }
-  free_all(shell, EXIT_SUCCESS);
+	heredoc_signals();
+	if (!loop_heredoc(shell, redir, heredoc_fd, last_exit))
+  {
+    free_all(shell, EXIT_FAILURE);
+		// exit(EXIT_FAILURE);
+  }
+	close(heredoc_fd);
+  {
+    free_all(shell, EXIT_SUCCESS);
+    // exit(EXIT_SUCCESS);
+  }
 }
 
 static void	heredoc_parent_proc(t_shell *shell, pid_t pid, int heredoc_fd)
@@ -44,30 +42,56 @@ static void	heredoc_parent_proc(t_shell *shell, pid_t pid, int heredoc_fd)
 		shell->last_status = WEXITSTATUS(status);
 }
 
+
+static void  init_hdoc(t_hdoc_env_var *hdoc)
+{
+  hdoc->result = NULL;
+	hdoc->value = NULL;
+  hdoc->file_name = NULL;
+	hdoc->start = 0;
+  hdoc->last_exit = 0;
+}
+
+// static char *expand_env_var(t_shell *shell, char *line, int last_exit)
+// {
+// 	t_hdoc_env_var hdoc;
+// 	char *str;
+// 	char *tmp;
+// 	int i;
+
+// 	init_hdoc(&hdoc, last_exit);
+
+
+
+
 static void	handle_heredoc(t_shell *shell, t_redirections *redir, int last_exit)
 {
 	pid_t	pid;
 	char	*file_name;
 	int		heredoc_fd;
-  t_child_p_hdoc child_hdoc;
+  t_hdoc_env_var hdoc;
 
-  file_name = tmpfile_name(&heredoc_fd);
-	if (!file_name)
-    return ;
-  // init_child_hdoc(&child_hdoc, &file_name, last_exit);
-  child_hdoc.file_name = file_name;
-  child_hdoc.last_exit = last_exit;
+  init_hdoc(&hdoc);
+	// file_name = tmpfile_name(&heredoc_fd);
+  hdoc.file_name = tmpfile_name(&heredoc_fd);
+	if (!hdoc.file_name)
+		return ;
 	pid = fork();
 	if (pid == -1)
 	{
-		fork_error(heredoc_fd, &file_name);
+		// fork_error(heredoc_fd, &file_name);
+    fork_error(heredoc_fd, &hdoc.file_name);
 		return ;
 	}
 	if (pid == 0)
-    heredoc_child_proc(shell, redir, heredoc_fd, &child_hdoc);
+    heredoc_child_proc(shell, redir, heredoc_fd, last_exit);
 	else
 	{
 		heredoc_parent_proc(shell, pid, heredoc_fd);
+		// if (shell->last_status == 0)
+		// 	definy_redir(file_name, redir);
+		// else
+		// 	clean_filename(&file_name);
     if (shell->last_status == 0)
 			definy_redir(file_name, redir);
 		else

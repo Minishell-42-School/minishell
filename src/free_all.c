@@ -17,5 +17,6 @@ void	free_all(t_shell *shell, int status)
 	free_loop(&shell->token_list, &shell->cmd);
 	free_vars_and_envp(shell->vars, shell->new_envp);
 	rl_clear_history();
-	exit(status);
+  if (status != -42)
+	  exit(status);
 }

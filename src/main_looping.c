@@ -58,7 +58,6 @@ void	main_looping(t_shell *shell)
 			if (shell->cmd)
 				exec_cmd(shell);
 			free_loop(&shell->token_list, &shell->cmd);
-      printf("HERE\n");
 		}
 	}
 }

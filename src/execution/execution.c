@@ -16,6 +16,7 @@ void	exec_cmd(t_shell *shell)
 {
   int last_exit;
 
+  last_exit = 0;
   if (shell->last_status)
     last_exit = shell->last_status;
   shell->last_status = 0;

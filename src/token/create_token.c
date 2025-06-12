@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:33:59 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 18:29:08 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:19:13 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ t_token	*init_token(void)
 
 	new_t = malloc(sizeof(t_token));
 	if (!new_t)
+	{
+		printf_stderr("Malloc error at new_token");
 		return (NULL);
+	}
 	new_t->type = WORD;
 	new_t->value = NULL;
 	new_t->hdoc = R_NO_HDOC;

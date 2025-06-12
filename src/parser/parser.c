@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/05 13:32:11 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 14:13:24 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,8 +97,8 @@ t_redirections	*parse_redirection(t_shell *shell, t_parser_state *p_state)
 	redir = assign_redir_type(shell, p_state, redir);
 	if (p_state->current->type != WORD || !p_state->current)
 		ft_error(shell, "Expected filename after redirection operator\n");
-  redir->filename = ft_strdup(p_state->current->value);
-  redir->expand_hdoc = assign_hdoc_expansion(p_state->current);
+	redir->filename = ft_strdup(p_state->current->value);
+	redir->expand_hdoc = assign_hdoc_expansion(p_state->current);
 	redir->next = NULL;
 	advance_token(p_state);
 	return (redir);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/14 13:21:50 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 19:05:26 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/12 13:50:34 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,9 +97,13 @@ size_t	printf_putnbr_unsig(unsigned int n);
 size_t	printf_puthex(unsigned long n, const char base_specifier);
 size_t	printf_putptr(va_list args, char c);
 
+// Extras
+int	ft_printf_stderr(const char *fmt_str, ...);
 int	printf_stderr(const char *format, ...);
+
 
 // Get Next Line
 char	*get_next_line(int fd);
+
 
 #endif

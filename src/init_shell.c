@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/11 17:30:17 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/11 18:33:23 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 t_shell	*get_shell(void)
 {
 	static t_shell	shell;
-	
+
 	return (&shell);
 }
 

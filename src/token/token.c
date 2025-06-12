@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:42:15 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/11 12:48:18 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:17:00 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,21 +41,23 @@ static void	handle_control(t_token *token, int *control)
 		(*control) = 0;
 }
 
-void	get_token(t_token **token_list, char *input)
+int	get_token(t_token **token_list, char *input)
 {
 	int		i;
 	int		hdoc_control;
 	t_token	*new_token;
 
 	i = 0;
-	if (!verif_close_q(input) || verif_valid_op(input) || *input == '\0')
-		return ;
+	if (*input == '\0')
+		return (0);
+	if (!verif_close_q(input) || verif_valid_op(input))
+		return (1);
 	hdoc_control = 0;
 	while (input[i])
 	{
 		new_token = init_token();
 		if (!new_token)
-			return ;
+			return (1);
 		while (is_wspace(input[i]))
 			i++;
 		hdoc_exp(new_token, input[i], hdoc_control);
@@ -67,4 +69,5 @@ void	get_token(t_token **token_list, char *input)
 		add_back(token_list, new_token);
 	}
 	verif_value(token_list);
+	return (0);
 }

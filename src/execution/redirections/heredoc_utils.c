@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/11 16:24:38 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:53:46 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ void	clean_filename(char **file_name)
 
 void	fork_error(int heredoc_fd, char **file_name)
 {
-	perror("fork");
 	close(heredoc_fd);
 	clean_filename(file_name);
+	perror("fork");
 }
 
 char	*tmpfile_name(int *heredoc_fd)

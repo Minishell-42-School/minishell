@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:07:16 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/11 17:39:17 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 14:11:39 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	check_syntax(t_parser_state *token)
 	temp = *token;
 	if (temp.current && temp.current->type == PIPE)
 	{
-		printf("minishell: syntax error near unexpected token `|'\n");
+		ft_printf_stderr(" syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	while (temp.current && temp.current->type != PIPE)
@@ -32,7 +32,7 @@ int	check_syntax(t_parser_state *token)
 		return (0);
 	if (temp.current->next && temp.current->next->type == PIPE)
 	{
-		printf("minishell: syntax error near unexpected token `|'\n");
+		ft_printf_stderr(" syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	return (0);

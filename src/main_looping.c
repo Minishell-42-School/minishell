@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/11 17:38:05 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:42:10 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,17 @@ static int	verify_empty_arg0(t_shell *s)
 
 void	main_looping(t_shell *shell)
 {
+	int	verif_error;
+
+	verif_error = 0;
 	while (1)
 	{
 		shell->line = get_prompt(shell);
 		if (!shell->line)
 			break ;
-		get_token(&shell->token_list, shell->line);
+		verif_error = get_token(&shell->token_list, shell->line);
+		if (verif_error)
+			shell->last_status = 2;
 		free(shell->line);
 		expand_all_tokens(shell);
 		if (shell->token_list)
@@ -61,3 +66,28 @@ void	main_looping(t_shell *shell)
 		}
 	}
 }
+
+// void	main_looping(t_shell *shell)
+// {
+// 	while (1)
+// 	{
+// 		shell->line = get_prompt(shell);
+// 		if (!shell->line)
+// 			break ;
+// 		get_token(&shell->token_list, shell->line);
+// 		free(shell->line);
+// 		expand_all_tokens(shell);
+// 		if (shell->token_list)
+// 		{
+// 			shell->p_state.current = shell->token_list;
+// 			shell->cmd = parse_pipeline(shell, &shell->p_state);
+// 			if (verify_empty_arg0(shell) == 1)
+// 				continue ;
+// 			if (exec_set_local_vars(shell) == 1)
+// 				continue ;
+// 			if (shell->cmd)
+// 				exec_cmd(shell);
+// 			free_loop(shell);
+// 		}
+// 	}
+// }

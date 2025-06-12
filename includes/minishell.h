@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/11 17:38:38 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:16:18 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 # include <sys/types.h> // pid_t
 # include <sys/wait.h> // wait
 # include <errno.h> // error
-#include <sys/stat.h> //stat
+# include <sys/stat.h> //stat
 # include <readline/readline.h> // readline
 # include <readline/history.h> // add_history
 							// rl -> clear, new_line, replace, redisplay
@@ -56,7 +56,7 @@ typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	t_token_hdoc			hdoc;
+	t_token_hdoc	hdoc;
 	int				nbr_env_var;
 	int				*expand_var;
 	struct s_token	*next;
@@ -86,9 +86,9 @@ typedef enum e_hdoc
 
 typedef struct s_redirection
 {
-	t_redir_type		type;
-	char				*filename;
-	t_hdoc				expand_hdoc;
+	t_redir_type			type;
+	char					*filename;
+	t_hdoc					expand_hdoc;
 	struct s_redirection	*next;
 }	t_redirections;
 
@@ -103,8 +103,6 @@ typedef struct s_hdoc_env_var
 typedef struct s_hdoc_file
 {
 	char	*file_name;
-	// int		
-	// struct s_hdoc_file	*next;
 }	t_hdoc_file;
 
 // Command Struct
@@ -147,7 +145,6 @@ typedef struct s_shell
 	int				last_status;
 	char			*hdoc_file;
 	int				hdoc_control;
-	// t_hdoc_file		hdoc_file;
 }	t_shell;
 
 // Functions
@@ -169,10 +166,6 @@ void			free_token_lst(t_token **token_lst);
 void			free_loop(t_shell *shell);
 void			free_vars_and_envp(t_var *vars, char **new_envp);
 void			free_command_list(t_shell *shell, t_command *head);
-// void			free_token_lst(t_token **token_lst);
-// void			free_loop(t_token **token_lst, t_command **cmd, int hdoc_control);
-// void			free_vars_and_envp(t_var *vars, char **new_envp);
-// void			free_command_list(t_command *head);
 
 //free_envp.c
 void			free_vars_and_envp(t_var *vars, char **new_envp);
@@ -185,7 +178,7 @@ void			ign_signals(void);
 
 // ----Token----
 // token.c
-void			get_token(t_token **token_list, char *input);
+int				get_token(t_token **token_list, char *input);
 int				is_operator(char c);
 int				is_wspace(char c);
 
@@ -301,7 +294,7 @@ void			clean_filename(char **file_name);
 void			fork_error(int heredoc_fd, char **file_name);
 
 // loop_heredoc.c
-void			loop_heredoc(t_shell * shell, t_redirections *redir, \
+void			loop_heredoc(t_shell *shell, t_redirections *redir, \
 				int heredoc_fd, int last_exit);
 
 // loop_heredoc_utils.c

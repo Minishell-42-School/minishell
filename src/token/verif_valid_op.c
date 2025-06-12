@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:42:15 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/12 14:05:21 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:01:23 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,13 @@ static int	verif_error(char *str, int i, char c)
 {
 	if (!str[i] || (str[i] == c && !str[i + 1]))
 		return (error_msg(c, 1));
-	else if ((is_operator(str[i]) && str[i] != c) || (str[i] == '|' && c == '|'))
+	else if ((is_operator(str[i]) && \
+			str[i] != c) || (str[i] == '|' && c == '|'))
 		return (error_msg(str[i], 0));
 	else if (str[i] == c && is_operator(str[i + 1]))
 		return (error_msg(str[i + 1], 0));
 	return (0);
 }
-
-// static int	verif_error(char *str, int i, char c)
-// {
-// 	if (!str[i] || (is_operator(str[i]) && str[i] != c) || \
-// 		(str[i] == c && (!str[i + 1] || is_operator(str[i + 1]))) || \
-// 		(str[i] == '|' && c == '|'))
-// 	{
-// 		printf("%sError%s ~> Syntax error near redirection operator!\n", \
-// 			RED_B, RESET);
-// 		return (1);
-// 	}
-// 	return (0);
-// }
 
 int	verif_valid_op(char *str)
 {

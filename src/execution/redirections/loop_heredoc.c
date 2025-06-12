@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/11 13:02:44 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:59:14 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ static void	init_hdoc(t_hdoc_env_var *hdoc, int l_exit)
 	hdoc->last_exit = l_exit;
 }
 
-static char *expand_env_var(t_shell *shell, char *line, int last_exit)
+static char	*expand_env_var(t_shell *shell, char *line, int last_exit)
 {
-	t_hdoc_env_var hdoc;
-	char *str;
-	char *tmp;
-	int i;
+	t_hdoc_env_var	hdoc;
+	char			*str;
+	char			*tmp;
+	int				i;
 
 	init_hdoc(&hdoc, last_exit);
 	i = expand_line(shell, &hdoc, line);
@@ -74,7 +74,8 @@ static char *expand_env_var(t_shell *shell, char *line, int last_exit)
 	return (hdoc.result);
 }
 
-static void	write_exp_line(t_shell *shell, int heredoc_fd, char *line, int last_exit)
+static void	write_exp_line(t_shell *shell, int heredoc_fd, char *line, \
+						int last_exit)
 {
 	char	*expanded;
 
@@ -94,7 +95,7 @@ void	loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd, \
 		line = readline("Heredoc ~> ");
 		if (!line)
 		{
- 			printf("Warning: here-document delimited by end-of-file\n");
+			printf("Warning: here-document delimited by end-of-file\n");
 			break ;
 		}
 		if (ft_strncmp(line, redir->filename, ft_strlen(redir->filename)) == 0)

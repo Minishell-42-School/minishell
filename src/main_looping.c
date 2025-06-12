@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/12 15:51:50 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:54:11 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,28 @@ static int	verify_empty_arg0(t_shell *s)
 	return (0);
 }
 
+void	parse_and_exec(t_shell *shell)
+{
+	int	verif_error;
+
+	verif_error = 0;
+	shell->p_state.current = shell->token_list;
+	shell->cmd = parse_pipeline(&verif_error, &shell->p_state);
+	if (verif_error)
+	{
+		shell->last_status = 2;
+		free_loop(shell);
+		return ;
+	}
+	if (verify_empty_arg0(shell) == 1)
+		return ;
+	if (exec_set_local_vars(shell) == 1)
+		return ;
+	if (shell->cmd)
+		exec_cmd(shell);
+	free_loop(shell);
+}
+
 void	main_looping(t_shell *shell)
 {
 	int	verif_error;
@@ -53,50 +75,6 @@ void	main_looping(t_shell *shell)
 		free(shell->line);
 		expand_all_tokens(shell);
 		if (shell->token_list)
-		{
-			verif_error = 0;
-			shell->p_state.current = shell->token_list;
-			shell->cmd = parse_pipeline(&verif_error, &shell->p_state);
-			
-			if (verif_error)
-			{
-				shell->last_status = 2;
-				free_loop(shell);
-				continue;
-			}
-			
-			if (verify_empty_arg0(shell) == 1)
-				continue ;
-			if (exec_set_local_vars(shell) == 1)
-				continue ;
-			if (shell->cmd)
-				exec_cmd(shell);
-			free_loop(shell);
-		}
+			parse_and_exec(shell);
 	}
 }
-
-// void	main_looping(t_shell *shell)
-// {
-// 	while (1)
-// 	{
-// 		shell->line = get_prompt(shell);
-// 		if (!shell->line)
-// 			break ;
-// 		get_token(&shell->token_list, shell->line);
-// 		free(shell->line);
-// 		expand_all_tokens(shell);
-// 		if (shell->token_list)
-// 		{
-// 			shell->p_state.current = shell->token_list;
-// 			shell->cmd = parse_pipeline(shell, &shell->p_state);
-// 			if (verify_empty_arg0(shell) == 1)
-// 				continue ;
-// 			if (exec_set_local_vars(shell) == 1)
-// 				continue ;
-// 			if (shell->cmd)
-// 				exec_cmd(shell);
-// 			free_loop(shell);
-// 		}
-// 	}
-// }

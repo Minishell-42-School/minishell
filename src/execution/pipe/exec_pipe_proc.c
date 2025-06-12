@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/11 17:40:37 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:57:32 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	child_proc(t_shell *shell, t_command *cmd, int control_fd, int fd[2])
 		close(fd[1]);
 	}
 	if (cmd->redirs && definy_fd(cmd))
-			free_all(shell, EXIT_FAILURE);
+		free_all(shell, EXIT_FAILURE);
 	exec_child_proc(shell, cmd);
 }
 

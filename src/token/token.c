@@ -6,52 +6,19 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:42:15 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/12 13:17:00 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:15:44 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-int	is_wspace(char c)
-{
-	return (c == ' ' || c == '\t');
-}
-
-int	is_operator(char c)
-{
-	return (c == '|' || c == '<' || c == '>');
-}
-
-static void	hdoc_exp(t_token *token, char input, int control)
-{
-	if (control == 1)
-	{
-		if (input == '\'' || input == '\"')
-			token->hdoc = NO_EXPAND_VAR;
-		else
-			token->hdoc = EXPAND_VAR;
-	}
-}
-
-static void	handle_control(t_token *token, int *control)
-{
-	if (token->type == REDIR_HEREDOC)
-		(*control) = 1;
-	else
-		(*control) = 0;
-}
-
-int	get_token(t_token **token_list, char *input)
+static int	token_loop(t_token **token_list, char *input)
 {
 	int		i;
 	int		hdoc_control;
 	t_token	*new_token;
 
 	i = 0;
-	if (*input == '\0')
-		return (0);
-	if (!verif_close_q(input) || verif_valid_op(input))
-		return (1);
 	hdoc_control = 0;
 	while (input[i])
 	{
@@ -68,6 +35,17 @@ int	get_token(t_token **token_list, char *input)
 		handle_control(new_token, &hdoc_control);
 		add_back(token_list, new_token);
 	}
+	return (0);
+}
+
+int	get_token(t_token **token_list, char *input)
+{
+	if (*input == '\0')
+		return (0);
+	if (!verif_close_q(input) || verif_valid_op(input))
+		return (1);
+	if (token_loop(token_list, input))
+		return (1);
 	verif_value(token_list);
 	return (0);
 }

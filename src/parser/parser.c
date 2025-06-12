@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/12 15:47:00 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:56:38 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,7 @@ t_command	*parse_command(int *v_error, t_parser_state *p_state)
 	cmd->args_count = count_args(p_state);
 	cmd->args = malloc(sizeof(char *) * (cmd->args_count + 1));
 	if (!cmd->args)
-	{
-		ft_error(v_error, "Malloc cmd args failed\n");
-		free(cmd);
-		return (NULL);
-	}
+		return (error_malloc(&cmd, v_error));
 	i = 0;
 	while (p_state->current && p_state->current->type != PIPE)
 	{
@@ -100,27 +96,16 @@ t_redirections	*parse_redirection(int *v_error, t_parser_state *p_state)
 	t_redirections	*redir;
 
 	if (!p_state->current)
-	{
-		ft_error(v_error, "Unexpected end of tokens while parsing redirection\n");
-		return (NULL);
-	}
+		return (error_redir(v_error, \
+				"Unexpected end of tokens while parsing redirection\n"));
 	redir = malloc(sizeof(t_redirections));
 	if (!redir)
-	{
-		ft_error(v_error, "Malloc parser redirection failed\n");
-		return (NULL);
-	}
+		return (error_redir(v_error, "Malloc parser redirection failed\n"));
 	redir = assign_redir_type(p_state, redir);
 	if (!redir)
-	{
-		ft_error(v_error, "Invalid redirection operator\n");
-		return (NULL);
-	}
+		return (error_redir(v_error, "Invalid redirection operator\n"));
 	if (p_state->current->type != WORD || !p_state->current)
-	{
-		ft_error(v_error, "Invalid redirection operator\n");
-		return (NULL);
-	}
+		return (error_redir(v_error, "Invalid redirection operator\n"));
 	redir->filename = ft_strdup(p_state->current->value);
 	redir->expand_hdoc = assign_hdoc_expansion(p_state->current);
 	redir->next = NULL;

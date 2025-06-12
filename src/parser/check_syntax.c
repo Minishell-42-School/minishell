@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:07:16 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/12 15:47:51 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:56:20 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,4 @@ int	check_syntax(t_parser_state *token, int *v_error)
 		return (1);
 	}
 	return (0);
-}
-
-void	ft_error(int *v_error, char *msg)
-{
-	ft_printf_stderr("%s", msg);
-	(*v_error) = 1;
 }

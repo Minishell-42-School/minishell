@@ -1,27 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   parser_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/12 16:55:47 by jcosta-b         ###   ########.fr       */
+/*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
+/*   Updated: 2025/06/12 16:56:12 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-int	main(int argc, char **av, char **envp)
+t_command	*error_malloc(t_command	**cmd, int *v_error)
 {
-	t_shell	*shell;
+	ft_error(v_error, "Malloc cmd args failed\n");
+	free(cmd);
+	return (NULL);
+}
 
-	if (argc || av)
-		;
-	shell = get_shell();
-	init_t_shell(shell);
-	init_vars_from_envp(&shell->vars, envp);
-	var_to_envp(shell);
-	main_looping(shell);
-	return (0);
+t_redirections	*error_redir(int *v_error, char *msg)
+{
+	ft_printf_stderr("%s", msg);
+	(*v_error) = 1;
+	return (NULL);
+}
+
+void	ft_error(int *v_error, char *msg)
+{
+	ft_printf_stderr("%s", msg);
+	(*v_error) = 1;
 }

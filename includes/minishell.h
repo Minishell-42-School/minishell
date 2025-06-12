@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/12 15:46:38 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:15:08 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,11 +100,6 @@ typedef struct s_hdoc_env_var
 	int		last_exit;
 }	t_hdoc_env_var;
 
-typedef struct s_hdoc_file
-{
-	char	*file_name;
-}	t_hdoc_file;
-
 // Command Struct
 typedef struct s_command
 {
@@ -179,8 +174,12 @@ void			ign_signals(void);
 // ----Token----
 // token.c
 int				get_token(t_token **token_list, char *input);
+
+// token_utils.c
 int				is_operator(char c);
 int				is_wspace(char c);
+void			hdoc_exp(t_token *token, char input, int control);
+void			handle_control(t_token *token, int *control);
 
 // create_token.c
 t_token			*init_token(void);
@@ -208,11 +207,11 @@ void			verif_value(t_token **token_list);
 // ----Parser----
 //parser_utils.c
 int				count_args(t_parser_state *p_state);
+t_hdoc			assign_hdoc_expansion(t_token *token);
 t_token			*advance_token(t_parser_state *p_state);
 t_command		*init_command_struct(int *v_error);
 t_redirections	*assign_redir_type(t_parser_state *p_state, \
 				t_redirections *redir);
-t_hdoc			assign_hdoc_expansion(t_token *token);
 
 //parser.c
 t_command		*parse_pipeline(int *v_error, t_parser_state *p_state);
@@ -221,24 +220,11 @@ t_redirections	*parse_redirection(int *v_error, t_parser_state *p_state);
 
 //check_syntax.c
 int				check_syntax(t_parser_state *token, int *v_error);
+
+// parser_error.c
 void			ft_error(int *v_error, char *msg);
-
-// //parser_utils.c
-// int				count_args(t_parser_state *p_state);
-// t_token			*advance_token(t_parser_state *p_state);
-// t_command		*init_command_struct(t_shell *shell);
-// t_redirections	*assign_redir_type(t_shell *shell, t_parser_state *p_state, \
-// 				t_redirections *redir);
-// t_hdoc			assign_hdoc_expansion(t_token *token);
-
-// //parser.c
-// t_command		*parse_pipeline(t_shell *shell, t_parser_state *p_state);
-// t_command		*parse_command(t_shell *shell, t_parser_state *p_state);
-// t_redirections	*parse_redirection(t_shell *shell, t_parser_state *p_state);
-
-// //check_syntax.c
-// int				check_syntax(t_parser_state *token);
-// void			ft_error(t_shell *shell, char *msg);
+t_redirections	*error_redir(int *v_error, char *msg);
+t_command		*error_malloc(t_command	**cmd, int *v_error);
 // ----Parser----
 
 // ----Environment----
@@ -263,8 +249,9 @@ void			expand_all_tokens(t_shell *s);
 
 //expansion_utils.c
 int				var_name_len(char *tok_val);
-void			handle_env_var(t_var *vars, t_aux *aux, char *new, char *var_name);
 int				handle_question_mark(t_shell *s, t_aux *aux, char *new);
+void			handle_env_var(t_var *vars, t_aux *aux, char *new, \
+				char *var_name);
 
 //expansion_len.c
 size_t			calc_new_len(t_shell *s);
@@ -290,8 +277,9 @@ void			check_error(char *path, t_command *cmd, t_shell *shell);
 void			exec_pipe(t_shell *shell);
 
 // exec_pipe_proc.c
-void			child_proc(t_shell *shell, t_command *cmd, int control_fd, int fd[2]);
 void			parent_proc(t_command *cmd, int *control_fd, int fd[2]);
+void			child_proc(t_shell *shell, t_command *cmd, int control_fd, \
+				int fd[2]);
 // -----------------
 
 // - Redirections -
@@ -316,8 +304,9 @@ void			loop_heredoc(t_shell *shell, t_redirections *redir, \
 
 // loop_heredoc_utils.c
 void			str_until_now(t_hdoc_env_var *hdoc, char *line, int i);
-void			expand_var(t_hdoc_env_var *hdoc, char *line, int *i, t_shell *shell);
 void			join_value(t_hdoc_env_var *hdoc);
+void			expand_var(t_hdoc_env_var *hdoc, char *line, int *i, \
+				t_shell *shell);
 
 // -----------------
 // ----Execution----

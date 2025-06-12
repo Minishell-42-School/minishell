@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 16:43:45 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/02 17:03:08 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/11 12:47:22 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,25 @@ void	free_new_envp(char **new_envp)
 	i = 0;
 	if (!new_envp)
 		return ;
-	if (new_envp[i])
-	{
-		while (new_envp[i])
-			free(new_envp[i++]);
-	}
-	if (new_envp)
-		free(new_envp);
+	while (new_envp[i])
+		free(new_envp[i++]);
+	free(new_envp);
 	new_envp = NULL;
 }
 
 void	free_vars_and_envp(t_var *vars, char **new_envp)
 {
+	t_var	*tmp;
+
 	while (vars)
 	{
+		tmp = vars->next;
 		if (vars->value)
 			free(vars->value);
 		if (vars->key)
 			free(vars->key);
-		vars = vars->next;
+		free(vars);
+		vars = tmp;
 	}
 	if (new_envp)
 		free_new_envp(new_envp);

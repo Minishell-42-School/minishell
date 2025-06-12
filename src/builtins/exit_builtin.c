@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:19:49 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 19:16:03 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/12 15:58:28 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,18 @@ int	exec_exit_builtin(t_shell *s, t_command *cmd)
 	long		status;
 
 	arg = cmd->args[1];
-	ft_putendl_fd("exit", STDERR_FILENO);
+	printf("exit");
 	if (!arg)
-		exit(s->last_status);
+	{
+		status = s->last_status;
+		free_all(s, status);
+	}
 	if (!is_numeric(arg))
 	{
 		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
 		ft_putstr_fd(arg, STDERR_FILENO);
 		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-		exit(2);
+		free_all(s, 2);
 	}
 	if (cmd->args[2])
 	{
@@ -75,5 +78,6 @@ int	exec_exit_builtin(t_shell *s, t_command *cmd)
 		return (1);
 	}
 	status = ft_atol(arg);
-	exit((unsigned char)status);
+	free_all(s, (unsigned char)status);
+	return (0);
 }

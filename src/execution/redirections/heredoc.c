@@ -6,19 +6,20 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/03 13:35:55 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 16:59:37 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	heredoc_child_proc(t_redirections *redir, int heredoc_fd)
+static void	heredoc_child_proc(t_shell *shell, t_redirections *redir, \
+			int heredoc_fd, int last_exit)
 {
 	heredoc_signals();
-	if (!loop_heredoc(redir, heredoc_fd))
-		exit(EXIT_FAILURE);
+	loop_heredoc(shell, redir, heredoc_fd, last_exit);
 	close(heredoc_fd);
-	exit(EXIT_SUCCESS);
+	shell->hdoc_control = 1;
+	free_all(shell, 0);
 }
 
 static void	heredoc_parent_proc(t_shell *shell, pid_t pid, int heredoc_fd)
@@ -35,7 +36,7 @@ static void	heredoc_parent_proc(t_shell *shell, pid_t pid, int heredoc_fd)
 		shell->last_status = WEXITSTATUS(status);
 }
 
-static void	handle_heredoc(t_shell *shell, t_redirections *redir)
+static void	handle_heredoc(t_shell *shell, t_redirections *redir, int last_exit)
 {
 	pid_t	pid;
 	char	*file_name;
@@ -44,6 +45,7 @@ static void	handle_heredoc(t_shell *shell, t_redirections *redir)
 	file_name = tmpfile_name(&heredoc_fd);
 	if (!file_name)
 		return ;
+	shell->hdoc_file = file_name;
 	pid = fork();
 	if (pid == -1)
 	{
@@ -51,20 +53,16 @@ static void	handle_heredoc(t_shell *shell, t_redirections *redir)
 		return ;
 	}
 	if (pid == 0)
-		heredoc_child_proc(redir, heredoc_fd);
+		heredoc_child_proc(shell, redir, heredoc_fd, last_exit);
 	else
-	{
 		heredoc_parent_proc(shell, pid, heredoc_fd);
-		if (shell->last_status == 0)
-			definy_redir(file_name, redir);
-		else
-			clean_filename(&file_name);
-		if (shell->last_status == 130)
-			return ;
-	}
+	definy_redir(file_name, redir);
+	shell->hdoc_control = 0;
+	if (shell->last_status == 130)
+		return ;
 }
 
-void	verif_heredoc(t_shell *shell)
+void	verif_heredoc(t_shell *shell, int last_exit)
 {
 	t_redirections	*redir;
 	t_command		*cmd;
@@ -75,9 +73,9 @@ void	verif_heredoc(t_shell *shell)
 		redir = cmd->redirs;
 		while (redir)
 		{
-			if (redir->type == R_DELIMITER)
+			if (redir->type == R_HEREDOC)
 			{
-				handle_heredoc(shell, redir);
+				handle_heredoc(shell, redir, last_exit);
 				if (shell->last_status == 130)
 					return ;
 			}

@@ -1,46 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   verif_value.c                                      :+:      :+:    :+:   */
+/*   token_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:42:15 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 17:43:53 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 17:13:31 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-static void	del_last_token(t_token **token_list)
+int	is_wspace(char c)
 {
-	t_token	*temp;
-	t_token	*del_token;
+	return (c == ' ' || c == '\t');
+}
 
-	if (!(*token_list)->next)
-		free_token_lst(token_list);
-	else
+int	is_operator(char c)
+{
+	return (c == '|' || c == '<' || c == '>');
+}
+
+void	hdoc_exp(t_token *token, char input, int control)
+{
+	if (control == 1)
 	{
-		temp = *token_list;
-		while (temp->next->next)
-			temp = temp->next;
-		del_token = temp->next;
-		temp->next = NULL;
-		if (del_token->expand_var)
-			free(del_token->expand_var);
-		free(del_token);
+		if (input == '\'' || input == '\"')
+			token->hdoc = NO_EXPAND_VAR;
+		else
+			token->hdoc = EXPAND_VAR;
 	}
 }
 
-void	verif_value(t_token **token_list)
+void	handle_control(t_token *token, int *control)
 {
-	t_token	*temp;
-
-	if (!token_list)
-		return ;
-	temp = *token_list;
-	while (temp->next)
-		temp = temp->next;
-	if (!temp->value)
-		del_last_token(token_list);
+	if (token->type == REDIR_HEREDOC)
+		(*control) = 1;
+	else
+		(*control) = 0;
 }

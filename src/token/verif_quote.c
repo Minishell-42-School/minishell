@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:02:00 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 15:43:43 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 13:58:51 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,6 @@ int	verif_close_q(char *str)
 	if (single_q % 2 == 0 && double_q % 2 == 0)
 		return (1);
 	else
-		printf("%sError%s ~> Quote still open!\n", RED_B, RESET);
+		ft_printf_stderr("Quote still open!\n");
 	return (0);
 }

@@ -1,31 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   init_shell.c                                       :+:      :+:    :+:   */
+/*   parser_error.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/11 18:33:23 by jcosta-b         ###   ########.fr       */
+/*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
+/*   Updated: 2025/06/12 16:56:12 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/minishell.h"
+#include "../../includes/minishell.h"
 
-t_shell	*get_shell(void)
+t_command	*error_malloc(t_command	**cmd, int *v_error)
 {
-	static t_shell	shell;
-
-	return (&shell);
+	ft_error(v_error, "Malloc cmd args failed\n");
+	free(cmd);
+	return (NULL);
 }
 
-void	init_t_shell(t_shell *shell)
+t_redirections	*error_redir(int *v_error, char *msg)
 {
-	shell->cmd = NULL;
-	shell->token_list = NULL;
-	shell->vars = NULL;
-	shell->new_envp = NULL;
-	shell->last_status = 0;
-	shell->hdoc_file = NULL;
-	shell->hdoc_control = 0;
+	ft_printf_stderr("%s", msg);
+	(*v_error) = 1;
+	return (NULL);
+}
+
+void	ft_error(int *v_error, char *msg)
+{
+	ft_printf_stderr("%s", msg);
+	(*v_error) = 1;
 }

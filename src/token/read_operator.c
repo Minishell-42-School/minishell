@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:42:15 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/05/08 15:43:32 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 11:19:08 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,11 @@ static t_token_type	get_type(char *str, int i)
 		type = PIPE;
 	else if (str[i] == '<')
 	{
-		if (!is_operator(str[i + 1]))
+		if (!is_operator(str[i + 1]) || \
+			(str[i + 1] == '>' && !is_operator(str[i + 2])))
 			type = REDIR_IN;
 		else if (str[i + 1] == '<' && !is_operator(str[i + 2]))
-			type = REDIR_DELIMITER;
+			type = REDIR_HEREDOC;
 	}
 	else if (str[i] == '>')
 	{
@@ -43,7 +44,8 @@ char	*read_operator(char *str, int *i, t_token *token)
 	start = *i;
 	token->type = get_type(str, *i);
 	if ((str[*i] == '|' && !is_operator(str[*i + 1])) || \
-		(!is_operator(str[*i + 1]) || !str[*i + 1]))
+		(!is_operator(str[*i + 1]) || !str[*i + 1]) || \
+		(str[*i] == '<' && str[*i + 1] == '>'))
 	{
 		(*i)++;
 		return (ft_substr(str, start, 1));

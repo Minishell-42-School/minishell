@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 13:51:51 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/11 18:34:13 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 18:03:20 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ static void	free_redirections(t_shell *shell, t_redirections *redir)
 		if (!shell->hdoc_control && \
 			ft_strncmp(redir->filename, "/tmp/.hdoc_tmp_", 15) == 0)
 			unlink(redir->filename);
-		free(redir->filename);
+		if (redir->filename)
+			free(redir->filename);
 		free(redir);
 		redir = tmp;
 	}

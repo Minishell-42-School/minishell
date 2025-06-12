@@ -6,26 +6,30 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/12 14:13:24 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:47:00 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-t_command	*parse_pipeline(t_shell *shell, t_parser_state *p_state)
+t_command	*parse_pipeline(int *v_error, t_parser_state *p_state)
 {
 	t_command	*first_cmd;
 	t_command	*next_cmd;
 	t_command	*last_cmd;
 
-	if (check_syntax(p_state) == 1)
+	if (check_syntax(p_state, v_error) == 1)
 		return (NULL);
-	first_cmd = parse_command(shell, p_state);
+	first_cmd = parse_command(v_error, p_state);
+	if ((*v_error))
+		return (NULL);
 	last_cmd = first_cmd;
 	while (p_state->current && p_state->current->type == PIPE)
 	{
 		advance_token(p_state);
-		next_cmd = parse_command(shell, p_state);
+		next_cmd = parse_command(v_error, p_state);
+		if ((*v_error) || !next_cmd)
+			return (NULL);
 		last_cmd->next = next_cmd;
 		last_cmd = next_cmd;
 	}
@@ -56,17 +60,23 @@ static void	fill_cmd_args(t_parser_state *p_state, t_command *cmd, int *i)
 	p_state->current = p_state->current->next;
 }
 
-t_command	*parse_command(t_shell *shell, t_parser_state *p_state)
+t_command	*parse_command(int *v_error, t_parser_state *p_state)
 {
 	t_command		*cmd;
 	t_redirections	*redir;
 	int				i;
 
-	cmd = init_command_struct(shell);
+	cmd = init_command_struct(v_error);
+	if (!cmd)
+		return (NULL);
 	cmd->args_count = count_args(p_state);
 	cmd->args = malloc(sizeof(char *) * (cmd->args_count + 1));
 	if (!cmd->args)
-		ft_error(shell, "Malloc cmd args failed\n");
+	{
+		ft_error(v_error, "Malloc cmd args failed\n");
+		free(cmd);
+		return (NULL);
+	}
 	i = 0;
 	while (p_state->current && p_state->current->type != PIPE)
 	{
@@ -74,7 +84,7 @@ t_command	*parse_command(t_shell *shell, t_parser_state *p_state)
 			fill_cmd_args(p_state, cmd, &i);
 		else
 		{
-			redir = parse_redirection(shell, p_state);
+			redir = parse_redirection(v_error, p_state);
 			link_redir(cmd, redir);
 		}
 	}
@@ -85,18 +95,32 @@ t_command	*parse_command(t_shell *shell, t_parser_state *p_state)
 //assigns the redirection type to t_redirections which is a
 //component of t_command advances to the next token which must
 //be a word and assign the word as redirection file
-t_redirections	*parse_redirection(t_shell *shell, t_parser_state *p_state)
+t_redirections	*parse_redirection(int *v_error, t_parser_state *p_state)
 {
 	t_redirections	*redir;
 
 	if (!p_state->current)
-		ft_error(shell, "Unexpected end of tokens while parsing redirection\n");
+	{
+		ft_error(v_error, "Unexpected end of tokens while parsing redirection\n");
+		return (NULL);
+	}
 	redir = malloc(sizeof(t_redirections));
 	if (!redir)
-		ft_error(shell, "Malloc parser redirection failed\n");
-	redir = assign_redir_type(shell, p_state, redir);
+	{
+		ft_error(v_error, "Malloc parser redirection failed\n");
+		return (NULL);
+	}
+	redir = assign_redir_type(p_state, redir);
+	if (!redir)
+	{
+		ft_error(v_error, "Invalid redirection operator\n");
+		return (NULL);
+	}
 	if (p_state->current->type != WORD || !p_state->current)
-		ft_error(shell, "Expected filename after redirection operator\n");
+	{
+		ft_error(v_error, "Invalid redirection operator\n");
+		return (NULL);
+	}
 	redir->filename = ft_strdup(p_state->current->value);
 	redir->expand_hdoc = assign_hdoc_expansion(p_state->current);
 	redir->next = NULL;

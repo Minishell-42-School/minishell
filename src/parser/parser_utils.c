@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:09:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/11 17:39:22 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:40:21 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,15 @@ t_token	*advance_token(t_parser_state *p_state)
 	return (token);
 }
 
-t_command	*init_command_struct(t_shell *shell)
+t_command	*init_command_struct(int *v_error)
 {
 	t_command	*cmd;
 
 	cmd = malloc(sizeof(t_command));
 	if (!cmd)
 	{
-		perror("Malloc parser cmd failed");
-		free_all(shell, EXIT_FAILURE);
+		ft_error(v_error, "Malloc cmd failed\n");
+		return (NULL);
 	}
 	cmd->command_name = NULL;
 	cmd->args = NULL;
@@ -65,10 +65,10 @@ int	count_args(t_parser_state *p_state)
 	return (arg_count);
 }
 
-t_redirections	*assign_redir_type(t_shell *shell, t_parser_state *p_state,
+t_redirections	*assign_redir_type(t_parser_state *p_state,
 	t_redirections *redir)
 {
-	t_token			*token;
+	t_token	*token;
 
 	token = p_state->current;
 	if (token->type == REDIR_IN)
@@ -80,7 +80,7 @@ t_redirections	*assign_redir_type(t_shell *shell, t_parser_state *p_state,
 	else if (token->type == REDIR_APPEND)
 		redir->type = R_APPEND;
 	else
-		ft_error(shell, "Invalid redirection operator");
+		return (NULL);
 	advance_token(p_state);
 	return (redir);
 }

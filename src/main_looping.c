@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/12 13:42:10 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:51:50 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,17 @@ void	main_looping(t_shell *shell)
 		expand_all_tokens(shell);
 		if (shell->token_list)
 		{
+			verif_error = 0;
 			shell->p_state.current = shell->token_list;
-			shell->cmd = parse_pipeline(shell, &shell->p_state);
+			shell->cmd = parse_pipeline(&verif_error, &shell->p_state);
+			
+			if (verif_error)
+			{
+				shell->last_status = 2;
+				free_loop(shell);
+				continue;
+			}
+			
 			if (verify_empty_arg0(shell) == 1)
 				continue ;
 			if (exec_set_local_vars(shell) == 1)

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:07:16 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/12 14:11:39 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:47:51 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 // check if first command starts with pipe and if there
 //are two pipes in a sequence.
-int	check_syntax(t_parser_state *token)
+int	check_syntax(t_parser_state *token, int *v_error)
 {
 	t_parser_state	temp;
 
@@ -23,7 +23,7 @@ int	check_syntax(t_parser_state *token)
 	temp = *token;
 	if (temp.current && temp.current->type == PIPE)
 	{
-		ft_printf_stderr(" syntax error near unexpected token `|'\n");
+		ft_error(v_error, " syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	while (temp.current && temp.current->type != PIPE)
@@ -32,14 +32,14 @@ int	check_syntax(t_parser_state *token)
 		return (0);
 	if (temp.current->next && temp.current->next->type == PIPE)
 	{
-		ft_printf_stderr(" syntax error near unexpected token `|'\n");
+		ft_error(v_error, " syntax error near unexpected token `|'\n");
 		return (1);
 	}
 	return (0);
 }
 
-void	ft_error(t_shell *shell, char *msg)
+void	ft_error(int *v_error, char *msg)
 {
-	printf("%s", msg);
-	free_all(shell, EXIT_FAILURE);
+	ft_printf_stderr("%s", msg);
+	(*v_error) = 1;
 }

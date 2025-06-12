@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:19:49 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/11 17:40:53 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:58:28 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	exec_exit_builtin(t_shell *s, t_command *cmd)
 	long		status;
 
 	arg = cmd->args[1];
-	ft_putendl_fd("exit", STDERR_FILENO);
+	printf("exit");
 	if (!arg)
 	{
 		status = s->last_status;

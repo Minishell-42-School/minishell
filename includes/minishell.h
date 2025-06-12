@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/12 13:16:18 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/12 15:46:38 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,19 +209,36 @@ void			verif_value(t_token **token_list);
 //parser_utils.c
 int				count_args(t_parser_state *p_state);
 t_token			*advance_token(t_parser_state *p_state);
-t_command		*init_command_struct(t_shell *shell);
-t_redirections	*assign_redir_type(t_shell *shell, t_parser_state *p_state, \
+t_command		*init_command_struct(int *v_error);
+t_redirections	*assign_redir_type(t_parser_state *p_state, \
 				t_redirections *redir);
 t_hdoc			assign_hdoc_expansion(t_token *token);
 
 //parser.c
-t_command		*parse_pipeline(t_shell *shell, t_parser_state *p_state);
-t_command		*parse_command(t_shell *shell, t_parser_state *p_state);
-t_redirections	*parse_redirection(t_shell *shell, t_parser_state *p_state);
+t_command		*parse_pipeline(int *v_error, t_parser_state *p_state);
+t_command		*parse_command(int *v_error, t_parser_state *p_state);
+t_redirections	*parse_redirection(int *v_error, t_parser_state *p_state);
 
 //check_syntax.c
-int				check_syntax(t_parser_state *token);
-void			ft_error(t_shell *shell, char *msg);
+int				check_syntax(t_parser_state *token, int *v_error);
+void			ft_error(int *v_error, char *msg);
+
+// //parser_utils.c
+// int				count_args(t_parser_state *p_state);
+// t_token			*advance_token(t_parser_state *p_state);
+// t_command		*init_command_struct(t_shell *shell);
+// t_redirections	*assign_redir_type(t_shell *shell, t_parser_state *p_state, \
+// 				t_redirections *redir);
+// t_hdoc			assign_hdoc_expansion(t_token *token);
+
+// //parser.c
+// t_command		*parse_pipeline(t_shell *shell, t_parser_state *p_state);
+// t_command		*parse_command(t_shell *shell, t_parser_state *p_state);
+// t_redirections	*parse_redirection(t_shell *shell, t_parser_state *p_state);
+
+// //check_syntax.c
+// int				check_syntax(t_parser_state *token);
+// void			ft_error(t_shell *shell, char *msg);
 // ----Parser----
 
 // ----Environment----

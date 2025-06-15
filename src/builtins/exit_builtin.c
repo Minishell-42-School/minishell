@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:19:49 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/12 15:58:28 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/15 15:11:14 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,31 @@ static int	is_numeric(const char *str)
 	return (i > 0);
 }
 
-static long	ft_atol(const char *str)
+static int	would_overflow(long result, char digit, int sign)
+{
+	long max;
+	long min;
+
+	max = LONG_MAX;
+	min = LONG_MIN;
+	if (sign > 0)
+	{
+		if (result > max / 10)
+			return (1);
+		if (result == max / 10 && (digit - '0') > max % 10)
+			return (1);
+	}
+	else
+	{
+		if (result > (-(min / 10)))
+			return (1);
+		if (result == (-(min / 10)) && (digit - '0') > (-(min % 10)))
+			return (1);
+	}
+	return (0);
+}
+
+static long	ft_atol(const char *str, int *overflow)
 {
 	int		i;
 	int		sign;
@@ -47,8 +71,12 @@ static long	ft_atol(const char *str)
 	}
 	while (str[i] >= '0' && str[i] <= '9')
 	{
-		result = result * 10 + (str[i] - '0');
-		i++;
+		if (would_overflow(result, str[i], sign))
+		{
+			*overflow = 1;
+			return (0);
+		}
+		result = result * 10 + (str[i++] - '0');
 	}
 	return (sign * result);
 }
@@ -57,19 +85,20 @@ int	exec_exit_builtin(t_shell *s, t_command *cmd)
 {
 	char		*arg;
 	long		status;
+	int			overflow;
 
+	overflow = 0;
 	arg = cmd->args[1];
-	printf("exit");
+	printf("exit\n");
 	if (!arg)
 	{
 		status = s->last_status;
 		free_all(s, status);
 	}
-	if (!is_numeric(arg))
+	status = ft_atol(arg, &overflow);
+	if (!is_numeric(arg) || overflow)
 	{
-		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
+		ft_printf_stderr("minishell: exit: %s: numeric argument required", arg);
 		free_all(s, 2);
 	}
 	if (cmd->args[2])
@@ -77,7 +106,6 @@ int	exec_exit_builtin(t_shell *s, t_command *cmd)
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 		return (1);
 	}
-	status = ft_atol(arg);
 	free_all(s, (unsigned char)status);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:01:41 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/05 11:56:40 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/15 13:38:49 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	cd_builtin(t_command *cmd, t_var **vars)
 	else if (chdir(cmd->args[1]) != 0)
 	{
 		free(oldpwd);
-		return (printf_stderr("cd: no such file or directory: %s\n",
+		return (printf_stderr("cd: %s: No such file or directory\n",
 				cmd->args[1]));
 	}
 	pwd = getcwd(NULL, 0);

@@ -77,7 +77,7 @@ int	handle_builtin(t_shell *shell)
 			return (1);
     }
 	}
-	control = exec_builtin(shell, shell->cmd, saved_stdin, saved_stdout);
+  control = exec_builtin(shell, shell->cmd, saved_stdin, saved_stdout);
   dup2(saved_stdin, STDIN_FILENO);
   dup2(saved_stdout, STDOUT_FILENO);
   if (saved_stdin != -1)

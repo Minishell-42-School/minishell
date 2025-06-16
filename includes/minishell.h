@@ -258,6 +258,10 @@ size_t			calc_new_len(t_shell *s);
 // ----Expansion----
 
 // ----Execution----
+void	check_fd_leaks(void);
+
+
+
 // execution.c
 void			exec_cmd(t_shell *shell);
 
@@ -269,7 +273,6 @@ char			*get_path(t_shell *shell, t_command *cmd);
 
 // handle_error.c
 void			handle_error(t_shell *shell, t_command *cmd);
-void			print_error(char *cmd, char *msg);
 void			check_error(char *path, t_command *cmd, t_shell *shell);
 
 // - Pipe -
@@ -315,7 +318,8 @@ void			expand_var(t_hdoc_env_var *hdoc, char *line, int *i, \
 // exec_builtin
 int				is_builtin(t_command *cmd);
 int				handle_builtin(t_shell *shell);
-int				exec_builtin(t_shell *shell, t_command *cmd);
+// int				exec_builtin(t_shell *shell, t_command *cmd);
+int				exec_builtin(t_shell *shell, t_command *cmd, int std_in, int std_out);
 //export_builtin.c
 int				exec_export_builtin(t_shell	*s, t_command *cmd);
 
@@ -335,7 +339,9 @@ int				exec_echo_builtin(t_command *cmd);
 int				exec_env_builtin(t_shell *s, t_command *cmd);
 
 //exit_builtin.c
-int				exec_exit_builtin(t_shell *s, t_command *cmd);
+// int				exec_exit_builtin(t_shell *s, t_command *cmd);
+int	exec_exit_builtin(t_shell *s, t_command *cmd, int std_in, int std_out);
+
 
 // ----Built_ins----
 

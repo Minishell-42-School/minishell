@@ -15,11 +15,11 @@
 void	handle_error(t_shell *shell, t_command *cmd)
 {
 	if (errno == ENOENT)
-		ft_printf_stderr("%s: %s\n", cmd->command_name, "command not found");
+		ft_printf_stderr("%s: command not found\n", cmd->command_name);
 	else if (errno == EACCES)
-		ft_printf_stderr("%s: %s\n", cmd->command_name, "Permission denied");
+		ft_printf_stderr("%s: Permission denied\n", cmd->command_name);
 	else if (errno == EISDIR)
-		ft_printf_stderr("%s: %s\n", cmd->command_name, "Is a directory");
+		ft_printf_stderr("%s: Is a directory\n", cmd->command_name);
 	else
 		perror(cmd->command_name);
 	if (errno == EACCES || errno == EISDIR)
@@ -36,22 +36,22 @@ void	check_error(char *path, t_command *cmd, t_shell *shell)
 
 	if (!path)
 	{
-		ft_printf_stderr("%s: %s\n", cmd->command_name, "command not found");
+		ft_printf_stderr("%s: command not found\n", cmd->command_name);
 		free_all(shell, 127);
 	}
 	if (stat(path, &st) != 0)
 	{
-		ft_printf_stderr("%s: %s\n", path, "No such file or directory");
+		ft_printf_stderr("%s: No such file or directory\n", path);
 		free_all(shell, 127);
 	}
 	if (S_ISDIR(st.st_mode))
 	{
-		ft_printf_stderr("%s: %s\n", path, "Is a directory");
+		ft_printf_stderr("%s: Is a directory\n", path);
 		free_all(shell, 126);
 	}
 	if (access(path, X_OK) != 0)
 	{
-		ft_printf_stderr("%s: %s\n", path, "Permission denied");
+		ft_printf_stderr("%s: Permission denied\n", path);
 		free_all(shell, 126);
 	}
 }

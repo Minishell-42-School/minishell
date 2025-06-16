@@ -53,31 +53,45 @@ static long	ft_atol(const char *str)
 	return (sign * result);
 }
 
-int	exec_exit_builtin(t_shell *s, t_command *cmd)
+int	exec_exit_builtin(t_shell *s, t_command *cmd, int std_in, int std_out)
 {
 	char		*arg;
 	long		status;
 
 	arg = cmd->args[1];
-	printf("exit");
+	printf("exit\n");
 	if (!arg)
 	{
 		status = s->last_status;
+    dup2(std_in, STDIN_FILENO);
+		dup2(std_out, STDOUT_FILENO);
+		close(std_in);
+		close(std_out);
 		free_all(s, status);
 	}
 	if (!is_numeric(arg))
 	{
-		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
+    ft_printf_stderr("minishell: exit %s: numeric argument required\n", arg);
+    dup2(std_in, STDIN_FILENO);
+		dup2(std_out, STDOUT_FILENO);
+		close(std_in);
+		close(std_out);
+
+		// ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
+		// ft_putstr_fd(arg, STDERR_FILENO);
+		// ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 		free_all(s, 2);
 	}
 	if (cmd->args[2])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
-		return (1);
+    return (1);
 	}
 	status = ft_atol(arg);
+  dup2(std_in, STDIN_FILENO);
+  dup2(std_out, STDOUT_FILENO);
+  close(std_in);
+  close(std_out);
 	free_all(s, (unsigned char)status);
 	return (0);
 }

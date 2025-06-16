@@ -12,7 +12,6 @@
 
 #include "../../includes/minishell.h"
 
-// int	exec_echo_builtin(t_shell *s)
 int	exec_echo_builtin(t_command *cmd)
 {
 	int	i;

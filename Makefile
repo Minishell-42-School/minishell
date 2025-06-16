@@ -55,7 +55,7 @@ val_sup:
 	$(VALGRIND) $(IGNRL) $(SUPP) ./minishell
 
 val_fds:
-	$(VALGRIND) $(FDS) ./minishell
+	$(VALGRIND) $(IGNRL) $(SUPP) $(FDS) ./minishell
 
 $(OBJDIR):
 	@mkdir -p $(OBJDIR)

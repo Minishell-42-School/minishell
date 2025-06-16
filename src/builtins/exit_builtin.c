@@ -53,24 +53,29 @@ static long	ft_atol(const char *str)
 	return (sign * result);
 }
 
-int	exec_exit_builtin(t_shell *s, t_command *cmd)
+void	clean_exit(t_shell *s, int status, int std_in, int std_out)
 {
-	char		*arg;
-	long		status;
+	dup2_and_close(std_in, std_out);
+	free_all(s, status);
+}
+
+int	exec_exit_builtin(t_shell *s, t_command *cmd, int std_in, int std_out)
+{
+	char	*arg;
+	long	status;
 
 	arg = cmd->args[1];
-	printf("exit");
+	printf("exit\n");
 	if (!arg)
 	{
 		status = s->last_status;
-		free_all(s, status);
+		clean_exit(s, status, std_in, std_out);
 	}
 	if (!is_numeric(arg))
 	{
-		ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-		ft_putstr_fd(arg, STDERR_FILENO);
-		ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-		free_all(s, 2);
+		ft_printf_stderr("minishell: exit %s: numeric argument required\n", \
+						arg);
+		clean_exit(s, 2, std_in, std_out);
 	}
 	if (cmd->args[2])
 	{
@@ -78,6 +83,6 @@ int	exec_exit_builtin(t_shell *s, t_command *cmd)
 		return (1);
 	}
 	status = ft_atol(arg);
-	free_all(s, (unsigned char)status);
+	clean_exit(s, (unsigned char)status, std_in, std_out);
 	return (0);
 }

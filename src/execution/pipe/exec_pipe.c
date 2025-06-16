@@ -64,6 +64,7 @@ static void	looping_pipe(t_shell *shell, t_command *cmd, pid_t *last_pid)
 			cmd = cmd->next;
 		}
 	}
+  tcsetattr(STDIN_FILENO, TCSANOW, &shell->term_backup);
 }
 
 void	exec_pipe(t_shell *shell)

@@ -104,7 +104,7 @@ t_redirections	*parse_redirection(int *v_error, t_parser_state *p_state)
 	redir = assign_redir_type(p_state, redir);
 	if (!redir)
 		return (error_redir(v_error, "Invalid redirection operator\n"));
-	if (p_state->current->type != WORD || !p_state->current)
+	if (!p_state->current || p_state->current->type != WORD)
 		return (error_redir(v_error, "Invalid redirection operator\n"));
 	redir->filename = ft_strdup(p_state->current->value);
 	redir->expand_hdoc = assign_hdoc_expansion(p_state->current);

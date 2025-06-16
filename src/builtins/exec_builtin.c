@@ -59,9 +59,9 @@ void	dup2_and_close(int std_in, int std_out)
 
 int	handle_builtin(t_shell *shell)
 {
-	int		saved_stdin;
-	int		saved_stdout;
-	int		control;
+	int	saved_stdin;
+	int	saved_stdout;
+	int	control;
 
 	control = 0;
 	saved_stdin = dup(STDIN_FILENO);

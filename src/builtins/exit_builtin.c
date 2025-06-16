@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:19:49 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/16 15:15:03 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/16 16:28:50 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ static int	is_numeric(const char *str)
 
 static int	would_overflow(long result, char digit, int sign)
 {
-	long max;
-	long min;
+	long	max;
+	long	min;
 
 	max = LONG_MAX;
 	min = LONG_MIN;

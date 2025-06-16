@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/12 16:59:37 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:23:16 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ static void	handle_heredoc(t_shell *shell, t_redirections *redir, int last_exit)
 		heredoc_parent_proc(shell, pid, heredoc_fd);
 	definy_redir(file_name, redir);
 	shell->hdoc_control = 0;
-  tcsetattr(STDIN_FILENO, TCSANOW, &shell->term_backup);
+	tcsetattr(STDIN_FILENO, TCSANOW, &shell->term_backup);
 	if (shell->last_status == 130)
 		return ;
 }

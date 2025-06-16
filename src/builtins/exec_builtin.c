@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:32:49 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/04 16:16:12 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:25:17 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,6 @@ int	handle_builtin(t_shell *shell)
 	control = exec_builtin(shell, shell->cmd, saved_stdin, saved_stdout);
 	dup2_and_close(saved_stdin, saved_stdout);
 	if (control != 0)
-			return (1);
+		return (1);
 	return (0);
 }

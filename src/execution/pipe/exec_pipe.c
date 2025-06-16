@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/05 14:29:48 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/16 16:22:17 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ static void	looping_pipe(t_shell *shell, t_command *cmd, pid_t *last_pid)
 			cmd = cmd->next;
 		}
 	}
-  tcsetattr(STDIN_FILENO, TCSANOW, &shell->term_backup);
+	tcsetattr(STDIN_FILENO, TCSANOW, &shell->term_backup);
 }
 
 void	exec_pipe(t_shell *shell)

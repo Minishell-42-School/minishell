@@ -47,13 +47,15 @@ int	exec_builtin(t_shell *shell, t_command *cmd, int std_in, int std_out)
 	return (control);
 }
 
-// void  dup2_and_close(int std_in, int std_out)
-// {
-//   dup2(std_in, STDIN_FILENO);
-//   dup2(std_out, STDOUT_FILENO);
-//   close(std_in);
-//   close(std_out);
-// }
+void	dup2_and_close(int std_in, int std_out)
+{
+	dup2(std_in, STDIN_FILENO);
+	dup2(std_out, STDOUT_FILENO);
+	if (std_in != -1)
+		close(std_in);
+	if (std_in != -1)
+		close(std_out);
+}
 
 int	handle_builtin(t_shell *shell)
 {
@@ -64,27 +66,19 @@ int	handle_builtin(t_shell *shell)
 	control = 0;
 	saved_stdin = dup(STDIN_FILENO);
 	saved_stdout = dup(STDOUT_FILENO);
-  if (saved_stdin == -1 || saved_stdout == -1)
-	  return (1);
+	if (saved_stdin == -1 || saved_stdout == -1)
+		return (1);
 	if (shell->cmd->redirs)
 	{
 		if (definy_fd(shell->cmd))
-    {
-      dup2(saved_stdin, STDIN_FILENO);
-      dup2(saved_stdout, STDOUT_FILENO);
-      close(saved_stdin);
-      close(saved_stdout);
+		{
+			dup2_and_close(saved_stdin, saved_stdout);
 			return (1);
-    }
+		}
 	}
-  control = exec_builtin(shell, shell->cmd, saved_stdin, saved_stdout);
-  dup2(saved_stdin, STDIN_FILENO);
-  dup2(saved_stdout, STDOUT_FILENO);
-  if (saved_stdin != -1)
-	  close(saved_stdin);
-  if (saved_stdout != -1)
-	  close(saved_stdout);
-  if (control != 0)
-		return (1);
+	control = exec_builtin(shell, shell->cmd, saved_stdin, saved_stdout);
+	dup2_and_close(saved_stdin, saved_stdout);
+	if (control != 0)
+			return (1);
 	return (0);
 }

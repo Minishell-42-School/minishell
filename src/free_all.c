@@ -14,8 +14,8 @@
 
 void	free_all(t_shell *shell, int status)
 {
-  if (shell->interactive)
-	  tcsetattr(STDIN_FILENO, TCSANOW, &shell->term_backup);
+	if (shell->interactive)
+		tcsetattr(STDIN_FILENO, TCSANOW, &shell->term_backup);
 	free_loop(shell);
 	free_vars_and_envp(shell->vars, shell->new_envp);
 	if (shell->hdoc_file && shell->hdoc_control)

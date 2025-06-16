@@ -28,8 +28,7 @@ void	init_t_shell(t_shell *shell)
 	shell->last_status = 0;
 	shell->hdoc_file = NULL;
 	shell->hdoc_control = 0;
-
-  if (isatty(STDIN_FILENO))
+	if (isatty(STDIN_FILENO))
 	{
 		tcgetattr(STDIN_FILENO, &shell->term_backup);
 		shell->interactive = 1;

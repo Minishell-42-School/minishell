@@ -53,45 +53,36 @@ static long	ft_atol(const char *str)
 	return (sign * result);
 }
 
+void	clean_exit(t_shell *s, int status, int std_in, int std_out)
+{
+	dup2_and_close(std_in, std_out);
+	free_all(s, status);
+}
+
 int	exec_exit_builtin(t_shell *s, t_command *cmd, int std_in, int std_out)
 {
-	char		*arg;
-	long		status;
+	char	*arg;
+	long	status;
 
 	arg = cmd->args[1];
 	printf("exit\n");
 	if (!arg)
 	{
 		status = s->last_status;
-    dup2(std_in, STDIN_FILENO);
-		dup2(std_out, STDOUT_FILENO);
-		close(std_in);
-		close(std_out);
-		free_all(s, status);
+		clean_exit(s, status, std_in, std_out);
 	}
 	if (!is_numeric(arg))
 	{
-    ft_printf_stderr("minishell: exit %s: numeric argument required\n", arg);
-    dup2(std_in, STDIN_FILENO);
-		dup2(std_out, STDOUT_FILENO);
-		close(std_in);
-		close(std_out);
-
-		// ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-		// ft_putstr_fd(arg, STDERR_FILENO);
-		// ft_putendl_fd(": numeric argument required", STDERR_FILENO);
-		free_all(s, 2);
+		ft_printf_stderr("minishell: exit %s: numeric argument required\n", \
+						arg);
+		clean_exit(s, 2, std_in, std_out);
 	}
 	if (cmd->args[2])
 	{
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
-    return (1);
+		return (1);
 	}
 	status = ft_atol(arg);
-  dup2(std_in, STDIN_FILENO);
-  dup2(std_out, STDOUT_FILENO);
-  close(std_in);
-  close(std_out);
-	free_all(s, (unsigned char)status);
+	clean_exit(s, (unsigned char)status, std_in, std_out);
 	return (0);
 }

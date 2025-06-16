@@ -21,7 +21,7 @@
 # include <signal.h> // signal, sigaction, sigemptyset, sigaddset
 # include <sys/types.h> // pid_t
 # include <sys/wait.h> // wait
-#include <termios.h> // tcgetattr, tcsetattr, isatty, ttyname, ttyslot
+# include <termios.h> // tcgetattr, tcsetattr, isatty, ttyname, ttyslot
 # include <errno.h> // error
 # include <sys/stat.h> //stat
 # include <readline/readline.h> // readline
@@ -32,8 +32,6 @@
 # define RED_B  "\033[1;31m"
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
-
-extern volatile sig_atomic_t	g_signal;
 
 // Token Struct
 typedef enum e_token_hdoc
@@ -141,17 +139,14 @@ typedef struct s_shell
 	int				last_status;
 	char			*hdoc_file;
 	int				hdoc_control;
-  struct termios	term_backup;
-	int			interactive;
+	struct termios	term_backup;
+	int				interactive;
 }	t_shell;
 
 // Functions
 // init_shell.c
 void			init_t_shell(t_shell *shell);
 t_shell			*get_shell(void);
-
-// init_terminal.c
-void	init_terminal_control(t_shell *shell);
 
 // main_looping.c
 void			main_looping(t_shell *shell);
@@ -264,10 +259,6 @@ size_t			calc_new_len(t_shell *s);
 // ----Expansion----
 
 // ----Execution----
-void	check_fd_leaks(void);
-
-
-
 // execution.c
 void			exec_cmd(t_shell *shell);
 
@@ -316,7 +307,6 @@ void			str_until_now(t_hdoc_env_var *hdoc, char *line, int i);
 void			join_value(t_hdoc_env_var *hdoc);
 void			expand_var(t_hdoc_env_var *hdoc, char *line, int *i, \
 				t_shell *shell);
-
 // -----------------
 // ----Execution----
 
@@ -324,8 +314,10 @@ void			expand_var(t_hdoc_env_var *hdoc, char *line, int *i, \
 // exec_builtin
 int				is_builtin(t_command *cmd);
 int				handle_builtin(t_shell *shell);
-// int				exec_builtin(t_shell *shell, t_command *cmd);
-int				exec_builtin(t_shell *shell, t_command *cmd, int std_in, int std_out);
+int				exec_builtin(t_shell *shell, t_command *cmd, int std_in, \
+				int std_out);
+void			dup2_and_close(int std_in, int std_out);
+
 //export_builtin.c
 int				exec_export_builtin(t_shell	*s, t_command *cmd);
 
@@ -345,9 +337,8 @@ int				exec_echo_builtin(t_command *cmd);
 int				exec_env_builtin(t_shell *s, t_command *cmd);
 
 //exit_builtin.c
-// int				exec_exit_builtin(t_shell *s, t_command *cmd);
-int	exec_exit_builtin(t_shell *s, t_command *cmd, int std_in, int std_out);
-
+int				exec_exit_builtin(t_shell *s, t_command *cmd, int std_in, \
+				int std_out);
 
 // ----Built_ins----
 

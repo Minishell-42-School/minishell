@@ -22,9 +22,8 @@ void	close_unused_fds(int control_fd, int pipe_fd[2])
 		close(pipe_fd[1]);
 }
 
-
-
-static void	exec_child_proc(t_shell *shell, t_command *cmd, int std_in, int std_out)
+static void	exec_child_proc(t_shell *shell, t_command *cmd, int std_in, \
+	int std_out)
 {
 	char	*path;
 
@@ -47,37 +46,15 @@ void	child_proc(t_shell *shell, t_command *cmd, int control_fd, int fd[2])
 	if (control_fd != -1)
 	{
 		if(dup2(control_fd, STDIN_FILENO) == -1)
-      perror("dup2 control_fd");
+			perror("dup2 control_fd");
 	}
 	if (cmd->next && dup2(fd[1], STDOUT_FILENO) == -1)
-    perror("dup2 pipe write");
-  if (cmd->redirs && definy_fd(cmd))
-    free_all(shell, EXIT_FAILURE);
-
-  close_unused_fds(control_fd, fd);
+		perror("dup2 pipe write");
+	if (cmd->redirs && definy_fd(cmd))
+		free_all(shell, EXIT_FAILURE);
+	close_unused_fds(control_fd, fd);
 	exec_child_proc(shell, cmd, control_fd, fd[1]);
 }
-
-
-// void	child_proc(t_shell *shell, t_command *cmd, int control_fd, int fd[2])
-// {
-// 	signal(SIGQUIT, SIG_DFL);
-// 	signal(SIGINT, SIG_DFL);
-// 	if (control_fd != -1)
-// 	{
-// 		dup2(control_fd, STDIN_FILENO);
-// 		close(control_fd);
-// 	}
-// 	if (cmd->next)
-// 	{
-// 		close(fd[0]);
-// 		dup2(fd[1], STDOUT_FILENO);
-// 		close(fd[1]);
-// 	}
-// 	if (cmd->redirs && definy_fd(cmd))
-// 		free_all(shell, EXIT_FAILURE);
-// 	exec_child_proc(shell, cmd);
-// }
 
 void	parent_proc(t_command *cmd, int *control_fd, int fd[2])
 {

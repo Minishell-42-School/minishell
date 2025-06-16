@@ -72,7 +72,6 @@ void	free_command_list(t_shell *shell, t_command *head)
 	}
 }
 
-// void	free_loop(t_token **token_lst, t_command **cmd, int hdoc_control)
 void	free_loop(t_shell *shell)
 {
 	if (shell->token_list)

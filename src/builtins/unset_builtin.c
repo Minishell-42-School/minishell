@@ -12,14 +12,14 @@
 
 #include "../../includes/minishell.h"
 
-int verif_valid_key(char *key)
+int	verif_valid_key(char *key)
 {
-  if (!is_valid_identifier(key))
-  {
-    ft_printf_stderr(" not a valid identifier\n");
-    return (1);
-  }
-  return (0);
+	if (!is_valid_identifier(key))
+	{
+		ft_printf_stderr(" not a valid identifier\n");
+		return (1);
+	}
+	return (0);
 }
 
 static int	unset_var(char *key, t_var **vars)
@@ -28,7 +28,7 @@ static int	unset_var(char *key, t_var **vars)
 	t_var	*prev;
 
 	if (!vars || !key || verif_valid_key(key))
-    return (1);
+		return (1);
 	curr = *vars;
 	prev = NULL;
 	while (curr)
@@ -60,7 +60,7 @@ static int	unset_builtin(t_command *cmd, t_var **vars)
 	while (cmd->args[i])
 	{
 		if (unset_var(cmd->args[i], vars))
-      return (1);
+			return (1);
 		i++;
 	}
 	return (0);

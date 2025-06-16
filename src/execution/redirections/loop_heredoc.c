@@ -75,7 +75,7 @@ static char	*expand_env_var(t_shell *shell, char *line, int last_exit)
 }
 
 static void	write_exp_line(t_shell *shell, int heredoc_fd, char *line, \
-						int last_exit)
+	int last_exit)
 {
 	char	*expanded;
 
@@ -86,7 +86,7 @@ static void	write_exp_line(t_shell *shell, int heredoc_fd, char *line, \
 }
 
 void	loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd, \
-					int last_exit)
+	int last_exit)
 {
 	char	*line;
 

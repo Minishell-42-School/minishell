@@ -12,11 +12,9 @@
 
 #include "../includes/minishell.h"
 
-volatile sig_atomic_t	g_signal = 0;
-
 static void	heredoc_sigint(int sig)
 {
-	t_shell *shell;
+	t_shell	*shell;
 
 	(void)sig;
 	shell = get_shell();
@@ -39,8 +37,11 @@ void	ign_signals(void)
 
 static void	handle_sigint(int sig)
 {
+	t_shell	*shell;
+
 	(void)sig;
-	g_signal = 1;
+	shell = get_shell();
+	shell->last_status = 130;
 	printf("\n");
 	rl_replace_line("", 0);
 	rl_on_new_line();

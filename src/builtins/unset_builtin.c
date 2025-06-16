@@ -3,31 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   unset_builtin.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 17:36:44 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 16:30:56 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/16 15:52:38 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
-int	verif_valid_key(char *key)
-{
-	if (!is_valid_identifier(key))
-	{
-		ft_printf_stderr(" not a valid identifier\n");
-		return (1);
-	}
-	return (0);
-}
 
 static int	unset_var(char *key, t_var **vars)
 {
 	t_var	*curr;
 	t_var	*prev;
 
-	if (!vars || !key || verif_valid_key(key))
+	if (!vars || !key)
 		return (1);
 	curr = *vars;
 	prev = NULL;

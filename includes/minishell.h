@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/15 13:43:56 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/16 15:08:34 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -317,6 +317,8 @@ void			expand_var(t_hdoc_env_var *hdoc, char *line, int *i, \
 int				is_builtin(t_command *cmd);
 int				handle_builtin(t_shell *shell);
 int				exec_builtin(t_shell *shell, t_command *cmd);
+void			dup2_and_close(int std_in, int std_out);
+
 //export_builtin.c
 int				exec_export_builtin(t_shell	*s, t_command *cmd);
 

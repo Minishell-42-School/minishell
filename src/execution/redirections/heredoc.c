@@ -58,6 +58,7 @@ static void	handle_heredoc(t_shell *shell, t_redirections *redir, int last_exit)
 		heredoc_parent_proc(shell, pid, heredoc_fd);
 	definy_redir(file_name, redir);
 	shell->hdoc_control = 0;
+  tcsetattr(STDIN_FILENO, TCSANOW, &shell->term_backup);
 	if (shell->last_status == 130)
 		return ;
 }

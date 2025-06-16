@@ -18,11 +18,6 @@ char	*get_prompt(t_shell *shell)
 
 	config_signals();
 	input = readline(GREEN"Minishell~> "RESET);
-	if (g_signal)
-	{
-		shell->last_status = 130;
-		g_signal = 0;
-	}
 	if (!input)
 	{
 		printf("%s...Exit Minishell...\n%s", YELLOW, RESET);

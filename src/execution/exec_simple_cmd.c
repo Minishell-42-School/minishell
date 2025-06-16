@@ -41,6 +41,7 @@ static void	exec_parent_proc(t_shell *shell, pid_t pid)
 		shell->last_status = 128 + WTERMSIG(status);
 	else
 		shell->last_status = WEXITSTATUS(status);
+  tcsetattr(STDIN_FILENO, TCSANOW, &shell->term_backup);
 }
 
 void	exec_simple_cmd(t_shell *shell)

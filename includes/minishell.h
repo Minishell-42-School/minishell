@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/16 15:08:34 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/16 15:15:40 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <signal.h> // signal, sigaction, sigemptyset, sigaddset
 # include <sys/types.h> // pid_t
 # include <sys/wait.h> // wait
+# include <termios.h> // tcgetattr, tcsetattr, isatty, ttyname, ttyslot
 # include <errno.h> // error
 # include <sys/stat.h> //stat
 # include <readline/readline.h> // readline
@@ -32,8 +33,6 @@
 # define RED_B  "\033[1;31m"
 # define GREEN  "\033[0;32m"
 # define YELLOW  "\033[0;33m"
-
-extern volatile sig_atomic_t	g_signal;
 
 // Token Struct
 typedef enum e_token_hdoc
@@ -141,6 +140,8 @@ typedef struct s_shell
 	int				last_status;
 	char			*hdoc_file;
 	int				hdoc_control;
+	struct termios	term_backup;
+	int				interactive;
 }	t_shell;
 
 // Functions
@@ -270,7 +271,6 @@ char			*get_path(t_shell *shell, t_command *cmd);
 
 // handle_error.c
 void			handle_error(t_shell *shell, t_command *cmd);
-void			print_error(char *cmd, char *msg);
 void			check_error(char *path, t_command *cmd, t_shell *shell);
 
 // - Pipe -
@@ -308,7 +308,6 @@ void			str_until_now(t_hdoc_env_var *hdoc, char *line, int i);
 void			join_value(t_hdoc_env_var *hdoc);
 void			expand_var(t_hdoc_env_var *hdoc, char *line, int *i, \
 				t_shell *shell);
-
 // -----------------
 // ----Execution----
 
@@ -316,7 +315,8 @@ void			expand_var(t_hdoc_env_var *hdoc, char *line, int *i, \
 // exec_builtin
 int				is_builtin(t_command *cmd);
 int				handle_builtin(t_shell *shell);
-int				exec_builtin(t_shell *shell, t_command *cmd);
+int				exec_builtin(t_shell *shell, t_command *cmd, int std_in, \
+				int std_out);
 void			dup2_and_close(int std_in, int std_out);
 
 //export_builtin.c
@@ -338,7 +338,8 @@ int				exec_echo_builtin(t_command *cmd);
 int				exec_env_builtin(t_shell *s, t_command *cmd);
 
 //exit_builtin.c
-int				exec_exit_builtin(t_shell *s, t_command *cmd);
+int				exec_exit_builtin(t_shell *s, t_command *cmd, int std_in, \
+				int std_out);
 
 // ----Built_ins----
 

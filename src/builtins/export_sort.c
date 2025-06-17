@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:10:39 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/03 11:20:26 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/17 11:37:51 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static void	print_var_line(t_var *var)
 {
 	printf("declare -x ");
 	printf("%s", var->key);
-	if (var->value)
+	if (var->value && ft_strcmp(var->value, "") != 0)
 	{
 		printf("=\"");
 		printf("%s", var->value);
@@ -84,7 +84,7 @@ int	print_sorted_export(t_var *vars)
 	int		i;
 
 	count = count_exported(vars);
-	arr = malloc(sizeof(t_var *) * count);
+	arr = malloc(sizeof(t_var *) * (count + 1));
 	if (!arr)
 		return (-1);
 	fill_exported_array(arr, vars);

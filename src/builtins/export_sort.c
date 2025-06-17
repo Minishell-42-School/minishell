@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_sort.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:10:39 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/17 11:37:51 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/17 17:34:17 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ static void	print_var_line(t_var *var)
 		printf("%s", var->value);
 		printf("\"");
 	}
+	else if (var->print == 0)
+		printf("=\"\"");
 	printf("\n");
 }
 

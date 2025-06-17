@@ -18,7 +18,7 @@ static void	del_last_token(t_token **token_list)
 	t_token	*del_token;
 
 	if (!(*token_list)->next)
-		free_token_lst(token_list);
+		return ;
 	else
 	{
 		temp = *token_list;
@@ -30,6 +30,7 @@ static void	del_last_token(t_token **token_list)
 			free(del_token->expand_var);
 		free(del_token);
 	}
+	verif_value(token_list);
 }
 
 void	verif_value(t_token **token_list)

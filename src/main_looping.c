@@ -46,7 +46,10 @@ void	parse_and_exec(t_shell *shell)
 	shell->cmd = parse_pipeline(&verif_error, &shell->p_state);
 	if (verif_error)
 	{
-		shell->last_status = 2;
+		if (verif_error == 127)
+			shell->last_status = 127;
+		else
+			shell->last_status = 2;
 		free_loop(shell);
 		return ;
 	}

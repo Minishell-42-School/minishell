@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_simple_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 10:55:17 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/16 16:21:59 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/17 12:47:36 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ static void	exec_child_proc(t_shell *shell)
 {
 	char	*path;
 
+	child_signals();
 	if (shell->cmd->redirs)
 	{
 		if (definy_fd(shell->cmd))
@@ -38,7 +39,10 @@ static void	exec_parent_proc(t_shell *shell, pid_t pid)
 	waitpid(pid, &status, 0);
 	config_signals();
 	if (WIFSIGNALED(status))
+	{
 		shell->last_status = 128 + WTERMSIG(status);
+		write(1, "\n", 1);
+	}
 	else
 		shell->last_status = WEXITSTATUS(status);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell->term_backup);

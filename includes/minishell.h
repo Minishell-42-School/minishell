@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/16 15:15:40 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/17 12:45:42 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,8 +170,8 @@ void			free_new_envp(char **new_envp);
 
 // signal.c
 void			config_signals(void);
-void			heredoc_signals(void);
 void			ign_signals(void);
+void			child_signals(void);
 
 // ----Token----
 // token.c
@@ -207,11 +207,17 @@ void			verif_value(t_token **token_list);
 // ----Token----
 
 // ----Parser----
-//parser_utils.c
+//parser_utils_cmd.c
 int				count_args(t_parser_state *p_state);
-t_hdoc			assign_hdoc_expansion(t_token *token);
 t_token			*advance_token(t_parser_state *p_state);
 t_command		*init_command_struct(int *v_error);
+t_command		*verif_parse_cmd(int *v_error, t_parser_state *p_state);
+void			fill_cmd_args(int *v_error, t_parser_state *p_state, \
+				t_command *cmd, int *i);
+
+//parser_utils_redir.c
+void			link_redir(t_command *cmd, t_redirections *redir);
+t_hdoc			assign_hdoc_expansion(t_token *token);
 t_redirections	*assign_redir_type(t_parser_state *p_state, \
 				t_redirections *redir);
 
@@ -292,6 +298,9 @@ int				handle_creat(t_redirections *redir);
 
 // heredoc.c
 void			verif_heredoc(t_shell *shell, int last_exit);
+
+// heredoc_signal.c
+void			heredoc_signals(void);
 
 // heredoc_utils.c
 char			*tmpfile_name(int *heredoc_fd);

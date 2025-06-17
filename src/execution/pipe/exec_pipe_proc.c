@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipe_proc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/16 16:22:46 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/17 13:03:25 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,7 @@ static void	exec_child_proc(t_shell *shell, t_command *cmd, int std_in, \
 
 void	child_proc(t_shell *shell, t_command *cmd, int control_fd, int fd[2])
 {
-	signal(SIGQUIT, SIG_DFL);
-	signal(SIGINT, SIG_DFL);
+	child_signals();
 	if (control_fd != -1)
 	{
 		if (dup2(control_fd, STDIN_FILENO) == -1)

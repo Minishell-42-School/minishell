@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:12:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/05 11:51:21 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/17 11:23:18 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@ static void	var_mark_exported(t_var **vars, char *arg)
 	export = var_find(*vars, arg);
 	if (export)
 		export->exported = 1;
+	else
+	{
+		vars_set(vars, arg, "", 1);
+	}
 }
 
 static int	check_var_assignment(t_command *cmd, t_var **vars, int *i, int *ex)

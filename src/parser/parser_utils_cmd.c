@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:09:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/17 12:51:07 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/17 19:06:01 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,18 +65,24 @@ int	count_args(t_parser_state *p_state)
 	return (arg_count);
 }
 
-void	fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd,
-					int *i)
+void fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd, int *i)
 {
-	if (*i == 0 && !p_state->current->value)
+	if (!p_state->current->value)
 	{
-		ft_printf_stderr("'': command not found\n");
-		(*v_error) = 127;
-		return ;
+		if (*i == 0)
+		{
+			ft_printf_stderr("'': command not found\n");
+			(*v_error) = 127;
+			return;
+		}
+		cmd->args[*i] = ft_strdup("");
 	}
-	cmd->args[*i] = ft_strdup(p_state->current->value);
-	if (*i == 0)
-		cmd->command_name = ft_strdup(p_state->current->value);
+	else
+	{
+		cmd->args[*i] = ft_strdup(p_state->current->value);
+		if (*i == 0)
+			cmd->command_name = ft_strdup(p_state->current->value);
+	}
 	(*i)++;
 	p_state->current = p_state->current->next;
 }

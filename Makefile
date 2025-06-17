@@ -11,9 +11,6 @@ CC = cc
 CFLAGS = -Wall -Wextra -Werror -g3
 RLFLAGS = -lreadline -lncurses
 
-# NORMINETTE = norminette
-# FLAGS = -R CheckForbiddenSourceHeader
-
 VALGRIND = valgrind
 SUPP = --suppressions=readline.supp
 IGNRL = --leak-check=full --show-leak-kinds=all
@@ -48,8 +45,6 @@ RESET = \033[0m
 
 all: $(OBJDIR) $(NAME)
 
-# norminette:
-# 	$(NORMINETTE) $(FLAGS) $(SRCS)
 val:
 	$(VALGRIND) ./minishell
 

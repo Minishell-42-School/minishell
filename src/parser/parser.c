@@ -22,42 +22,20 @@ t_command	*parse_pipeline(int *v_error, t_parser_state *p_state)
 		return (NULL);
 	first_cmd = parse_command(v_error, p_state);
 	if ((*v_error))
-		return (NULL);
+		return (first_cmd);
 	last_cmd = first_cmd;
 	while (p_state->current && p_state->current->type == PIPE)
 	{
 		advance_token(p_state);
 		next_cmd = parse_command(v_error, p_state);
-		if ((*v_error) || !next_cmd)
+		if(!next_cmd)
 			return (NULL);
 		last_cmd->next = next_cmd;
 		last_cmd = next_cmd;
+		if (*v_error)
+			return (first_cmd);
 	}
 	return (first_cmd);
-}
-
-static void	link_redir(t_command *cmd, t_redirections *redir)
-{
-	t_redirections	*last;
-
-	if (!cmd->redirs)
-		cmd->redirs = redir;
-	else
-	{
-		last = cmd->redirs;
-		while (last->next)
-			last = last->next;
-		last->next = redir;
-	}
-}
-
-static void	fill_cmd_args(t_parser_state *p_state, t_command *cmd, int *i)
-{
-	cmd->args[*i] = ft_strdup(p_state->current->value);
-	if (*i == 0)
-		cmd->command_name = ft_strdup(p_state->current->value);
-	(*i)++;
-	p_state->current = p_state->current->next;
 }
 
 t_command	*parse_command(int *v_error, t_parser_state *p_state)
@@ -66,27 +44,60 @@ t_command	*parse_command(int *v_error, t_parser_state *p_state)
 	t_redirections	*redir;
 	int				i;
 
-	cmd = init_command_struct(v_error);
-	if (!cmd)
-		return (NULL);
-	cmd->args_count = count_args(p_state);
-	cmd->args = malloc(sizeof(char *) * (cmd->args_count + 1));
-	if (!cmd->args)
-		return (error_malloc(&cmd, v_error));
+	cmd = verif_parse_cmd(v_error, p_state);
 	i = 0;
 	while (p_state->current && p_state->current->type != PIPE)
 	{
 		if (p_state->current->type == WORD)
-			fill_cmd_args(p_state, cmd, &i);
+			fill_cmd_args(v_error, p_state, cmd, &i);
 		else
 		{
 			redir = parse_redirection(v_error, p_state);
 			link_redir(cmd, redir);
 		}
+		if ((*v_error) == 127)
+		{
+			free(cmd->args);
+			free(cmd);
+			return (NULL);
+		}
 	}
 	cmd->args[i] = NULL;
 	return (cmd);
 }
+
+// t_command	*parse_command(int *v_error, t_parser_state *p_state)
+// {
+// 	t_command		*cmd;
+// 	t_redirections	*redir;
+// 	int				i;
+
+// 	cmd = init_command_struct(v_error);
+// 	if (!cmd)
+// 		return (NULL);
+// 	cmd->args_count = count_args(p_state);
+// 	cmd->args = malloc(sizeof(char *) * (cmd->args_count + 1));
+// 	if (!cmd->args)
+// 		return (error_malloc(&cmd, v_error));
+// 	i = 0;
+// 	while (p_state->current && p_state->current->type != PIPE)
+// 	{
+// 		if (p_state->current->type == WORD)
+// 		{
+// 			fill_cmd_args(v_error, p_state, cmd, &i);
+// 			if (v_error)
+// 				return (cmd);
+// 		}
+// 		else
+// 		{
+// 			redir = parse_redirection(v_error, p_state);
+// 			link_redir(cmd, redir);
+// 		}
+// 	}
+// 	cmd->args[i] = NULL;
+// 	return (cmd);
+// }
+
 
 //assigns the redirection type to t_redirections which is a
 //component of t_command advances to the next token which must

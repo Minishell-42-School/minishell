@@ -18,7 +18,7 @@ static void	del_last_token(t_token **token_list)
 	t_token	*del_token;
 
 	if (!(*token_list)->next)
-		free_token_lst(token_list);
+		return ;
 	else
 	{
 		temp = *token_list;

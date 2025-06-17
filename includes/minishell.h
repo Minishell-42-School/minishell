@@ -207,11 +207,17 @@ void			verif_value(t_token **token_list);
 // ----Token----
 
 // ----Parser----
-//parser_utils.c
+//parser_utils_cmd.c
 int				count_args(t_parser_state *p_state);
-t_hdoc			assign_hdoc_expansion(t_token *token);
 t_token			*advance_token(t_parser_state *p_state);
 t_command		*init_command_struct(int *v_error);
+t_command		*verif_parse_cmd(int *v_error, t_parser_state *p_state);
+void			fill_cmd_args(int *v_error, t_parser_state *p_state, \
+				t_command *cmd, int *i);
+
+//parser_utils_redir.c
+void			link_redir(t_command *cmd, t_redirections *redir);
+t_hdoc			assign_hdoc_expansion(t_token *token);
 t_redirections	*assign_redir_type(t_parser_state *p_state, \
 				t_redirections *redir);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env_vars.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:43:19 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/04 11:20:41 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/17 16:37:42 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	vars_set(t_var **vars, char *key, char *value, int exported)
 	v->key = strdup(key);
 	v->value = strdup(value);
 	v->exported = exported;
+	v->print = 0;
 	v->next = *vars;
 	*vars = v;
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/17 12:45:42 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:34:57 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,7 @@ typedef struct s_var
 	char				*key;
 	char				*value;
 	int					exported;
+	int					print;
 	struct s_var		*next;
 }	t_var;
 

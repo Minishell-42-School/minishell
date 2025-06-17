@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/12 16:56:38 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:51:48 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_command	*parse_pipeline(int *v_error, t_parser_state *p_state)
 	{
 		advance_token(p_state);
 		next_cmd = parse_command(v_error, p_state);
-		if(!next_cmd)
+		if (!next_cmd)
 			return (NULL);
 		last_cmd->next = next_cmd;
 		last_cmd = next_cmd;
@@ -65,39 +65,6 @@ t_command	*parse_command(int *v_error, t_parser_state *p_state)
 	cmd->args[i] = NULL;
 	return (cmd);
 }
-
-// t_command	*parse_command(int *v_error, t_parser_state *p_state)
-// {
-// 	t_command		*cmd;
-// 	t_redirections	*redir;
-// 	int				i;
-
-// 	cmd = init_command_struct(v_error);
-// 	if (!cmd)
-// 		return (NULL);
-// 	cmd->args_count = count_args(p_state);
-// 	cmd->args = malloc(sizeof(char *) * (cmd->args_count + 1));
-// 	if (!cmd->args)
-// 		return (error_malloc(&cmd, v_error));
-// 	i = 0;
-// 	while (p_state->current && p_state->current->type != PIPE)
-// 	{
-// 		if (p_state->current->type == WORD)
-// 		{
-// 			fill_cmd_args(v_error, p_state, cmd, &i);
-// 			if (v_error)
-// 				return (cmd);
-// 		}
-// 		else
-// 		{
-// 			redir = parse_redirection(v_error, p_state);
-// 			link_redir(cmd, redir);
-// 		}
-// 	}
-// 	cmd->args[i] = NULL;
-// 	return (cmd);
-// }
-
 
 //assigns the redirection type to t_redirections which is a
 //component of t_command advances to the next token which must

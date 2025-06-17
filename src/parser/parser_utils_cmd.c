@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:09:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/12 15:40:21 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/17 12:51:07 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int	count_args(t_parser_state *p_state)
 	return (arg_count);
 }
 
-void	fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd, int *i)
+void	fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd,
+					int *i)
 {
 	if (*i == 0 && !p_state->current->value)
 	{

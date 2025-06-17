@@ -30,6 +30,7 @@ static void	del_last_token(t_token **token_list)
 			free(del_token->expand_var);
 		free(del_token);
 	}
+	verif_value(token_list);
 }
 
 void	verif_value(t_token **token_list)

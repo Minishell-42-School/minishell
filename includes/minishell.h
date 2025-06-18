@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/18 16:34:30 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:52:56 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
 							// rl -> clear, new_line, replace, redisplay
 # include <limits.h> // for long_max and min in ft_atol in exit builtin.
 
-# define RESET  "\033[0m"
-# define RED_B  "\033[1;31m"
-# define GREEN  "\033[0;32m"
-# define YELLOW  "\033[0;33m"
+# define RESET  "\001\033[0m\002"
+# define RED_B  "\001\033[1;31m\002"
+# define GREEN  "\001\033[0;32m\002"
+# define YELLOW  "\001\033[0;33m\002"
 
 // Token Struct
 typedef enum e_token_hdoc

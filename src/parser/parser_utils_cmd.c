@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:09:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/17 19:06:01 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/18 16:16:58 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int	count_args(t_parser_state *p_state)
 	return (arg_count);
 }
 
-void fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd, int *i)
+void	fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd, \
+		int *i)
 {
 	if (!p_state->current->value)
 	{
@@ -73,7 +74,7 @@ void fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd, int *i
 		{
 			ft_printf_stderr("'': command not found\n");
 			(*v_error) = 127;
-			return;
+			return ;
 		}
 		cmd->args[*i] = ft_strdup("");
 	}
@@ -89,7 +90,7 @@ void fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd, int *i
 
 t_command	*verif_parse_cmd(int *v_error, t_parser_state *p_state)
 {
-	t_command		*cmd;
+	t_command	*cmd;
 
 	cmd = init_command_struct(v_error);
 	if (!cmd)

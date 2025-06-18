@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 18:19:49 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/18 16:41:24 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:23:50 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,8 @@ int	exec_exit_builtin(t_shell *s, t_command *cmd, int std_in, int std_out)
 	status = ft_atol(arg, &overflow);
 	if (!is_numeric(arg) || overflow)
 	{
-		ft_printf_stderr("minishell: exit: %s: numeric argument required\n", arg);
+		ft_printf_stderr("minishell: exit: %s: numeric argument required\n", \
+			arg);
 		clean_exit(s, 2, std_in, std_out);
 	}
 	if (cmd->args[2])

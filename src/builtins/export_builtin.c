@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:12:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/18 17:34:52 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/18 17:47:57 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ int	export_builtin(t_command *cmd, t_var **vars)
 int	exec_export_builtin(t_shell	*s, t_command *cmd)
 {
 	int	result;
-	
+
 	result = export_builtin(cmd, &s->vars);
 	var_to_envp(s);
 	return (result);

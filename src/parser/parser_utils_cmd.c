@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:09:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/17 19:06:01 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/18 17:48:58 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,8 @@ int	count_args(t_parser_state *p_state)
 	return (arg_count);
 }
 
-void fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd, int *i)
+void	fill_cmd_args(int *v_error, t_parser_state *p_state,
+	t_command *cmd, int *i)
 {
 	if (!p_state->current->value)
 	{
@@ -73,7 +74,7 @@ void fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd, int *i
 		{
 			ft_printf_stderr("'': command not found\n");
 			(*v_error) = 127;
-			return;
+			return ;
 		}
 		cmd->args[*i] = ft_strdup("");
 	}

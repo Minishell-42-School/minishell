@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/17 13:03:25 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/18 11:52:30 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,10 @@ void	child_proc(t_shell *shell, t_command *cmd, int control_fd, int fd[2])
 	if (cmd->next && dup2(fd[1], STDOUT_FILENO) == -1)
 		perror("dup2 pipe write");
 	if (cmd->redirs && definy_fd(cmd))
+	{
+		close_unused_fds(control_fd, fd);
 		free_all(shell, EXIT_FAILURE);
+	}
 	close_unused_fds(control_fd, fd);
 	exec_child_proc(shell, cmd, control_fd, fd[1]);
 }

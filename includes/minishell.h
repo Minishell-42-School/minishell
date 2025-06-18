@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/17 17:34:57 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/18 16:34:30 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,6 +350,10 @@ int				exec_env_builtin(t_shell *s, t_command *cmd);
 //exit_builtin.c
 int				exec_exit_builtin(t_shell *s, t_command *cmd, int std_in, \
 				int std_out);
+
+// exit_builtin_utils.c
+int				is_numeric(const char *str);
+long			ft_atol(const char *str, int *overflow);
 
 // ----Built_ins----
 

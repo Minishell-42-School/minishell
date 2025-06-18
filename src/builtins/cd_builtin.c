@@ -6,7 +6,7 @@
 /*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:01:41 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/16 17:37:02 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/18 17:12:40 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,25 @@
 
 static void	update_and_free_pwd(t_var **vars, char *oldpwd, char *pwd)
 {
-	vars_set(vars, "OLDPWD", oldpwd, 1);
-	vars_set(vars, "PWD", pwd, 1);
+	if (oldpwd)
+		vars_set(vars, "OLDPWD", oldpwd, 1);
+	if (pwd)
+		vars_set(vars, "PWD", pwd, 1);
 	free(oldpwd);
 	free(pwd);
+}
+
+static char	*check_pwd(char *pwd, t_var *vars)
+{
+	char	*home;
+	
+	if (!pwd)
+	{
+		home = var_get(vars, "HOME");
+		if (home)
+			pwd = ft_strdup(home);
+	}	
+	return (pwd);
 }
 
 int	cd_builtin(t_command *cmd, t_var **vars)
@@ -44,6 +59,7 @@ int	cd_builtin(t_command *cmd, t_var **vars)
 				cmd->args[1]));
 	}
 	pwd = getcwd(NULL, 0);
+	pwd = check_pwd(pwd, *vars);
 	update_and_free_pwd(vars, oldpwd, pwd);
 	return (0);
 }

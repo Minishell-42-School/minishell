@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 16:33:59 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/12 13:19:13 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:48:55 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_token	*init_token(void)
 	new_t->type = WORD;
 	new_t->value = NULL;
 	new_t->hdoc = R_NO_HDOC;
+	new_t->ign_value = 0;
 	new_t->nbr_env_var = 0;
 	new_t->expand_var = NULL;
 	new_t->next = NULL;

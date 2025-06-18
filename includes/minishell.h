@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/18 16:52:56 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:48:40 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ typedef struct s_token
 	t_token_type	type;
 	char			*value;
 	t_token_hdoc	hdoc;
+	int				ign_value;
 	int				nbr_env_var;
 	int				*expand_var;
 	struct s_token	*next;

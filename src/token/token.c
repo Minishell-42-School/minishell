@@ -47,7 +47,10 @@ int	get_token(t_token **token_list, char *input)
 	if (token_loop(token_list, input))
 		return (1);
 	if (!(*token_list)->next && (*token_list)->ign_value)
-		return (127);
+	{
+		free_token_lst(token_list);
+		return (0);
+	}
 	verif_value(token_list);
 	return (0);
 }

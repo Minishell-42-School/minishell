@@ -65,13 +65,8 @@ int	count_args(t_parser_state *p_state)
 	return (arg_count);
 }
 
-<<<<<<< HEAD
 void	fill_cmd_args(int *v_error, t_parser_state *p_state,
 	t_command *cmd, int *i)
-=======
-void	fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd, \
-		int *i)
->>>>>>> b24ba2752c76c23e4cd1d2263b558e336c516d71
 {
 	if (!p_state->current->value)
 	{

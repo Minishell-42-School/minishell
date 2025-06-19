@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:11:24 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/17 17:34:57 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:48:40 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@
 							// rl -> clear, new_line, replace, redisplay
 # include <limits.h> // for long_max and min in ft_atol in exit builtin.
 
-# define RESET  "\033[0m"
-# define RED_B  "\033[1;31m"
-# define GREEN  "\033[0;32m"
-# define YELLOW  "\033[0;33m"
+# define RESET  "\001\033[0m\002"
+# define RED_B  "\001\033[1;31m\002"
+# define GREEN  "\001\033[0;32m\002"
+# define YELLOW  "\001\033[0;33m\002"
 
 // Token Struct
 typedef enum e_token_hdoc
@@ -57,6 +57,7 @@ typedef struct s_token
 	t_token_type	type;
 	char			*value;
 	t_token_hdoc	hdoc;
+	int				ign_value;
 	int				nbr_env_var;
 	int				*expand_var;
 	struct s_token	*next;
@@ -350,6 +351,10 @@ int				exec_env_builtin(t_shell *s, t_command *cmd);
 //exit_builtin.c
 int				exec_exit_builtin(t_shell *s, t_command *cmd, int std_in, \
 				int std_out);
+
+// exit_builtin_utils.c
+int				is_numeric(const char *str);
+long			ft_atol(const char *str, int *overflow);
 
 // ----Built_ins----
 

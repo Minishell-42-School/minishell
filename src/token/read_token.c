@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 11:02:00 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/12 12:57:33 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/18 18:13:56 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ char	*read_token(char *str, int *i, t_token *token)
 		(*i)++;
 	}
 	temp = ft_substr(str, start, (*i - start));
+	if (temp[0] == '\0')
+		token->ign_value = 1;
 	verif_env_var(temp, token);
 	clean_token = clean_quote(temp);
 	free(temp);

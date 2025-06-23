@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_looping.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/23 12:46:27 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:37:17 by ekeller-@st      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	parse_and_exec(t_shell *shell)
 		return ;
 	}
 	if (verify_empty_arg0(shell) == 1)
+		return ;
+	if (exec_set_local_vars(shell) == 1)
 		return ;
 	if (shell->cmd)
 		exec_cmd(shell);

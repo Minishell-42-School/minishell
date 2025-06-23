@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/17 12:50:19 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/23 11:03:24 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	main(int argc, char **av, char **envp)
 	t_shell	*shell;
 
 	if (argc || av)
-	{ ; }
+		;
 	shell = get_shell();
 	init_t_shell(shell);
 	init_vars_from_envp(&shell->vars, envp);

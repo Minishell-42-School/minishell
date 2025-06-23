@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/18 18:36:34 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/23 11:58:42 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,6 @@ void	parse_and_exec(t_shell *shell)
 		return ;
 	}
 	if (verify_empty_arg0(shell) == 1)
-		return ;
-	if (exec_set_local_vars(shell) == 1)
 		return ;
 	if (shell->cmd)
 		exec_cmd(shell);

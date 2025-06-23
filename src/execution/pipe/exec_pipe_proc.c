@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/29 14:15:39 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/18 11:52:30 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:13:10 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static void	exec_child_proc(t_shell *shell, t_command *cmd, int std_in, \
 			free_all(shell, EXIT_FAILURE);
 		free_all(shell, EXIT_SUCCESS);
 	}
+	if (!shell->cmd->command_name)
+		free_all(shell, EXIT_SUCCESS);
 	path = get_path(shell, cmd);
 	check_error(path, shell->cmd, shell);
 	execve(path, cmd->args, shell->new_envp);

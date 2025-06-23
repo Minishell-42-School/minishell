@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 15:32:49 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/16 16:25:17 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/23 12:52:04 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	is_builtin(t_command *cmd)
 	char	*cmd_name;
 
 	cmd_name = cmd->command_name;
+	if (!cmd_name)
+		return (0);
 	if (!ft_strcmp(cmd_name, "echo") || !ft_strcmp(cmd_name, "cd") || \
 		!ft_strcmp(cmd_name, "pwd") || !ft_strcmp(cmd_name, "export") || \
 		!ft_strcmp(cmd_name, "unset") || !ft_strcmp(cmd_name, "env") || \

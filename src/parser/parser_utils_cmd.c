@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils_cmd.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:09:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/18 17:48:58 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/18 18:14:41 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	fill_cmd_args(int *v_error, t_parser_state *p_state,
 
 t_command	*verif_parse_cmd(int *v_error, t_parser_state *p_state)
 {
-	t_command		*cmd;
+	t_command	*cmd;
 
 	cmd = init_command_struct(v_error);
 	if (!cmd)

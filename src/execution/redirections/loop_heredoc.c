@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/08 18:10:40 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/12 16:59:14 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/18 17:11:58 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ void	loop_heredoc(t_shell *shell, t_redirections *redir, int heredoc_fd, \
 			printf("Warning: here-document delimited by end-of-file\n");
 			break ;
 		}
-		if (ft_strncmp(line, redir->filename, ft_strlen(redir->filename)) == 0)
+		if (ft_strcmp(line, redir->filename) == 0)
 		{
 			free(line);
 			break ;

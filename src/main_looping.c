@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_looping.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ekeller-@student.42sp.org.br <ekeller-@    +#+  +:+       +#+        */
+/*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 11:10:45 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/16 17:17:32 by ekeller-@st      ###   ########.fr       */
+/*   Updated: 2025/06/23 13:53:23 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ static int	verify_empty_arg0(t_shell *s)
 	int	i;
 
 	i = 0;
+	if (!s->cmd->args[0])
+		return (0);
 	if ((ft_strcmp(s->cmd->args[0], "") == 0) && !s->cmd->args[1])
 	{
 		free_loop(s);

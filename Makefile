@@ -8,11 +8,8 @@ LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g3
+CFLAGS = -Wall -Wextra -Werror
 RLFLAGS = -lreadline -lncurses
-
-# NORMINETTE = norminette
-# FLAGS = -R CheckForbiddenSourceHeader
 
 VALGRIND = valgrind
 SUPP = --suppressions=readline.supp
@@ -38,7 +35,8 @@ SRCS = main.c prompt.c init_shell.c main_looping.c free_all.c free_loop.c signal
 	builtins/export_builtin.c builtins/unset_builtin.c \
 	builtins/pwd_builtin.c builtins/cd_builtin.c \
 	builtins/echo_builtin.c builtins/env_builtin.c \
-	builtins/exit_builtin.c builtins/export_sort.c builtins/exec_builtin.c
+	builtins/export_sort.c builtins/exec_builtin.c \
+	builtins/exit_builtin.c builtins/exit_builtin_utils.c
 
 OBJS = $(SRCS:%.c=%.o)
 
@@ -48,8 +46,6 @@ RESET = \033[0m
 
 all: $(OBJDIR) $(NAME)
 
-# norminette:
-# 	$(NORMINETTE) $(FLAGS) $(SRCS)
 val:
 	$(VALGRIND) ./minishell
 

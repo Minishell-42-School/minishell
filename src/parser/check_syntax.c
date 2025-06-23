@@ -6,14 +6,12 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 16:07:16 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/12 16:56:20 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:23:18 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-// check if first command starts with pipe and if there
-//are two pipes in a sequence.
 int	check_syntax(t_parser_state *token, int *v_error)
 {
 	t_parser_state	temp;

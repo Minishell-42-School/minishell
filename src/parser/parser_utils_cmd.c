@@ -6,13 +6,12 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:09:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/18 12:03:51 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:23:27 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-//returns current token and advances state to the next
 t_token	*advance_token(t_parser_state *p_state)
 {
 	t_token	*token;
@@ -65,8 +64,8 @@ int	count_args(t_parser_state *p_state)
 	return (arg_count);
 }
 
-void	fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd, \
-						int *i)
+void	fill_cmd_args(int *v_error, t_parser_state *p_state,
+	t_command *cmd, int *i)
 {
 	if (!p_state->current->value)
 	{
@@ -90,7 +89,7 @@ void	fill_cmd_args(int *v_error, t_parser_state *p_state, t_command *cmd, \
 
 t_command	*verif_parse_cmd(int *v_error, t_parser_state *p_state)
 {
-	t_command		*cmd;
+	t_command	*cmd;
 
 	cmd = init_command_struct(v_error);
 	if (!cmd)

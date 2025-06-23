@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 13:42:15 by jcosta-b          #+#    #+#             */
-/*   Updated: 2025/06/12 17:15:44 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/23 12:12:54 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ int	get_token(t_token **token_list, char *input)
 		return (1);
 	if (token_loop(token_list, input))
 		return (1);
+	if (!(*token_list)->next && (*token_list)->ign_value)
+	{
+		free_token_lst(token_list);
+		return (0);
+	}
 	verif_value(token_list);
 	return (0);
 }

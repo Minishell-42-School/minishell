@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/16 17:08:20 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/17 12:51:48 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:23:39 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,6 @@ t_command	*parse_command(int *v_error, t_parser_state *p_state)
 	return (cmd);
 }
 
-//assigns the redirection type to t_redirections which is a
-//component of t_command advances to the next token which must
-//be a word and assign the word as redirection file
 t_redirections	*parse_redirection(int *v_error, t_parser_state *p_state)
 {
 	t_redirections	*redir;
@@ -83,7 +80,10 @@ t_redirections	*parse_redirection(int *v_error, t_parser_state *p_state)
 	if (!redir)
 		return (error_redir(v_error, "Invalid redirection operator\n"));
 	if (!p_state->current || p_state->current->type != WORD)
+	{
+		free(redir);
 		return (error_redir(v_error, "Invalid redirection operator\n"));
+	}
 	redir->filename = ft_strdup(p_state->current->value);
 	redir->expand_hdoc = assign_hdoc_expansion(p_state->current);
 	redir->next = NULL;

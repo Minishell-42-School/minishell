@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:12:03 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/17 17:34:09 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:25:44 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,8 +65,8 @@ static int	check_var_assignment(t_command *cmd, t_var **vars, int *i, int *ex)
 
 int	export_builtin(t_command *cmd, t_var **vars)
 {
-	int		i;
-	int		exit;
+	int	i;
+	int	exit;
 
 	exit = 0;
 	i = 1;
@@ -94,8 +94,9 @@ int	export_builtin(t_command *cmd, t_var **vars)
 
 int	exec_export_builtin(t_shell	*s, t_command *cmd)
 {
+	int	result;
+
+	result = export_builtin(cmd, &s->vars);
 	var_to_envp(s);
-	if (export_builtin(cmd, &s->vars) == 0)
-		return (0);
-	return (1);
+	return (result);
 }

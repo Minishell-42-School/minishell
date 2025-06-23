@@ -6,7 +6,7 @@
 /*   By: jcosta-b <jcosta-b@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/07 15:43:19 by ekeller-@st       #+#    #+#             */
-/*   Updated: 2025/06/17 16:37:42 by jcosta-b         ###   ########.fr       */
+/*   Updated: 2025/06/23 13:25:07 by jcosta-b         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,8 @@ t_var	*var_find(t_var *vars, const char *key)
 
 int	split_env(const char *env, char **key, char **value)
 {
-	char		*equal;
-	size_t		len;
+	char	*equal;
+	size_t	len;
 
 	equal = ft_strchr(env, '=');
 	if (!equal)
